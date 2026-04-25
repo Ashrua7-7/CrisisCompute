@@ -275,7 +275,7 @@ Phase 5/5 │ lvl=3 │ episodes=5 │ completion=0.91 │ fairness=0.82 │ pro
 - [x] Reward curves + metrics plots generated
 - [x] Comprehensive README (this file)
 - [x] JSON logs of curriculum, duels, holdout eval
-- [ ] HuggingFace Space deployment (coming soon)
+- [x] HuggingFace Space deployment → https://huggingface.co/spaces/YOUR_HF_USERNAME/crisiscompute
 - [ ] Demo video or mini-blog (optional, recommended)
 
 ---
