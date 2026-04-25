@@ -1,0 +1,214 @@
+[
+  {
+    "episode": 1,
+    "total_reward": 569.7172222222221,
+    "completed_tasks": 6,
+    "on_time_tasks": 6,
+    "conflicts": 0,
+    "agreements": 0,
+    "agent_actions": [
+      {
+        "hour": 1,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[653.77]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 8,
+            "gpu_needed": 0,
+            "memory_needed": 10,
+            "estimated_duration_min": 35,
+            "reasoning": "Clean (aggressive) - Q[665.34]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 2,
+            "gpu_needed": 1,
+            "memory_needed": 12,
+            "estimated_duration_min": 90,
+            "reasoning": "Train (conservative) - Q[50.57]"
+          }
+        }
+      },
+      {
+        "hour": 2,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[660.79]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[677.47]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 2,
+            "gpu_needed": 1,
+            "memory_needed": 12,
+            "estimated_duration_min": 90,
+            "reasoning": "Train (conservative) - Q[50.57]"
+          }
+        }
+      },
+      {
+        "hour": 3,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[660.79]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[682.17]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 2,
+            "gpu_needed": 1,
+            "memory_needed": 12,
+            "estimated_duration_min": 90,
+            "reasoning": "Train (conservative) - Q[50.57]"
+          }
+        }
+      },
+      {
+        "hour": 4,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[682.17]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 2,
+            "gpu_needed": 1,
+            "memory_needed": 12,
+            "estimated_duration_min": 90,
+            "reasoning": "Train (conservative) - Q[50.57]"
+          }
+        }
+      },
+      {
+        "hour": 5,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_advanced_model",
+            "cores_needed": 2,
+            "gpu_needed": 1,
+            "memory_needed": 12,
+            "estimated_duration_min": 90,
+            "reasoning": "Train (conservative) - Q[39.79]"
+          }
+        }
+      },
+      {
+        "hour": 6,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 2,
+            "gpu_needed": 1,
+            "memory_needed": 12,
+            "estimated_duration_min": 90,
+            "reasoning": "Train (conservative) - Q[37.58]"
+          }
+        }
+      },
+      {
+        "hour": 7,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 2,
+            "gpu_needed": 1,
+            "memory_needed": 12,
+            "estimated_duration_min": 90,
+            "reasoning": "Train (conservative) - Q[37.58]"
+          }
+        }
+      },
+      {
+        "hour": 8,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 2,
+            "gpu_needed": 1,
+            "memory_needed": 12,
+            "estimated_duration_min": 90,
+            "reasoning": "Train (conservative) - Q[44.09]"
+          }
+        }
+      }
+    ]
+  }
+]

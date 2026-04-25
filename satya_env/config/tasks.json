@@ -1,0 +1,117 @@
+{
+  "tasks": [
+    {
+      "task_id": "load_raw_batch_1",
+      "owner_agent": "data_loader",
+      "title": "Load raw batch 1",
+      "cores_needed": 2,
+      "gpu_needed": 0,
+      "memory_needed": 4,
+      "estimated_duration_min": 45,
+      "deadline_hour": 2.0,
+      "dependencies": []
+    },
+    {
+      "task_id": "load_raw_batch_2",
+      "owner_agent": "data_loader",
+      "title": "Load raw batch 2",
+      "cores_needed": 2,
+      "gpu_needed": 0,
+      "memory_needed": 4,
+      "estimated_duration_min": 45,
+      "deadline_hour": 2.5,
+      "dependencies": []
+    },
+    {
+      "task_id": "load_raw_batch_3",
+      "owner_agent": "data_loader",
+      "title": "Load raw batch 3",
+      "cores_needed": 2,
+      "gpu_needed": 0,
+      "memory_needed": 4,
+      "estimated_duration_min": 40,
+      "deadline_hour": 3.0,
+      "dependencies": []
+    },
+    {
+      "task_id": "clean_batch_1",
+      "owner_agent": "data_cleaner",
+      "title": "Clean batch 1",
+      "cores_needed": 4,
+      "gpu_needed": 0,
+      "memory_needed": 6,
+      "estimated_duration_min": 50,
+      "deadline_hour": 3.5,
+      "dependencies": [
+        "load_raw_batch_1"
+      ]
+    },
+    {
+      "task_id": "clean_batch_2",
+      "owner_agent": "data_cleaner",
+      "title": "Clean batch 2",
+      "cores_needed": 4,
+      "gpu_needed": 0,
+      "memory_needed": 6,
+      "estimated_duration_min": 50,
+      "deadline_hour": 4.0,
+      "dependencies": [
+        "load_raw_batch_2"
+      ]
+    },
+    {
+      "task_id": "clean_batch_3",
+      "owner_agent": "data_cleaner",
+      "title": "Clean batch 3",
+      "cores_needed": 4,
+      "gpu_needed": 0,
+      "memory_needed": 6,
+      "estimated_duration_min": 45,
+      "deadline_hour": 4.5,
+      "dependencies": [
+        "load_raw_batch_3"
+      ]
+    },
+    {
+      "task_id": "train_baseline_model",
+      "owner_agent": "ml_trainer",
+      "title": "Train baseline model",
+      "cores_needed": 4,
+      "gpu_needed": 1,
+      "memory_needed": 12,
+      "estimated_duration_min": 90,
+      "deadline_hour": 5.5,
+      "dependencies": [
+        "clean_batch_1",
+        "clean_batch_2"
+      ]
+    },
+    {
+      "task_id": "train_advanced_model",
+      "owner_agent": "ml_trainer",
+      "title": "Train advanced model",
+      "cores_needed": 4,
+      "gpu_needed": 1,
+      "memory_needed": 10,
+      "estimated_duration_min": 75,
+      "deadline_hour": 6.5,
+      "dependencies": [
+        "clean_batch_3"
+      ]
+    },
+    {
+      "task_id": "validate_models",
+      "owner_agent": "ml_trainer",
+      "title": "Validate models",
+      "cores_needed": 2,
+      "gpu_needed": 1,
+      "memory_needed": 8,
+      "estimated_duration_min": 30,
+      "deadline_hour": 7.5,
+      "dependencies": [
+        "train_baseline_model",
+        "train_advanced_model"
+      ]
+    }
+  ]
+}
