@@ -658,6 +658,37 @@ def train_agents(num_episodes=30):
             "delta": {k: trained_summary.get(k, 0.0) - fresh_summary.get(k, 0.0) for k in trained_summary.keys()},
         }
 
+    def _evaluate_fixed_scenario(seed, episodes=6):
+        fixed_plan = [
+            {"name": "fixed_eval_stable", "crisis_mode_enabled": False},
+        ]
+        trained_results, _, _, _ = _run_single_session(
+            session_episodes=episodes,
+            seed=seed,
+            negotiation_flag=True,
+            crisis_flag=False,
+            scenario_plan=fixed_plan,
+            load_q_tables=True,
+        )
+        fresh_results, _, _, _ = _run_single_session(
+            session_episodes=episodes,
+            seed=seed,
+            negotiation_flag=True,
+            crisis_flag=False,
+            scenario_plan=fixed_plan,
+            load_q_tables=False,
+        )
+        trained_summary = _summarize_results(trained_results)
+        fresh_summary = _summarize_results(fresh_results)
+        return {
+            "episodes": episodes,
+            "seed": seed,
+            "fixed_plan": fixed_plan,
+            "trained_summary": trained_summary,
+            "fresh_summary": fresh_summary,
+            "delta": {k: trained_summary.get(k, 0.0) - fresh_summary.get(k, 0.0) for k in trained_summary.keys()},
+        }
+
     print("\n" + "="*70)
     print("🚀 MULTI-AGENT TRAINING SYSTEM")
     print("="*70)
@@ -847,6 +878,10 @@ def train_agents(num_episodes=30):
         _write_json("results/holdout_evaluation.json", holdout_report)
         print("✅ Saved: results/holdout_evaluation.json")
 
+        fixed_eval_report = _evaluate_fixed_scenario(seed=seed_values[0], episodes=max(6, min(12, num_episodes)))
+        _write_json("results/fixed_evaluation.json", fixed_eval_report)
+        print("✅ Saved: results/fixed_evaluation.json")
+
         theme4_summary = {
             "enabled": True,
             "curriculum_history": curriculum.history,
@@ -856,6 +891,7 @@ def train_agents(num_episodes=30):
             "challenge_templates": challenge_generator.templates,
             "level_progression_summary": level_progression_summary,
             "baseline_delta": baseline_comparison.get("delta", {}),
+            "fixed_eval_delta": fixed_eval_report.get("delta", {}),
             "holdout_delta": holdout_report.get("delta", {}),
             "holdout_trained_summary": holdout_report.get("trained_summary", {}),
             "holdout_fresh_summary": holdout_report.get("fresh_summary", {}),
@@ -957,6 +993,23 @@ def train_agents(num_episodes=30):
             print("Curriculum level rewards:")
             for level in sorted(level_scores):
                 print(f"  L{level}: {mean(level_scores[level]):.1f}")
+        if self_improvement_enabled and TRAINING_AGENT_MODE in {"rl", "hybrid"}:
+            fixed_eval_report = locals().get("fixed_eval_report")
+            if fixed_eval_report:
+                fixed_delta = fixed_eval_report.get("delta", {})
+                holdout_delta = holdout_report.get("delta", {}) if 'holdout_report' in locals() else {}
+                print("Fixed evaluation delta (trained - fresh):")
+                print(f"  Reward         : {fixed_delta.get('avg_total_reward', 0.0):+.1f}")
+                print(f"  Completion rate: {fixed_delta.get('avg_completion_rate', 0.0):+.3f}")
+                print(f"  On-time rate   : {fixed_delta.get('avg_on_time_rate', 0.0):+.3f}")
+                print(f"  Fairness score : {fixed_delta.get('avg_fairness_score', 0.0):+.3f}")
+                print(f"  Belief accuracy : {fixed_delta.get('avg_belief_accuracy', 0.0):+.3f}")
+                print("Holdout evaluation delta (trained - fresh):")
+                print(f"  Reward         : {holdout_delta.get('avg_total_reward', 0.0):+.1f}")
+                print(f"  Completion rate: {holdout_delta.get('avg_completion_rate', 0.0):+.3f}")
+                print(f"  On-time rate   : {holdout_delta.get('avg_on_time_rate', 0.0):+.3f}")
+                print(f"  Fairness score : {holdout_delta.get('avg_fairness_score', 0.0):+.3f}")
+                print(f"  Belief accuracy : {holdout_delta.get('avg_belief_accuracy', 0.0):+.3f}")
         print(f"Mode              : {TRAINING_AGENT_MODE.upper()}")
         print(f"Environment       : {'REAL' if USE_REAL_ENV else 'MOCK'}")
     print("="*70)
