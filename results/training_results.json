@@ -1,7 +1,9 @@
 [
   {
     "episode": 1,
-    "total_reward": 582.6172222222224,
+    "scenario": "stable_market",
+    "track": "curriculum_train",
+    "total_reward": 593.7561111111111,
     "completed_tasks": 6,
     "on_time_tasks": 6,
     "conflicts": 0,
@@ -17,7 +19,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[660.87]"
+            "reasoning": "Load (standard) - Q[205.29]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -26,16 +28,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.05]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.00]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -49,7 +51,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.21]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -58,16 +60,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.05]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.00]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -81,25 +83,25 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.21]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
             "task_id": "clean_batch_2",
-            "cores_needed": 4,
+            "cores_needed": 6,
             "gpu_needed": 0,
-            "memory_needed": 6,
-            "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.62]"
+            "memory_needed": 8,
+            "estimated_duration_min": 45,
+            "reasoning": "Clean (standard) - Q[0.00]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.00]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -116,16 +118,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.62]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.00]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -145,7 +147,7 @@
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[53.49]"
+            "reasoning": "Train (conservative) - Q[37.52]"
           }
         }
       },
@@ -161,11 +163,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[52.50]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         }
       },
@@ -181,11 +183,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[52.50]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         }
       },
@@ -201,11 +203,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[60.03]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[55.24]"
           }
         }
       }
@@ -221,7 +223,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[660.87]"
+            "reasoning": "Load (standard) - Q[205.29]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -230,29 +232,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.05]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.00]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          14.668296296296296,
-          7.648296296296296,
-          2.648296296296296
+          14.75162962962963,
+          7.73162962962963,
+          7.73162962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.6333333333333334,
+        "belief_accuracy": 0.6194444444444445,
         "deadline_misses": 0
       },
       {
@@ -265,7 +267,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.21]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -274,29 +276,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.05]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.00]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          29.4632962962963,
-          23.343296296296298,
-          8.323296296296297
+          29.54662962962963,
+          23.42662962962963,
+          13.40662962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.7616666666666667,
+        "belief_accuracy": 0.7526388888888889,
         "deadline_misses": 0
       },
       {
@@ -309,38 +311,38 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.21]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
             "task_id": "clean_batch_2",
-            "cores_needed": 4,
+            "cores_needed": 6,
             "gpu_needed": 0,
-            "memory_needed": 6,
-            "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.62]"
+            "memory_needed": 8,
+            "estimated_duration_min": 45,
+            "reasoning": "Clean (standard) - Q[0.00]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.00]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          42.0572962962963,
-          36.837296296296294,
-          11.797296296296295
+          42.07581481481482,
+          33.85581481481481,
+          16.81581481481481
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.8450833333333333,
+        "belief_accuracy": 0.782224537037037,
         "deadline_misses": 0
       },
       {
@@ -356,29 +358,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.62]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.00]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          41.309296296296296,
-          47.209296296296294,
-          13.769296296296297
+          41.392629629629624,
+          47.29262962962962,
+          18.85262962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.5903819444444444,
+        "belief_accuracy": 0.5846741898148148,
         "deadline_misses": 0
       },
       {
@@ -397,7 +399,7 @@
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[53.49]"
+            "reasoning": "Train (conservative) - Q[37.52]"
           }
         },
         "step_rewards": [
@@ -410,7 +412,7 @@
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.2996154861111111,
+        "belief_accuracy": 0.28902381944444444,
         "deadline_misses": 1
       },
       {
@@ -425,24 +427,24 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[52.50]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         },
         "step_rewards": [
-          36.64337037037038,
-          37.543370370370376,
-          6.42337037037037
+          36.5692962962963,
+          37.4692962962963,
+          4.349296296296297
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.21964379861111105,
+        "belief_accuracy": 0.30008299565972224,
         "deadline_misses": 3
       },
       {
@@ -457,24 +459,24 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[52.50]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         },
         "step_rewards": [
-          35.67337037037037,
-          36.57337037037038,
-          0.05337037037037018
+          35.599296296296295,
+          36.4992962962963,
+          -2.020703703703704
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.3018753706597222,
+        "belief_accuracy": 0.3541608487413194,
         "deadline_misses": 6
       },
       {
@@ -489,24 +491,24 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[60.03]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[55.24]"
           }
         },
         "step_rewards": [
-          34.70337037037037,
-          35.60337037037037,
-          -6.316629629629629
+          34.629296296296296,
+          35.529296296296295,
+          -8.390703703703704
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.46700653250000007,
+        "belief_accuracy": 0.4732244543641493,
         "deadline_misses": 9
       }
     ],
@@ -515,26 +517,30 @@
     "contracts_kept": 0,
     "contracts_broken": 0,
     "avg_fairness_score": 1.0,
-    "avg_belief_accuracy": 0.5148258082074653,
+    "avg_belief_accuracy": 0.5194342722993526,
     "deadline_misses": 9,
     "metrics": {
       "completion_rate": 40.0,
       "on_time_rate": 40.0,
       "resource_utilization": 100,
       "cooperation_score": 0,
-      "total_reward": 582.6172222222224,
+      "total_reward": 593.7561111111111,
       "fairness": 1.0,
-      "belief_accuracy": 0.5148258082074653,
+      "belief_accuracy": 0.5194342722993526,
       "negotiation_health": 1.0
-    }
+    },
+    "curriculum_level": 0,
+    "curriculum_phase": 1
   },
   {
     "episode": 2,
-    "total_reward": 582.3950000000001,
+    "scenario": "light_gpu_outage",
+    "track": "curriculum_train",
+    "total_reward": 597.7349999999999,
     "completed_tasks": 6,
     "on_time_tasks": 6,
     "conflicts": 0,
-    "agreements": 0,
+    "agreements": 1,
     "agent_actions": [
       {
         "hour": 1,
@@ -546,7 +552,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[661.00]"
+            "reasoning": "Load (standard) - Q[205.29]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -555,16 +561,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.18]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 6,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 20,
-            "estimated_duration_min": 55,
-            "reasoning": "Train (aggressive) - Q[58.23]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -578,7 +584,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.32]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -587,16 +593,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.18]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.87]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -610,7 +616,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.32]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -619,16 +625,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.73]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.87]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -645,16 +651,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.73]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.87]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -674,7 +680,7 @@
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[54.19]"
+            "reasoning": "Train (conservative) - Q[37.52]"
           }
         }
       },
@@ -689,12 +695,12 @@
           },
           "ml_trainer": {
             "action": "run_task",
-            "task_id": "validate_models",
+            "task_id": "train_advanced_model",
             "cores_needed": 2,
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[52.91]"
+            "reasoning": "Train (conservative) - Q[28.23]"
           }
         }
       },
@@ -710,11 +716,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 6,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 20,
-            "estimated_duration_min": 55,
-            "reasoning": "Train (aggressive) - Q[0.07]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         }
       },
@@ -730,11 +736,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[60.03]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[55.24]"
           }
         }
       }
@@ -750,7 +756,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[661.00]"
+            "reasoning": "Load (standard) - Q[205.29]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -759,29 +765,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.18]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 6,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 20,
-            "estimated_duration_min": 55,
-            "reasoning": "Train (aggressive) - Q[58.23]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          14.697925925925926,
-          7.677925925925926,
-          4.677925925925926
+          14.75162962962963,
+          7.73162962962963,
+          7.73162962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.5925925925925927,
+        "belief_accuracy": 0.6194444444444445,
         "deadline_misses": 0
       },
       {
@@ -794,7 +800,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.32]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -803,29 +809,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.18]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.87]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          29.4632962962963,
-          23.343296296296298,
-          8.323296296296297
+          29.54662962962963,
+          23.42662962962963,
+          13.40662962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.8070370370370371,
+        "belief_accuracy": 0.7526388888888889,
         "deadline_misses": 0
       },
       {
@@ -838,7 +844,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.32]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -847,29 +853,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.73]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.87]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          42.0572962962963,
-          36.837296296296294,
-          11.797296296296295
+          42.14062962962963,
+          36.92062962962962,
+          16.880629629629627
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.874574074074074,
+        "belief_accuracy": 0.8392152777777778,
         "deadline_misses": 0
       },
       {
@@ -885,29 +891,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.73]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[64.87]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          41.309296296296296,
-          47.209296296296294,
-          13.769296296296297
+          41.392629629629624,
+          47.29262962962962,
+          18.85262962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.6095509259259259,
+        "belief_accuracy": 0.5865677083333334,
         "deadline_misses": 0
       },
       {
@@ -926,20 +932,20 @@
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[54.19]"
+            "reasoning": "Train (conservative) - Q[37.52]"
           }
         },
         "step_rewards": [
-          38.12077777777778,
-          39.02077777777778,
-          9.50077777777778
+          36.440777777777775,
+          37.34077777777778,
+          7.100777777777778
         ],
-        "conflict_count": 0,
+        "conflict_count": 1,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
-        "fairness_score": 1.0,
-        "belief_accuracy": 0.31207532407407407,
+        "fairness_score": 0.5,
+        "belief_accuracy": 0.28902381944444444,
         "deadline_misses": 1
       },
       {
@@ -953,25 +959,25 @@
           },
           "ml_trainer": {
             "action": "run_task",
-            "task_id": "validate_models",
+            "task_id": "train_advanced_model",
             "cores_needed": 2,
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[52.91]"
+            "reasoning": "Train (conservative) - Q[28.23]"
           }
         },
         "step_rewards": [
-          36.64337037037038,
-          37.543370370370376,
-          6.42337037037037
+          38.75077777777778,
+          39.650777777777776,
+          6.530777777777778
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.21732982870370368,
+        "belief_accuracy": 0.30453214930555556,
         "deadline_misses": 3
       },
       {
@@ -986,24 +992,24 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 6,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 20,
-            "estimated_duration_min": 55,
-            "reasoning": "Train (aggressive) - Q[0.07]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         },
         "step_rewards": [
-          35.56966666666666,
-          36.46966666666667,
-          -2.0503333333333336
+          35.599296296296295,
+          36.4992962962963,
+          -2.020703703703704
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.2734649317708333,
+        "belief_accuracy": 0.3444386265190971,
         "deadline_misses": 6
       },
       {
@@ -1018,48 +1024,52 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[60.03]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[55.24]"
           }
         },
         "step_rewards": [
-          34.70337037037037,
-          35.60337037037037,
-          -6.316629629629629
+          34.629296296296296,
+          35.529296296296295,
+          -8.390703703703704
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.36386148724537043,
+        "belief_accuracy": 0.4946726488085938,
         "deadline_misses": 9
       }
     ],
-    "conflict_count": 0,
+    "conflict_count": 1,
     "coalitions_formed": 0,
     "contracts_kept": 0,
     "contracts_broken": 0,
-    "avg_fairness_score": 1.0,
-    "avg_belief_accuracy": 0.5063107751779514,
+    "avg_fairness_score": 0.9375,
+    "avg_belief_accuracy": 0.5288166954402669,
     "deadline_misses": 9,
     "metrics": {
       "completion_rate": 40.0,
       "on_time_rate": 40.0,
       "resource_utilization": 100,
-      "cooperation_score": 0,
-      "total_reward": 582.3950000000001,
-      "fairness": 1.0,
-      "belief_accuracy": 0.5063107751779514,
-      "negotiation_health": 1.0
-    }
+      "cooperation_score": 100.0,
+      "total_reward": 597.7349999999999,
+      "fairness": 0.9375,
+      "belief_accuracy": 0.5288166954402669,
+      "negotiation_health": 0.9583333333333334
+    },
+    "curriculum_level": 1,
+    "curriculum_phase": 2
   },
   {
     "episode": 3,
-    "total_reward": 579.9505555555555,
+    "scenario": "urgent_injection",
+    "track": "league_duel_data_loader",
+    "total_reward": 558.9555555555554,
     "completed_tasks": 6,
     "on_time_tasks": 6,
     "conflicts": 0,
@@ -1075,7 +1085,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[661.13]"
+            "reasoning": "Load (standard) - Q[205.29]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -1084,16 +1094,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.30]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.58]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -1107,7 +1117,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.42]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -1116,16 +1126,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.30]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.58]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -1135,11 +1145,11 @@
           "data_loader": {
             "action": "run_task",
             "task_id": "load_raw_batch_3",
-            "cores_needed": 6,
+            "cores_needed": 4,
             "gpu_needed": 0,
-            "memory_needed": 8,
-            "estimated_duration_min": 25,
-            "reasoning": "Load (aggressive) - Q[458.36]"
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -1148,16 +1158,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.83]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.58]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -1174,16 +1184,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.83]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.58]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -1203,7 +1213,7 @@
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[54.81]"
+            "reasoning": "Train (conservative) - Q[1.37]"
           }
         }
       },
@@ -1219,11 +1229,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[52.36]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         }
       },
@@ -1239,11 +1249,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[52.36]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         }
       },
@@ -1259,11 +1269,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[60.03]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[55.24]"
           }
         }
       }
@@ -1279,7 +1289,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[661.13]"
+            "reasoning": "Load (standard) - Q[205.29]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -1288,29 +1298,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.30]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.58]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          14.668296296296296,
-          7.648296296296296,
-          2.648296296296296
+          14.75162962962963,
+          7.73162962962963,
+          7.73162962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.6333333333333334,
+        "belief_accuracy": 0.6194444444444445,
         "deadline_misses": 0
       },
       {
@@ -1323,7 +1333,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.42]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -1332,29 +1342,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.30]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.58]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          29.4632962962963,
-          23.343296296296298,
-          8.323296296296297
+          29.54662962962963,
+          23.42662962962963,
+          13.40662962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.7616666666666667,
+        "belief_accuracy": 0.7526388888888889,
         "deadline_misses": 0
       },
       {
@@ -1363,11 +1373,11 @@
           "data_loader": {
             "action": "run_task",
             "task_id": "load_raw_batch_3",
-            "cores_needed": 6,
+            "cores_needed": 4,
             "gpu_needed": 0,
-            "memory_needed": 8,
-            "estimated_duration_min": 25,
-            "reasoning": "Load (aggressive) - Q[458.36]"
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -1376,29 +1386,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.83]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.58]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          40.02025925925926,
-          36.800259259259256,
-          11.760259259259259
+          42.14062962962963,
+          36.92062962962962,
+          16.880629629629627
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.7880925925925926,
+        "belief_accuracy": 0.8392152777777778,
         "deadline_misses": 0
       },
       {
@@ -1414,29 +1424,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.83]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.58]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          41.27225925925926,
-          47.172259259259256,
-          13.73225925925926
+          40.059629629629626,
+          45.959629629629625,
+          17.51962962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.5903819444444444,
+        "belief_accuracy": 0.5865677083333334,
         "deadline_misses": 0
       },
       {
@@ -1455,21 +1465,21 @@
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[54.81]"
+            "reasoning": "Train (conservative) - Q[1.37]"
           }
         },
         "step_rewards": [
-          38.083740740740744,
-          38.98374074074074,
-          9.463740740740741
+          36.78777777777778,
+          37.687777777777775,
+          6.3677777777777775
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.2996154861111111,
-        "deadline_misses": 1
+        "belief_accuracy": 0.28902381944444444,
+        "deadline_misses": 2
       },
       {
         "hour": 6,
@@ -1483,25 +1493,25 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[52.36]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         },
         "step_rewards": [
-          36.60633333333334,
-          37.50633333333334,
-          6.386333333333333
+          35.236296296296295,
+          36.1362962962963,
+          -0.5837037037037036
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.21964379861111105,
-        "deadline_misses": 3
+        "belief_accuracy": 0.30008299565972224,
+        "deadline_misses": 5
       },
       {
         "hour": 7,
@@ -1515,25 +1525,25 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[52.36]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         },
         "step_rewards": [
-          35.63633333333333,
-          36.53633333333334,
-          0.0163333333333332
+          34.2662962962963,
+          35.166296296296295,
+          -8.753703703703705
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.2594351357638889,
-        "deadline_misses": 6
+        "belief_accuracy": 0.3541608487413194,
+        "deadline_misses": 9
       },
       {
         "hour": 8,
@@ -1547,25 +1557,25 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[60.03]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[55.24]"
           }
         },
         "step_rewards": [
-          34.666333333333334,
-          35.56633333333333,
-          -6.353666666666666
+          33.2962962962963,
+          34.196296296296296,
+          -16.9237037037037
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.4392388936111111,
-        "deadline_misses": 9
+        "belief_accuracy": 0.5009920932530382,
+        "deadline_misses": 13
       }
     ],
     "conflict_count": 0,
@@ -1573,22 +1583,28 @@
     "contracts_kept": 0,
     "contracts_broken": 0,
     "avg_fairness_score": 1.0,
-    "avg_belief_accuracy": 0.4989259813917824,
-    "deadline_misses": 9,
+    "avg_belief_accuracy": 0.5302657595678711,
+    "deadline_misses": 13,
     "metrics": {
       "completion_rate": 40.0,
       "on_time_rate": 40.0,
       "resource_utilization": 100,
       "cooperation_score": 0,
-      "total_reward": 579.9505555555555,
+      "total_reward": 558.9555555555554,
       "fairness": 1.0,
-      "belief_accuracy": 0.4989259813917824,
+      "belief_accuracy": 0.5302657595678711,
       "negotiation_health": 1.0
-    }
+    },
+    "curriculum_level": 1,
+    "curriculum_phase": 2,
+    "league_duel": true,
+    "learner_agent": "data_loader"
   },
   {
     "episode": 4,
-    "total_reward": 579.4227777777779,
+    "scenario": "urgent_injection",
+    "track": "league_duel_data_cleaner",
+    "total_reward": 558.9555555555554,
     "completed_tasks": 6,
     "on_time_tasks": 6,
     "conflicts": 0,
@@ -1604,7 +1620,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[661.25]"
+            "reasoning": "Load (standard) - Q[205.29]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -1613,16 +1629,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.40]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.92]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -1636,7 +1652,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.42]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -1645,16 +1661,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.40]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.92]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -1668,25 +1684,25 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.42]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
             "task_id": "clean_batch_2",
-            "cores_needed": 6,
+            "cores_needed": 4,
             "gpu_needed": 0,
-            "memory_needed": 8,
-            "estimated_duration_min": 45,
-            "reasoning": "Clean (standard) - Q[450.21]"
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.92]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -1703,16 +1719,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.91]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.92]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -1732,7 +1748,7 @@
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[55.14]"
+            "reasoning": "Train (conservative) - Q[1.37]"
           }
         }
       },
@@ -1748,11 +1764,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[53.33]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         }
       },
@@ -1768,11 +1784,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[53.33]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         }
       },
@@ -1788,11 +1804,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[61.26]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[55.24]"
           }
         }
       }
@@ -1808,7 +1824,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[661.25]"
+            "reasoning": "Load (standard) - Q[205.29]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -1817,29 +1833,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.40]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.92]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          14.668296296296296,
-          7.648296296296296,
-          2.648296296296296
+          14.75162962962963,
+          7.73162962962963,
+          7.73162962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.6333333333333334,
+        "belief_accuracy": 0.6194444444444445,
         "deadline_misses": 0
       },
       {
@@ -1852,7 +1868,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.42]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -1861,29 +1877,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[683.40]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.92]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          29.4632962962963,
-          23.343296296296298,
-          8.323296296296297
+          29.54662962962963,
+          23.42662962962963,
+          13.40662962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.7616666666666667,
+        "belief_accuracy": 0.7526388888888889,
         "deadline_misses": 0
       },
       {
@@ -1896,38 +1912,38 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.42]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
             "task_id": "clean_batch_2",
-            "cores_needed": 6,
+            "cores_needed": 4,
             "gpu_needed": 0,
-            "memory_needed": 8,
-            "estimated_duration_min": 45,
-            "reasoning": "Clean (standard) - Q[450.21]"
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.92]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          41.992481481481484,
-          33.77248148148148,
-          11.73248148148148
+          42.14062962962963,
+          36.92062962962962,
+          16.880629629629627
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.7880925925925926,
+        "belief_accuracy": 0.8392152777777778,
         "deadline_misses": 0
       },
       {
@@ -1943,29 +1959,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.91]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[65.92]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          41.309296296296296,
-          47.209296296296294,
-          13.769296296296297
+          40.059629629629626,
+          45.959629629629625,
+          17.51962962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.588488425925926,
+        "belief_accuracy": 0.5865677083333334,
         "deadline_misses": 0
       },
       {
@@ -1984,21 +2000,21 @@
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[55.14]"
+            "reasoning": "Train (conservative) - Q[1.37]"
           }
         },
         "step_rewards": [
-          38.12077777777778,
-          39.02077777777778,
-          9.50077777777778
+          36.78777777777778,
+          37.687777777777775,
+          6.3677777777777775
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.2996154861111111,
-        "deadline_misses": 1
+        "belief_accuracy": 0.28902381944444444,
+        "deadline_misses": 2
       },
       {
         "hour": 6,
@@ -2012,25 +2028,25 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[53.33]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         },
         "step_rewards": [
-          36.64337037037038,
-          37.543370370370376,
-          6.42337037037037
+          35.236296296296295,
+          36.1362962962963,
+          -0.5837037037037036
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.21964379861111105,
-        "deadline_misses": 3
+        "belief_accuracy": 0.30008299565972224,
+        "deadline_misses": 5
       },
       {
         "hour": 7,
@@ -2044,25 +2060,25 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[53.33]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         },
         "step_rewards": [
-          35.67337037037037,
-          36.57337037037038,
-          0.05337037037037018
+          34.2662962962963,
+          35.166296296296295,
+          -8.753703703703705
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.3018753706597222,
-        "deadline_misses": 6
+        "belief_accuracy": 0.3541608487413194,
+        "deadline_misses": 9
       },
       {
         "hour": 8,
@@ -2076,25 +2092,25 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[61.26]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[55.24]"
           }
         },
         "step_rewards": [
-          34.70337037037037,
-          35.60337037037037,
-          -6.316629629629629
+          33.2962962962963,
+          34.196296296296296,
+          -16.9237037037037
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.4392388936111111,
-        "deadline_misses": 9
+        "belief_accuracy": 0.5009920932530382,
+        "deadline_misses": 13
       }
     ],
     "conflict_count": 0,
@@ -2102,22 +2118,28 @@
     "contracts_kept": 0,
     "contracts_broken": 0,
     "avg_fairness_score": 1.0,
-    "avg_belief_accuracy": 0.5039943209389468,
-    "deadline_misses": 9,
+    "avg_belief_accuracy": 0.5302657595678711,
+    "deadline_misses": 13,
     "metrics": {
       "completion_rate": 40.0,
       "on_time_rate": 40.0,
       "resource_utilization": 100,
       "cooperation_score": 0,
-      "total_reward": 579.4227777777779,
+      "total_reward": 558.9555555555554,
       "fairness": 1.0,
-      "belief_accuracy": 0.5039943209389468,
+      "belief_accuracy": 0.5302657595678711,
       "negotiation_health": 1.0
-    }
+    },
+    "curriculum_level": 1,
+    "curriculum_phase": 2,
+    "league_duel": true,
+    "learner_agent": "data_cleaner"
   },
   {
     "episode": 5,
-    "total_reward": 582.395,
+    "scenario": "urgent_injection",
+    "track": "league_duel_ml_trainer",
+    "total_reward": 553.7055555555555,
     "completed_tasks": 6,
     "on_time_tasks": 6,
     "conflicts": 0,
@@ -2133,7 +2155,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[661.34]"
+            "reasoning": "Load (standard) - Q[205.29]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -2142,16 +2164,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[681.52]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[66.41]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -2165,7 +2187,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.48]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -2174,16 +2196,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[681.52]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[66.41]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -2197,7 +2219,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.48]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -2206,16 +2228,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.98]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[66.41]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         }
       },
@@ -2232,16 +2254,16 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.98]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 6,
+            "cores_needed": 2,
             "gpu_needed": 1,
-            "memory_needed": 20,
-            "estimated_duration_min": 55,
-            "reasoning": "Train (aggressive) - Q[58.23]"
+            "memory_needed": 12,
+            "estimated_duration_min": 90,
+            "reasoning": "Train (conservative) - Q[40.58]"
           }
         }
       },
@@ -2261,7 +2283,7 @@
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[55.63]"
+            "reasoning": "Train (conservative) - Q[1.37]"
           }
         }
       },
@@ -2277,11 +2299,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[54.30]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         }
       },
@@ -2297,11 +2319,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[54.30]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         }
       },
@@ -2317,11 +2339,11 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 6,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 20,
-            "estimated_duration_min": 55,
-            "reasoning": "Train (aggressive) - Q[-60.52]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[55.24]"
           }
         }
       }
@@ -2337,7 +2359,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[661.34]"
+            "reasoning": "Load (standard) - Q[205.29]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -2346,29 +2368,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[681.52]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[66.41]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          14.668296296296296,
-          7.648296296296296,
-          2.648296296296296
+          14.75162962962963,
+          7.73162962962963,
+          7.73162962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.6333333333333334,
+        "belief_accuracy": 0.6194444444444445,
         "deadline_misses": 0
       },
       {
@@ -2381,7 +2403,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.48]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -2390,29 +2412,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[681.52]"
+            "reasoning": "Clean (conservative) - Q[198.57]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[66.41]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          29.4632962962963,
-          23.343296296296298,
-          8.323296296296297
+          29.54662962962963,
+          23.42662962962963,
+          13.40662962962963
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.7616666666666667,
+        "belief_accuracy": 0.7526388888888889,
         "deadline_misses": 0
       },
       {
@@ -2425,7 +2447,7 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 30,
-            "reasoning": "Load (standard) - Q[665.48]"
+            "reasoning": "Load (standard) - Q[210.85]"
           },
           "data_cleaner": {
             "action": "run_task",
@@ -2434,29 +2456,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.98]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[66.41]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[64.19]"
           }
         },
         "step_rewards": [
-          42.0572962962963,
-          36.837296296296294,
-          11.797296296296295
+          42.14062962962963,
+          36.92062962962962,
+          16.880629629629627
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.8450833333333333,
+        "belief_accuracy": 0.8392152777777778,
         "deadline_misses": 0
       },
       {
@@ -2472,29 +2494,29 @@
             "gpu_needed": 0,
             "memory_needed": 6,
             "estimated_duration_min": 60,
-            "reasoning": "Clean (conservative) - Q[686.98]"
+            "reasoning": "Clean (conservative) - Q[192.53]"
           },
           "ml_trainer": {
             "action": "run_task",
             "task_id": "train_baseline_model",
-            "cores_needed": 6,
+            "cores_needed": 2,
             "gpu_needed": 1,
-            "memory_needed": 20,
-            "estimated_duration_min": 55,
-            "reasoning": "Train (aggressive) - Q[58.23]"
+            "memory_needed": 12,
+            "estimated_duration_min": 90,
+            "reasoning": "Train (conservative) - Q[40.58]"
           }
         },
         "step_rewards": [
-          41.33892592592592,
-          47.238925925925926,
-          15.798925925925927
+          39.9762962962963,
+          45.876296296296296,
+          12.436296296296296
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.5200888888888889,
+        "belief_accuracy": 0.5940300925925927,
         "deadline_misses": 0
       },
       {
@@ -2513,21 +2535,21 @@
             "gpu_needed": 1,
             "memory_needed": 12,
             "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[55.63]"
+            "reasoning": "Train (conservative) - Q[1.37]"
           }
         },
         "step_rewards": [
-          38.12077777777778,
-          39.02077777777778,
-          9.50077777777778
+          36.78777777777778,
+          37.687777777777775,
+          6.3677777777777775
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.2939131712962963,
-        "deadline_misses": 1
+        "belief_accuracy": 0.3019867824074074,
+        "deadline_misses": 2
       },
       {
         "hour": 6,
@@ -2541,25 +2563,25 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[54.30]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         },
         "step_rewards": [
-          36.64337037037038,
-          37.543370370370376,
-          6.42337037037037
+          35.236296296296295,
+          36.1362962962963,
+          -0.5837037037037036
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.19040628703703702,
-        "deadline_misses": 3
+        "belief_accuracy": 0.29376355121527775,
+        "deadline_misses": 5
       },
       {
         "hour": 7,
@@ -2573,25 +2595,25 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 2,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 12,
-            "estimated_duration_min": 90,
-            "reasoning": "Train (conservative) - Q[54.30]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[38.93]"
           }
         },
         "step_rewards": [
-          35.67337037037037,
-          36.57337037037038,
-          0.05337037037037018
+          34.2662962962963,
+          35.166296296296295,
+          -8.753703703703705
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.2828709881365741,
-        "deadline_misses": 6
+        "belief_accuracy": 0.3500532098524305,
+        "deadline_misses": 9
       },
       {
         "hour": 8,
@@ -2605,25 +2627,25 @@
           "ml_trainer": {
             "action": "run_task",
             "task_id": "validate_models",
-            "cores_needed": 6,
+            "cores_needed": 4,
             "gpu_needed": 1,
-            "memory_needed": 20,
-            "estimated_duration_min": 55,
-            "reasoning": "Train (aggressive) - Q[-60.52]"
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[55.24]"
           }
         },
         "step_rewards": [
-          34.599666666666664,
-          35.49966666666666,
-          -8.420333333333332
+          33.2962962962963,
+          34.196296296296296,
+          -16.9237037037037
         ],
         "conflict_count": 0,
         "coalitions_formed": 0,
         "contracts_kept": 0,
         "contracts_broken": 0,
         "fairness_score": 1.0,
-        "belief_accuracy": 0.4127393288599537,
-        "deadline_misses": 9
+        "belief_accuracy": 0.4983221279752604,
+        "deadline_misses": 13
       }
     ],
     "conflict_count": 0,
@@ -2631,17 +2653,21 @@
     "contracts_kept": 0,
     "contracts_broken": 0,
     "avg_fairness_score": 1.0,
-    "avg_belief_accuracy": 0.49251274969401043,
-    "deadline_misses": 9,
+    "avg_belief_accuracy": 0.5311817968942599,
+    "deadline_misses": 13,
     "metrics": {
       "completion_rate": 40.0,
       "on_time_rate": 40.0,
       "resource_utilization": 100,
       "cooperation_score": 0,
-      "total_reward": 582.395,
+      "total_reward": 553.7055555555555,
       "fairness": 1.0,
-      "belief_accuracy": 0.49251274969401043,
+      "belief_accuracy": 0.5311817968942599,
       "negotiation_health": 1.0
-    }
+    },
+    "curriculum_level": 1,
+    "curriculum_phase": 2,
+    "league_duel": true,
+    "learner_agent": "ml_trainer"
   }
 ]

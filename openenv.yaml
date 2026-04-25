@@ -4,10 +4,11 @@ description: >
   Multi-agent compute allocation environment where three LLM agents
   (data_loader, data_cleaner, ml_trainer) negotiate over shared CPU/GPU/memory
   to complete ML pipeline tasks under deadline pressure.
-  OpenEnv compliant — Theme #1: Multi-Agent Interactions.
+  OpenEnv compliant — Theme #1: Multi-Agent Interactions and Theme #4: Self-Improvement
+  via adaptive curriculum, scenario generation, and self-play evaluation hooks.
 
 author: Gautam
-theme: multi-agent-interactions
+theme: self-improvement
 
 server:
   entry: server/app.py
