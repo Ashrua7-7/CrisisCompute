@@ -405,30 +405,6 @@ def train_agents(num_episodes=30):
         def _get_rl(agent):
             return agent.rl if hasattr(agent, "rl") else agent
 
-        def _apply_plateau_mitigation(recent_rewards: List[float], min_history: int = 10) -> Dict[str, Dict[str, float]]:
-            """Bump exploration slightly when reward curve plateaus."""
-            if len(recent_rewards) < min_history:
-                return {}
-            window = max(3, min(5, len(recent_rewards) // 2))
-            if not LearningAnalyzer.detect_plateauing(recent_rewards, window=window):
-                return {}
-
-            adjustments: Dict[str, Dict[str, float]] = {}
-            for agent_id, agent in agents_dict.items():
-                if agent_id not in learner_agent_ids:
-                    continue
-                rl = _get_rl(agent)
-                if not hasattr(rl, "epsilon"):
-                    continue
-                old_eps = float(getattr(rl, "epsilon", 0.0))
-                new_eps = min(0.75, max(0.10, old_eps) + 0.08)
-                rl.epsilon = new_eps
-                adjustments[agent_id] = {
-                    "old_epsilon": old_eps,
-                    "new_epsilon": new_eps,
-                }
-            return adjustments
-
         if load_q_tables and any(hasattr(_get_rl(a), "load_q_table") for a in agents):
             os.makedirs("q_tables", exist_ok=True)
             for agent in agents:
@@ -460,8 +436,6 @@ def train_agents(num_episodes=30):
         all_results = []
         episode_metrics = []
         negotiation_trace = []
-        recent_reward_window: List[float] = []
-        last_plateau_episode = 0
 
         for episode in range(1, session_episodes + 1):
             scenario = scenario_plan[(episode - 1) % len(scenario_plan)] if scenario_plan else {}
@@ -493,9 +467,6 @@ def train_agents(num_episodes=30):
                 "avg_fairness_score": 0.0,
                 "avg_belief_accuracy": 0.0,
                 "deadline_misses": 0,
-                "plateau_mitigation_applied": False,
-                "plateau_mitigation": {},
-                "crisis_renegotiations": 0,
             }
 
             total_episode_reward = 0.0
@@ -552,8 +523,6 @@ def train_agents(num_episodes=30):
                 step_trace = info.get("negotiation_trace_step") if isinstance(info, dict) else None
                 if step_trace:
                     negotiation_trace.append({"episode": episode, **deepcopy(step_trace)})
-                    if step_trace.get("triggered_renegotiation"):
-                        episode_data["crisis_renegotiations"] += 1
                 if step_metrics:
                     conflict_count += int(step_metrics.get("conflict_count", 0))
                     coalitions_formed += int(step_metrics.get("coalitions_formed", 0))
@@ -596,22 +565,6 @@ def train_agents(num_episodes=30):
             episode_data["avg_fairness_score"] = float(mean(fairness_values) if fairness_values else 0.0)
             episode_data["avg_belief_accuracy"] = float(mean(belief_values) if belief_values else 0.0)
             episode_data["deadline_misses"] = int(deadline_misses)
-
-            recent_reward_window.append(float(total_episode_reward))
-            if len(recent_reward_window) > 12:
-                recent_reward_window = recent_reward_window[-12:]
-            if (
-                TRAINING_AGENT_MODE in {"rl", "hybrid"}
-                and episode >= 10
-                and (episode - last_plateau_episode) >= 4
-                and track_label.startswith("curriculum_train")
-            ):
-                mitigation = _apply_plateau_mitigation(recent_reward_window)
-                if mitigation:
-                    episode_data["plateau_mitigation_applied"] = True
-                    episode_data["plateau_mitigation"] = mitigation
-                    last_plateau_episode = episode
-
             episode_data["metrics"] = MetricsCalculator.calculate_metrics(episode_data)
             episode_data["metrics"]["total_reward"] = episode_data["total_reward"]
             episode_data["metrics"]["fairness"] = episode_data["avg_fairness_score"]
@@ -635,8 +588,6 @@ def train_agents(num_episodes=30):
                     "contracts_broken": episode_data["contracts_broken"],
                     "deadline_misses": episode_data["deadline_misses"],
                     "negotiation_health": episode_data["metrics"]["negotiation_health"],
-                    "crisis_renegotiations": episode_data["crisis_renegotiations"],
-                    "plateau_mitigation_applied": bool(episode_data["plateau_mitigation_applied"]),
                 }
             )
 
