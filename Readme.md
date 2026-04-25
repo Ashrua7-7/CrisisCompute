@@ -1,3 +1,13 @@
+---
+title: CrisisCompute
+emoji: 🚨
+colorFrom: red
+colorTo: blue
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # 🚀 CrisisCompute: Multi-Agent Negotiation with Self-Improvement
 
 **OpenEnv Hackathon 2026** | **Themes**: #1 (Multi-Agent Interactions) + #4 (Self-Improvement)
