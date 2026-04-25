@@ -52,6 +52,7 @@ class RealEnvironment:
         self.negotiation_trace: List[Dict] = []
         self._urgent_task_injected = False
         self._crisis_events: List[str] = []
+        self._deadline_miss_recorded: set[str] = set()
 
     def _load_env_config(self, path: Path) -> Dict:
         with path.open("r", encoding="utf-8") as file:
@@ -150,6 +151,7 @@ class RealEnvironment:
         self.negotiation_trace = []
         self._urgent_task_injected = False
         self._crisis_events = []
+        self._deadline_miss_recorded = set()
         self._refresh_running_markers()
 
         self.episode.recent_events.append("episode_reset")
@@ -210,8 +212,11 @@ class RealEnvironment:
 
     def _mark_deadline_misses(self) -> None:
         for task in self.tasks.values():
+            if task.task_id in self._deadline_miss_recorded:
+                continue
             if task.status != "done" and self.episode.hour >= task.deadline_hour:
                 self.agent_states[task.owner_agent].missed_deadlines += 1
+                self._deadline_miss_recorded.add(task.task_id)
 
     def _done(self) -> bool:
         total, done, _ = completion_stats(self.tasks)
@@ -284,6 +289,7 @@ class RealEnvironment:
             "fairness_score": negotiation_snapshot.fairness_score,
             "contracts_kept": negotiation_snapshot.contracts_kept,
             "contracts_broken": negotiation_snapshot.contracts_broken,
+            "deadlock": negotiation_snapshot.deadlock,
             "negotiation_enabled": self.negotiation_enabled,
         }
 

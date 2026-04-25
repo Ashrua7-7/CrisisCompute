@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from satysheel_backend.satya_env.environment import RealEnvironment
+from satya_env.env import RealEnvironment
 
 
 def _actions_for_hour(hour: int) -> dict:
@@ -107,7 +107,7 @@ def _actions_for_hour(hour: int) -> dict:
         },
         "ml_trainer": {
             "action": "run_task",
-            "task_id": "train_model",
+            "task_id": "train_baseline_model",
             "cores_needed": 2,
             "gpu_needed": 1,
             "memory_needed": 8,

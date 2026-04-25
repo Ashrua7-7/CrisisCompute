@@ -1,15 +1,3 @@
-# train.py
-import requests as _req
-_orig = _req.Session.request
-def _debug(self, method, url, **kw):
-    if "11434" in str(url):
-        import json as _j
-        body = kw.get("json") or kw.get("data")
-        print(f"\n[DEBUG] {method} {url}")
-        print(f"[DEBUG] payload: {_j.dumps(body, indent=2) if isinstance(body, dict) else body[:200]}")
-    return _orig(self, method, url, **kw)
-_req.Session.request = _debug
-
 import json
 import os
 import sys
@@ -64,6 +52,7 @@ class AdaptiveCurriculum:
         self.level = 0
         self.max_level = 4
         self.history: List[Dict] = []
+        self.success_streak = 0
 
     def config_for_level(self) -> Dict:
         configs = [
@@ -75,7 +64,7 @@ class AdaptiveCurriculum:
         ]
         return configs[min(self.level, len(configs) - 1)]
 
-    def update(self, phase: int, summary: Dict) -> bool:
+    def update(self, phase: int, summary: Dict, required_streak: int = 1) -> bool:
         """Increase difficulty when phase performance crosses thresholds."""
         completion = float(summary.get("avg_completion_rate", 0.0))
         on_time = float(summary.get("avg_on_time_rate", 0.0))
@@ -88,14 +77,23 @@ class AdaptiveCurriculum:
         promoted = False
         completion_gate = 0.35 + 0.08 * self.level
         on_time_gate = 0.30 + 0.07 * self.level
-        if (
-            self.level < self.max_level
-            and completion >= completion_gate
+        gate_hit = (
+            completion >= completion_gate
             and on_time >= on_time_gate
             and fairness >= 0.40
+        )
+        if gate_hit:
+            self.success_streak += 1
+        else:
+            self.success_streak = 0
+        if (
+            self.level < self.max_level
+            and gate_hit
+            and self.success_streak >= max(1, required_streak)
         ):
             self.level += 1
             promoted = True
+            self.success_streak = 0
         self.history.append(
             {
                 "phase": phase,
@@ -397,6 +395,7 @@ def train_agents(num_episodes=30):
         league_opponent_snapshot: Dict | None = None,
         learner_agent_ids: List[str] | None = None,
         track_label: str = "train",
+        persist_q_tables: bool = False,
     ):
         env = MultiAgentPipelineEnv(config_dir=None, seed=seed) if USE_REAL_ENV else SimpleEnvironment()
         agents_dict, agents = build_agents(TRAINING_AGENT_MODE)
@@ -412,6 +411,14 @@ def train_agents(num_episodes=30):
                 if hasattr(rl, "load_q_table"):
                     name = rl.name.replace("rl_", "")
                     rl.load_q_table(f"q_tables/{name}_q_table.json")
+        if session_episodes <= 10:
+            for agent in agents:
+                rl = _get_rl(agent)
+                if hasattr(rl, "epsilon"):
+                    current_eps = float(getattr(rl, "epsilon", 0.35))
+                    rl.epsilon = min(0.35, max(current_eps, 0.2))
+                if hasattr(rl, "epsilon_decay"):
+                    rl.epsilon_decay = max(float(getattr(rl, "epsilon_decay", 0.95)), 0.97)
 
         def _policy_action_from_snapshot(agent_obj, observation, snapshot_state: Dict):
             rl_obj = _get_rl(agent_obj)
@@ -467,6 +474,12 @@ def train_agents(num_episodes=30):
                 "avg_fairness_score": 0.0,
                 "avg_belief_accuracy": 0.0,
                 "deadline_misses": 0,
+                "emergency_charter_count": 0,
+                "deadlock_count": 0,
+                "urgent_injections": 0,
+                "urgent_task_completions": 0,
+                "renegotiation_count": 0,
+                "urgency_response_score": 0.0,
             }
 
             total_episode_reward = 0.0
@@ -478,6 +491,11 @@ def train_agents(num_episodes=30):
             contracts_kept = 0
             contracts_broken = 0
             deadline_misses = 0
+            emergency_charter_count = 0
+            deadlock_count = 0
+            urgent_injections = 0
+            urgent_task_completions = 0
+            renegotiation_count = 0
             step_count = 0
 
             for hour in range(1, 9):
@@ -523,6 +541,13 @@ def train_agents(num_episodes=30):
                 step_trace = info.get("negotiation_trace_step") if isinstance(info, dict) else None
                 if step_trace:
                     negotiation_trace.append({"episode": episode, **deepcopy(step_trace)})
+                    trace_events = step_trace.get("events", [])
+                    emergency_charter_count += sum(1 for e in trace_events if e == "emergency_charter_triggered")
+                    deadlock_count += sum(1 for e in trace_events if e == "negotiation_deadlock")
+                    urgent_injections += sum(1 for e in trace_events if e == "crisis:urgent_task_injected")
+                    urgent_task_completions += sum(1 for e in trace_events if e == "task_done:urgent_incident_model_rebuild")
+                    if step_trace.get("triggered_renegotiation", False):
+                        renegotiation_count += 1
                 if step_metrics:
                     conflict_count += int(step_metrics.get("conflict_count", 0))
                     coalitions_formed += int(step_metrics.get("coalitions_formed", 0))
@@ -565,10 +590,23 @@ def train_agents(num_episodes=30):
             episode_data["avg_fairness_score"] = float(mean(fairness_values) if fairness_values else 0.0)
             episode_data["avg_belief_accuracy"] = float(mean(belief_values) if belief_values else 0.0)
             episode_data["deadline_misses"] = int(deadline_misses)
+            episode_data["emergency_charter_count"] = int(emergency_charter_count)
+            episode_data["deadlock_count"] = int(deadlock_count)
+            episode_data["urgent_injections"] = int(urgent_injections)
+            episode_data["urgent_task_completions"] = int(urgent_task_completions)
+            episode_data["renegotiation_count"] = int(renegotiation_count)
+            urgency_response_score = 1.0
+            if urgent_injections > 0:
+                urgency_response_score = urgent_task_completions / urgent_injections
+            episode_data["urgency_response_score"] = float(max(0.0, min(1.0, urgency_response_score)))
             episode_data["metrics"] = MetricsCalculator.calculate_metrics(episode_data)
             episode_data["metrics"]["total_reward"] = episode_data["total_reward"]
             episode_data["metrics"]["fairness"] = episode_data["avg_fairness_score"]
             episode_data["metrics"]["belief_accuracy"] = episode_data["avg_belief_accuracy"]
+            episode_data["metrics"]["urgency_response_score"] = episode_data["urgency_response_score"]
+            episode_data["metrics"]["emergency_charter_count"] = episode_data["emergency_charter_count"]
+            episode_data["metrics"]["deadlock_count"] = episode_data["deadlock_count"]
+            episode_data["metrics"]["renegotiation_count"] = episode_data["renegotiation_count"]
             episode_data["metrics"]["negotiation_health"] = max(
                 0.0,
                 1.0 - (episode_data["contracts_broken"] + episode_data["conflict_count"]) / max(step_count * 3, 1),
@@ -588,6 +626,10 @@ def train_agents(num_episodes=30):
                     "contracts_broken": episode_data["contracts_broken"],
                     "deadline_misses": episode_data["deadline_misses"],
                     "negotiation_health": episode_data["metrics"]["negotiation_health"],
+                    "urgency_response_score": episode_data["urgency_response_score"],
+                    "emergency_charter_count": episode_data["emergency_charter_count"],
+                    "deadlock_count": episode_data["deadlock_count"],
+                    "renegotiation_count": episode_data["renegotiation_count"],
                 }
             )
 
@@ -596,6 +638,26 @@ def train_agents(num_episodes=30):
                 plain_name = getattr(rl, "name", "").replace("rl_", "")
                 if hasattr(rl, "learn_from_episode") and plain_name in learner_agent_ids:
                     rl.learn_from_episode()
+
+            if session_episodes <= 10:
+                recent_rewards = [r.get("total_reward", 0.0) for r in all_results[-3:]]
+                if len(recent_rewards) >= 3:
+                    trend_drop = recent_rewards[-1] < (sum(recent_rewards[:2]) / 2.0) * 0.95
+                    if trend_drop:
+                        for agent in agents:
+                            rl = _get_rl(agent)
+                            if hasattr(rl, "epsilon"):
+                                rl.epsilon = min(0.35, max(float(getattr(rl, "epsilon", 0.2)), 0.25))
+                            if hasattr(rl, "epsilon_decay"):
+                                rl.epsilon_decay = max(float(getattr(rl, "epsilon_decay", 0.97)), 0.98)
+
+        if persist_q_tables and any(hasattr(_get_rl(a), "save_q_table") for a in agents):
+            os.makedirs("q_tables", exist_ok=True)
+            for agent in agents:
+                rl = _get_rl(agent)
+                if hasattr(rl, "save_q_table"):
+                    name = rl.name.replace("rl_", "")
+                    rl.save_q_table(f"q_tables/{name}_q_table.json")
 
         return all_results, episode_metrics, negotiation_trace, agents
 
@@ -607,6 +669,7 @@ def train_agents(num_episodes=30):
                 "avg_on_time_rate": 0.0,
                 "avg_fairness_score": 0.0,
                 "avg_belief_accuracy": 0.0,
+                "avg_urgency_response_score": 0.0,
             }
         return {
             "avg_total_reward": mean([r["total_reward"] for r in results]),
@@ -614,6 +677,7 @@ def train_agents(num_episodes=30):
             "avg_on_time_rate": mean([_safe_metrics_for_episode(r)["on_time_rate"] for r in results]),
             "avg_fairness_score": mean([r.get("avg_fairness_score", 0.0) for r in results]),
             "avg_belief_accuracy": mean([r.get("avg_belief_accuracy", 0.0) for r in results]),
+            "avg_urgency_response_score": mean([r.get("urgency_response_score", 0.0) for r in results]),
         }
 
     def _rolling_window_improvement(results, window=5):
@@ -625,6 +689,20 @@ def train_agents(num_episodes=30):
         last_mean = mean(rewards[-w:])
         improvement = ((last_mean - first_mean) / abs(first_mean) * 100.0) if first_mean != 0 else 0.0
         return {"first_window_mean": first_mean, "last_window_mean": last_mean, "improvement_percent": improvement}
+
+    def _stabilize_plan_for_low_episodes(plan: List[Dict]) -> List[Dict]:
+        """Keep short-horizon training less noisy while preserving scenario intent."""
+        stabilized: List[Dict] = []
+        for raw in plan:
+            scenario = deepcopy(raw)
+            if scenario.get("crisis_mode_enabled", False):
+                has_gpu = scenario.get("crisis_gpu_outage_hour") is not None
+                has_urgent = scenario.get("crisis_urgent_task_hour") is not None
+                # In low-episode mode avoid compound shocks in one episode.
+                if has_gpu and has_urgent:
+                    scenario.pop("crisis_gpu_outage_hour", None)
+            stabilized.append(scenario)
+        return stabilized
 
     def _evaluate_holdout(seed, episodes=8):
         holdout_plan = [
@@ -638,6 +716,7 @@ def train_agents(num_episodes=30):
             crisis_flag=True,
             scenario_plan=holdout_plan,
             load_q_tables=True,
+            persist_q_tables=False,
         )
         fresh_results, _, _, _ = _run_single_session(
             session_episodes=episodes,
@@ -646,6 +725,7 @@ def train_agents(num_episodes=30):
             crisis_flag=True,
             scenario_plan=holdout_plan,
             load_q_tables=False,
+            persist_q_tables=False,
         )
         trained_summary = _summarize_results(trained_results)
         fresh_summary = _summarize_results(fresh_results)
@@ -669,6 +749,7 @@ def train_agents(num_episodes=30):
             crisis_flag=False,
             scenario_plan=fixed_plan,
             load_q_tables=True,
+            persist_q_tables=False,
         )
         fresh_results, _, _, _ = _run_single_session(
             session_episodes=episodes,
@@ -677,6 +758,7 @@ def train_agents(num_episodes=30):
             crisis_flag=False,
             scenario_plan=fixed_plan,
             load_q_tables=False,
+            persist_q_tables=False,
         )
         trained_summary = _summarize_results(trained_results)
         fresh_summary = _summarize_results(fresh_results)
@@ -713,23 +795,31 @@ def train_agents(num_episodes=30):
     curriculum_phase_episodes = max(1, int(os.getenv("CURRICULUM_PHASE_EPISODES", "5")))
     total_phases = max(1, int((num_episodes + curriculum_phase_episodes - 1) / curriculum_phase_episodes))
     self_improvement_enabled = _resolve_flag("SELF_IMPROVEMENT_ENABLED", True)
+    low_episode_mode = num_episodes <= 10
+    if low_episode_mode:
+        print("🛡️  Low-episode stabilizer active (5-10 episode regime)")
 
     if self_improvement_enabled and TRAINING_AGENT_MODE in {"rl", "hybrid"}:
         print("🧠 Theme #4 loop: adaptive curriculum + self-play snapshots enabled")
         running_episode_idx = 0
         league_duel_log = []
+        prev_phase_reward = None
         for phase in range(1, total_phases + 1):
             phase_cfg = curriculum.config_for_level()
             phase_episodes = min(curriculum_phase_episodes, num_episodes - running_episode_idx)
             if phase_episodes <= 0:
                 break
+            phase_plan = challenge_generator.get_plan_for_level(curriculum.level, phase_episodes)
+            if low_episode_mode:
+                phase_plan = _stabilize_plan_for_low_episodes(phase_plan)
             phase_results, phase_metrics, phase_trace, phase_agents = _run_single_session(
                 session_episodes=phase_episodes,
                 seed=seed_values[0],
                 negotiation_flag=phase_cfg["negotiation_enabled"],
                 crisis_flag=phase_cfg["crisis_mode_enabled"],
-                scenario_plan=challenge_generator.get_plan_for_level(curriculum.level, phase_episodes),
+                scenario_plan=phase_plan,
                 track_label="curriculum_train",
+                persist_q_tables=True,
             )
             for episode_data in phase_results:
                 running_episode_idx += 1
@@ -747,7 +837,16 @@ def train_agents(num_episodes=30):
 
             summary = _summarize_results(phase_results)
             league.record(phase=phase, agents=phase_agents, summary=summary)
-            promoted = curriculum.update(phase=phase, summary=summary)
+            required_streak = 2 if low_episode_mode else 1
+            should_attempt_promotion = True
+            if low_episode_mode and prev_phase_reward is not None:
+                should_attempt_promotion = summary.get("avg_total_reward", 0.0) >= (prev_phase_reward * 0.98)
+            promoted = (
+                curriculum.update(phase=phase, summary=summary, required_streak=required_streak)
+                if should_attempt_promotion
+                else False
+            )
+            prev_phase_reward = summary.get("avg_total_reward", 0.0)
             print(
                 f"Phase {phase}/{total_phases} │ lvl={curriculum.level} │ "
                 f"episodes={phase_episodes} │ completion={summary['avg_completion_rate']:.2f} │ "
@@ -757,7 +856,12 @@ def train_agents(num_episodes=30):
             opponent_snapshot = league.sample_previous_snapshot(phase)
             if opponent_snapshot:
                 duel_plan = challenge_generator.get_plan_for_level(min(curriculum.level + 1, curriculum.max_level), 1)
-                for learner_id in ["data_loader", "data_cleaner", "ml_trainer"]:
+                if low_episode_mode:
+                    duel_plan = _stabilize_plan_for_low_episodes(duel_plan)
+                duel_learners = ["data_loader", "data_cleaner", "ml_trainer"]
+                if low_episode_mode:
+                    duel_learners = ["ml_trainer"]
+                for learner_id in duel_learners:
                     duel_results, duel_metrics, _, _ = _run_single_session(
                         session_episodes=1,
                         seed=seed_values[0] + phase,
@@ -767,6 +871,7 @@ def train_agents(num_episodes=30):
                         league_opponent_snapshot=opponent_snapshot,
                         learner_agent_ids=[learner_id],
                         track_label=f"league_duel_{learner_id}",
+                        persist_q_tables=low_episode_mode,
                     )
                     if duel_results:
                         duel = duel_results[0]
@@ -802,6 +907,7 @@ def train_agents(num_episodes=30):
             negotiation_flag=negotiation_enabled,
             crisis_flag=crisis_mode_enabled,
             scenario_plan=[{"name": "fixed_default", "crisis_mode_enabled": crisis_mode_enabled}],
+            persist_q_tables=True,
         )
         league_duel_log = []
 
@@ -837,6 +943,7 @@ def train_agents(num_episodes=30):
         crisis_flag=False,
         scenario_plan=[{"name": "baseline_no_negotiation", "crisis_mode_enabled": False}],
         load_q_tables=False,
+        persist_q_tables=False,
     )
     negotiated_summary = _summarize_results(all_results)
     baseline_summary = _summarize_results(baseline_results)
@@ -906,6 +1013,7 @@ def train_agents(num_episodes=30):
             seed=seed,
             negotiation_flag=negotiation_enabled,
             crisis_flag=crisis_mode_enabled,
+            persist_q_tables=False,
         )
         rewards = [r["total_reward"] for r in run_results]
         completions = [_safe_metrics_for_episode(r)["completion_rate"] for r in run_results]
