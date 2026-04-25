@@ -92,6 +92,11 @@ def calculate_team_reward(
     )
     
     utilization_hint = sum(1 for event in recent_events if "allocated" in event)
+    repeated_blocking = sum(
+        1
+        for event in recent_events
+        if ("conflict prevented" in event) or ("blocked by dependency" in event)
+    )
 
     # Completion bonus
     completion_bonus = 20.0 * (done / total)
@@ -120,14 +125,19 @@ def calculate_team_reward(
         yields_count = len(negotiation_snapshot.get("yields", []))
         deadlock_penalty = 2.0 if negotiation_snapshot.get("deadlock") else 0.0
         fairness_bonus = max(0.0, fairness - 0.8) * 5.0
+        high_fairness_bonus = 1.0 if fairness >= 0.92 else 0.0
+        cooperative_yield_bonus = yields_count * 0.4
+        repeated_blocking_penalty = max(0.0, repeated_blocking - 1) * 0.5
         diplomacy_bonus += (
             (fairness * 4.0)
             + emergency_bonus
             + (contracts_kept * 0.6)
-            + (yields_count * 0.3)
+            + cooperative_yield_bonus
             + fairness_bonus
+            + high_fairness_bonus
             - contract_penalty
             - deadlock_penalty
+            - repeated_blocking_penalty
         )
 
     return completion_bonus + on_time_bonus + negotiation_bonus + time_efficiency + finish_bonus + diplomacy_bonus - incomplete_penalty

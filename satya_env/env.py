@@ -303,24 +303,33 @@ class RealEnvironment:
         self._refresh_running_markers()
         self._update_social_state(negotiated_actions, negotiation_snapshot)
 
+        step_events: List[str] = []
         self.episode.recent_events.extend(validation_events)
+        step_events.extend(validation_events)
         self.episode.recent_events.extend(crisis_events)
+        step_events.extend(crisis_events)
         if negotiation_snapshot.emergency_charter:
             self.episode.recent_events.append("emergency_charter_triggered")
+            step_events.append("emergency_charter_triggered")
         if negotiation_snapshot.deadlock:
             self.episode.recent_events.append("negotiation_deadlock")
+            step_events.append("negotiation_deadlock")
         for coalition in negotiation_snapshot.coalitions:
             self.episode.recent_events.append(f"coalition:{coalition}")
+            step_events.append(f"coalition:{coalition}")
         self.episode.recent_events.append(f"contracts_kept:{negotiation_snapshot.contracts_kept}")
         self.episode.recent_events.append(f"contracts_broken:{negotiation_snapshot.contracts_broken}")
+        step_events.append(f"contracts_kept:{negotiation_snapshot.contracts_kept}")
+        step_events.append(f"contracts_broken:{negotiation_snapshot.contracts_broken}")
         self.episode.recent_events.extend(schedule_events)
+        step_events.extend(schedule_events)
 
         individual = calculate_individual_rewards(self.agent_states, self.tasks)
         team = calculate_team_reward(
             tasks=self.tasks,
             max_hours=self.max_hours,
             current_hour=self.episode.hour,
-            recent_events=schedule_events,
+            recent_events=step_events,
             negotiation_snapshot=self.latest_negotiation,
         )
         final_rewards = calculate_final_rewards(individual, team)
@@ -346,6 +355,7 @@ class RealEnvironment:
             "concessions": list(negotiation_snapshot.concessions),
             "yields": list(negotiation_snapshot.yields),
             "coalitions": list(negotiation_snapshot.coalitions),
+            "coalitions_formed": len(negotiation_snapshot.coalitions),
             "contracts_kept": int(negotiation_snapshot.contracts_kept),
             "contracts_broken": int(negotiation_snapshot.contracts_broken),
             "final_allocation": [
@@ -362,7 +372,9 @@ class RealEnvironment:
             "belief_accuracy": dict(negotiation_snapshot.belief_accuracy),
             "avg_belief_accuracy": float(avg_belief),
             "step_rewards": {agent_id: float(round(final_rewards[agent_id], 3)) for agent_id in self.agent_order},
-            "events": list(crisis_events),
+            "events": list(step_events),
+            "triggered_renegotiation": bool(self.negotiation_enabled and len(crisis_events) > 0),
+            "negotiation_enabled": bool(self.negotiation_enabled),
         }
         self.negotiation_trace.append(step_trace)
 
