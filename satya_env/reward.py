@@ -119,6 +119,15 @@ def calculate_team_reward(
     diplomacy_bonus = 0.0
     if negotiation_snapshot:
         fairness = float(negotiation_snapshot.get("fairness_score", 1.0))
+        belief_raw = negotiation_snapshot.get("belief_accuracy", 0.0)
+        if isinstance(belief_raw, dict):
+            belief_accuracy = (
+                sum(float(v) for v in belief_raw.values()) / max(1, len(belief_raw))
+            )
+        else:
+            belief_accuracy = float(belief_raw)
+        if belief_accuracy > 1.0:
+            belief_accuracy = belief_accuracy / 100.0
         emergency_bonus = 4.0 if negotiation_snapshot.get("emergency_charter") else 0.0
         contract_penalty = float(negotiation_snapshot.get("contracts_broken", 0)) * 1.5
         contracts_kept = float(negotiation_snapshot.get("contracts_kept", 0))
@@ -127,17 +136,28 @@ def calculate_team_reward(
         fairness_bonus = max(0.0, fairness - 0.8) * 5.0
         high_fairness_bonus = 1.0 if fairness >= 0.92 else 0.0
         cooperative_yield_bonus = yields_count * 0.4
+        belief_bonus = max(0.0, belief_accuracy - 0.45) * 6.0
         repeated_blocking_penalty = max(0.0, repeated_blocking - 1) * 0.5
+        scarcity_stabilization_bonus = 0.0
+        if len(negotiation_snapshot.get("conflicts", [])) > 0:
+            # In scarce conditions we explicitly reward civilized outcomes.
+            scarcity_stabilization_bonus = max(0.0, fairness - 0.75) * 3.0
+        anti_monopoly_penalty = 0.0
+        if fairness < 0.65:
+            anti_monopoly_penalty = (0.65 - fairness) * 8.0
         diplomacy_bonus += (
             (fairness * 4.0)
+            + belief_bonus
             + emergency_bonus
             + (contracts_kept * 0.6)
             + cooperative_yield_bonus
             + fairness_bonus
             + high_fairness_bonus
+            + scarcity_stabilization_bonus
             - contract_penalty
             - deadlock_penalty
             - repeated_blocking_penalty
+            - anti_monopoly_penalty
         )
 
     return completion_bonus + on_time_bonus + negotiation_bonus + time_efficiency + finish_bonus + diplomacy_bonus - incomplete_penalty

@@ -1,10 +1,32 @@
 import json
 import os
+import random
 import sys
 from copy import deepcopy
 from datetime import datetime
 from statistics import mean, pstdev
 from typing import Dict, List
+import requests as _req
+
+_orig_request = _req.Session.request
+
+
+def _debug_request(self, method, url, **kw):
+    """Optional local debug logger for Ollama HTTP requests."""
+    if "11434" in str(url):
+        body = kw.get("json") or kw.get("data")
+        print(f"\n[DEBUG] {method} {url}")
+        if isinstance(body, dict):
+            print(f"[DEBUG] payload: {json.dumps(body, indent=2)}")
+        elif isinstance(body, str):
+            print(f"[DEBUG] payload: {body[:200]}")
+        else:
+            print(f"[DEBUG] payload: {body}")
+    return _orig_request(self, method, url, **kw)
+
+
+if os.getenv("DEBUG_OLLAMA_REQUESTS", "").strip().lower() in {"1", "true", "yes", "on"}:
+    _req.Session.request = _debug_request
 
 # Add src to path
 sys.path.insert(0, os.path.dirname(__file__))
@@ -69,19 +91,42 @@ class AdaptiveCurriculum:
         completion = float(summary.get("avg_completion_rate", 0.0))
         on_time = float(summary.get("avg_on_time_rate", 0.0))
         fairness = float(summary.get("avg_fairness_score", 0.0))
+        belief = float(summary.get("avg_belief_accuracy", 0.0))
+        urgency = float(summary.get("avg_urgency_response_score", 0.0))
+        reward = float(summary.get("avg_total_reward", 0.0))
         # Some metric pipelines return percentages (0-100), normalize to [0,1].
         if completion > 1.0:
             completion = completion / 100.0
         if on_time > 1.0:
             on_time = on_time / 100.0
+        if belief > 1.0:
+            belief = belief / 100.0
+        if urgency > 1.0:
+            urgency = urgency / 100.0
         promoted = False
-        completion_gate = 0.35 + 0.08 * self.level
-        on_time_gate = 0.30 + 0.07 * self.level
-        gate_hit = (
+        # Base progression gates for task delivery.
+        completion_gate = 0.35 + 0.06 * self.level
+        on_time_gate = 0.30 + 0.05 * self.level
+        # Social-intelligence gates for Theme #1 quality.
+        fairness_gate = 0.78 + 0.02 * self.level
+        belief_gate = 0.50 + 0.03 * self.level
+
+        # Primary gate: stable throughput + negotiation quality.
+        strict_gate_hit = (
             completion >= completion_gate
             and on_time >= on_time_gate
-            and fairness >= 0.40
+            and fairness >= fairness_gate
+            and belief >= belief_gate
         )
+        # Alternate gate: in short runs completion may saturate; allow promotion
+        # when strategic quality and urgency handling are clearly strong.
+        adaptive_gate_hit = (
+            fairness >= min(0.94, fairness_gate + 0.08)
+            and belief >= min(0.85, belief_gate + 0.08)
+            and urgency >= 0.70
+            and reward > 0.0
+        )
+        gate_hit = strict_gate_hit or adaptive_gate_hit
         if gate_hit:
             self.success_streak += 1
         else:
@@ -102,6 +147,11 @@ class AdaptiveCurriculum:
                 "completion": completion,
                 "on_time": on_time,
                 "fairness": fairness,
+                "belief_accuracy": belief,
+                "urgency_response_score": urgency,
+                "avg_total_reward": reward,
+                "strict_gate_hit": strict_gate_hit,
+                "adaptive_gate_hit": adaptive_gate_hit,
             }
         )
         return promoted
@@ -198,6 +248,9 @@ def build_agents(agent_mode):
         if llm_provider == "openrouter":
             model_name = os.getenv("OPENROUTER_MODEL", "openai/gpt-3.5-turbo")
             base_url   = None
+        elif llm_provider == "huggingface":
+            model_name = os.getenv("HUGGINGFACE_MODEL", "meta-llama/Llama-3.1-8B-Instruct")
+            base_url   = os.getenv("HUGGINGFACE_BASE_URL", "https://router.huggingface.co/v1")
         elif llm_provider == "groq":
             model_name = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
             base_url   = None
@@ -230,6 +283,9 @@ def build_agents(agent_mode):
         if llm_provider == "openrouter":
             model_name = os.getenv("OPENROUTER_MODEL", "openai/gpt-3.5-turbo")
             base_url   = None
+        elif llm_provider == "huggingface":
+            model_name = os.getenv("HUGGINGFACE_MODEL", "meta-llama/Llama-3.1-8B-Instruct")
+            base_url   = os.getenv("HUGGINGFACE_BASE_URL", "https://router.huggingface.co/v1")
         elif llm_provider == "groq":
             model_name = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant")
             base_url   = None
@@ -362,7 +418,9 @@ def train_agents(num_episodes=30):
     multi_seed_raw = os.getenv("MULTI_SEED", "")
     seed_values = [int(x.strip()) for x in multi_seed_raw.split(",") if x.strip()]
     if not seed_values:
-        seed_values = [42]
+        # Default to a random seed each run so consecutive invocations don't
+        # produce the same trajectory. Set MULTI_SEED=42 to reproduce.
+        seed_values = [random.randint(1, 10_000_000)]
 
     def _prepare_env_for_mode(env_obj, negotiation_flag: bool, crisis_flag: bool, scenario: Dict | None = None):
         if hasattr(env_obj, "negotiation_enabled"):
@@ -384,6 +442,53 @@ def train_agents(num_episodes=30):
     def _write_json(path, payload):
         with open(path, "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2)
+
+    def _validate_mode_inputs(agent_mode: str):
+        if agent_mode not in {"llm", "rl", "hybrid"}:
+            raise ValueError(f"Unsupported TRAINING_AGENT_MODE={agent_mode}")
+        provider = os.getenv("LLM_PROVIDER", "ollama").strip().lower()
+        if agent_mode in {"llm", "hybrid"} and provider == "groq" and not os.getenv("GROQ_API_KEY"):
+            print("⚠️  LLM_PROVIDER=groq but GROQ_API_KEY is missing. LLM calls will fallback.")
+        if agent_mode in {"llm", "hybrid"} and provider == "huggingface" and not (os.getenv("HF_TOKEN") or os.getenv("HUGGINGFACE_API_KEY")):
+            print("⚠️  LLM_PROVIDER=huggingface but HF_TOKEN is missing. LLM calls will fallback.")
+        return provider
+
+    def _normalize_rate(value: float) -> float:
+        """Normalize rate-like values to [0, 1] when they come as percentages."""
+        if value is None:
+            return 0.0
+        try:
+            parsed = float(value)
+        except (TypeError, ValueError):
+            return 0.0
+        if parsed > 1.0:
+            parsed = parsed / 100.0
+        return max(0.0, min(1.0, parsed))
+
+    def _compute_episode_binary_outcome(episode_data: Dict) -> int:
+        """
+        Deterministic binary outcome from finalized episode metrics.
+        This is diagnostics-only and does not affect rewards/learning.
+        """
+        completion_gate = float(os.getenv("UNSLOTH_BINARY_COMPLETION_GATE", "0.35"))
+        on_time_gate = float(os.getenv("UNSLOTH_BINARY_ON_TIME_GATE", "0.30"))
+        fairness_gate = float(os.getenv("UNSLOTH_BINARY_FAIRNESS_GATE", "0.40"))
+        require_no_deadline_miss = _resolve_flag("UNSLOTH_BINARY_REQUIRE_NO_DEADLINE_MISS", False)
+
+        metrics = episode_data.get("metrics", {}) if isinstance(episode_data, dict) else {}
+        completion_rate = _normalize_rate(metrics.get("completion_rate", 0.0))
+        on_time_rate = _normalize_rate(metrics.get("on_time_rate", 0.0))
+        fairness_score = float(episode_data.get("avg_fairness_score", 0.0))
+        deadline_misses = int(episode_data.get("deadline_misses", 0))
+
+        passed = (
+            completion_rate >= completion_gate
+            and on_time_rate >= on_time_gate
+            and fairness_score >= fairness_gate
+        )
+        if require_no_deadline_miss:
+            passed = passed and deadline_misses == 0
+        return 1 if passed else 0
 
     def _run_single_session(
         session_episodes: int,
@@ -444,10 +549,33 @@ def train_agents(num_episodes=30):
         episode_metrics = []
         negotiation_trace = []
 
+        def _capture_epsilon_snapshot(agent_list):
+            """Record current epsilon of every RL-capable agent at this exact moment."""
+            snapshot = {}
+            for ag in agent_list:
+                rl_obj = _get_rl(ag)
+                if hasattr(rl_obj, "epsilon"):
+                    snapshot[getattr(rl_obj, "name", str(ag))] = float(rl_obj.epsilon)
+            return snapshot
+
+        def _capture_llm_call_snapshot(agent_list):
+            """Cumulative LLM-call counters so we can show real LLM usage per episode."""
+            snapshot = {}
+            for ag in agent_list:
+                llm_obj = ag.llm if hasattr(ag, "llm") else ag
+                if hasattr(llm_obj, "llm_calls"):
+                    snapshot[getattr(llm_obj, "name", str(ag))] = {
+                        "calls": int(getattr(llm_obj, "llm_calls", 0)),
+                        "errors": int(getattr(llm_obj, "llm_errors", 0)),
+                    }
+            return snapshot
+
         for episode in range(1, session_episodes + 1):
             scenario = scenario_plan[(episode - 1) % len(scenario_plan)] if scenario_plan else {}
             scenario_crisis_flag = bool(scenario.get("crisis_mode_enabled", crisis_flag))
             _prepare_env_for_mode(env, negotiation_flag, scenario_crisis_flag, scenario=scenario)
+            episode_epsilon_start = _capture_epsilon_snapshot(agents)
+            episode_llm_start = _capture_llm_call_snapshot(agents)
             obs_per_agent = env.reset()
             if not isinstance(obs_per_agent, dict) or "data_loader" not in obs_per_agent:
                 obs_per_agent = {"data_loader": obs_per_agent, "data_cleaner": obs_per_agent, "ml_trainer": obs_per_agent}
@@ -611,6 +739,26 @@ def train_agents(num_episodes=30):
                 0.0,
                 1.0 - (episode_data["contracts_broken"] + episode_data["conflict_count"]) / max(step_count * 3, 1),
             )
+
+            # ---- Per-episode integration telemetry (epsilon + LLM usage) ----
+            episode_epsilon_end = _capture_epsilon_snapshot(agents)
+            episode_llm_end = _capture_llm_call_snapshot(agents)
+            episode_data["epsilon_start"] = episode_epsilon_start
+            episode_data["epsilon_end"] = episode_epsilon_end
+            episode_data["epsilon_mean"] = (
+                mean(episode_epsilon_end.values()) if episode_epsilon_end else 0.0
+            )
+            llm_calls_this_ep = 0
+            llm_errors_this_ep = 0
+            for ag_name, end_vals in episode_llm_end.items():
+                start_vals = episode_llm_start.get(ag_name, {"calls": 0, "errors": 0})
+                llm_calls_this_ep += end_vals["calls"] - start_vals["calls"]
+                llm_errors_this_ep += end_vals["errors"] - start_vals["errors"]
+            episode_data["llm_calls"] = int(llm_calls_this_ep)
+            episode_data["llm_errors"] = int(llm_errors_this_ep)
+            episode_data["agent_mode"] = TRAINING_AGENT_MODE
+
+            episode_data["episode_binary_outcome"] = _compute_episode_binary_outcome(episode_data)
             all_results.append(episode_data)
 
             episode_metrics.append(
@@ -630,6 +778,7 @@ def train_agents(num_episodes=30):
                     "emergency_charter_count": episode_data["emergency_charter_count"],
                     "deadlock_count": episode_data["deadlock_count"],
                     "renegotiation_count": episode_data["renegotiation_count"],
+                    "episode_binary_outcome": episode_data["episode_binary_outcome"],
                 }
             )
 
@@ -638,6 +787,37 @@ def train_agents(num_episodes=30):
                 plain_name = getattr(rl, "name", "").replace("rl_", "")
                 if hasattr(rl, "learn_from_episode") and plain_name in learner_agent_ids:
                     rl.learn_from_episode()
+
+            # Push episode outcome into LLM memory so next-episode prompt adapts.
+            for agent in agents:
+                llm_obj = agent.llm if hasattr(agent, "llm") else (agent if hasattr(agent, "episode_memory") else None)
+                if llm_obj is None:
+                    continue
+                # Build per-agent action log from the agent_actions trace.
+                agent_label = getattr(llm_obj, "name", "").replace("rl_", "")
+                agent_action_types = []
+                for hour_entry in episode_data.get("agent_actions", []):
+                    act = hour_entry.get("actions", {}).get(agent_label)
+                    if isinstance(act, dict):
+                        if act.get("action") == "wait":
+                            agent_action_types.append("wait")
+                        else:
+                            cores = int(act.get("cores_needed", 0) or 0)
+                            gpu = int(act.get("gpu_needed", 0) or 0)
+                            if gpu > 0:
+                                agent_action_types.append("request_gpu")
+                            elif cores >= 6:
+                                agent_action_types.append("run_aggressive")
+                            elif cores >= 4:
+                                agent_action_types.append("run_standard")
+                            else:
+                                agent_action_types.append("run_minimal")
+                if hasattr(llm_obj, "record_episode_outcome"):
+                    llm_obj.record_episode_outcome(
+                        total_reward=episode_data["total_reward"],
+                        completed_tasks=episode_data["completed_tasks"],
+                        action_log=agent_action_types,
+                    )
 
             if session_episodes <= 10:
                 recent_rewards = [r.get("total_reward", 0.0) for r in all_results[-3:]]
@@ -774,9 +954,11 @@ def train_agents(num_episodes=30):
     print("\n" + "="*70)
     print("🚀 MULTI-AGENT TRAINING SYSTEM")
     print("="*70)
+    llm_provider = _validate_mode_inputs(TRAINING_AGENT_MODE)
     print(f"Episodes:    {num_episodes}")
     print(f"Environment: {'REAL (Satya)' if USE_REAL_ENV else 'MOCK (Testing)'}")
     print(f"Agent Mode:  {TRAINING_AGENT_MODE.upper()}")
+    print(f"LLM Provider:{llm_provider.upper()}")
     print(f"Start Time:  {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("="*70 + "\n")
 
@@ -795,6 +977,7 @@ def train_agents(num_episodes=30):
     curriculum_phase_episodes = max(1, int(os.getenv("CURRICULUM_PHASE_EPISODES", "5")))
     total_phases = max(1, int((num_episodes + curriculum_phase_episodes - 1) / curriculum_phase_episodes))
     self_improvement_enabled = _resolve_flag("SELF_IMPROVEMENT_ENABLED", True)
+    show_phase_logs = _resolve_flag("SHOW_PHASE_LOGS", False)
     low_episode_mode = num_episodes <= 10
     if low_episode_mode:
         print("🛡️  Low-episode stabilizer active (5-10 episode regime)")
@@ -847,11 +1030,12 @@ def train_agents(num_episodes=30):
                 else False
             )
             prev_phase_reward = summary.get("avg_total_reward", 0.0)
-            print(
-                f"Phase {phase}/{total_phases} │ lvl={curriculum.level} │ "
-                f"episodes={phase_episodes} │ completion={summary['avg_completion_rate']:.2f} │ "
-                f"fairness={summary['avg_fairness_score']:.2f} │ promoted={promoted}"
-            )
+            if show_phase_logs:
+                print(
+                    f"Phase {phase}/{total_phases} │ lvl={curriculum.level} │ "
+                    f"episodes={phase_episodes} │ completion={summary['avg_completion_rate']:.2f} │ "
+                    f"fairness={summary['avg_fairness_score']:.2f} │ promoted={promoted}"
+                )
 
             opponent_snapshot = league.sample_previous_snapshot(phase)
             if opponent_snapshot:
@@ -912,16 +1096,22 @@ def train_agents(num_episodes=30):
         league_duel_log = []
 
     for episode_data in all_results:
-        epsilon = 0.0
-        if agents:
-            first_rl = agents[0].rl if hasattr(agents[0], "rl") else agents[0]
-            epsilon = getattr(first_rl, "epsilon", 0.0)
-        if episode_data["episode"] % 5 == 0 or episode_data["episode"] == 1:
-            completion_rate = MetricsCalculator.calculate_completion_rate(episode_data)
-            print(
-                f"Episode {episode_data['episode']:2d} │ Reward: {episode_data['total_reward']:7.1f} │ "
-                f"Completion: {completion_rate:5.1f}% │ ε: {epsilon:.3f}"
-            )
+        completion_rate = MetricsCalculator.calculate_completion_rate(episode_data)
+        ep_mode = episode_data.get("agent_mode", TRAINING_AGENT_MODE)
+        eps_mean = float(episode_data.get("epsilon_mean", 0.0))
+        llm_calls = int(episode_data.get("llm_calls", 0))
+        llm_errors = int(episode_data.get("llm_errors", 0))
+        binary_outcome = int(episode_data.get("episode_binary_outcome", 0))
+        if ep_mode == "llm":
+            tail = f"Binary: {binary_outcome} │ LLM calls: {llm_calls:3d} │ errors: {llm_errors}"
+        elif ep_mode == "rl":
+            tail = f"Binary: {binary_outcome} │ ε: {eps_mean:.3f}"
+        else:  # hybrid
+            tail = f"Binary: {binary_outcome} │ ε: {eps_mean:.3f} │ LLM calls: {llm_calls:3d} │ errors: {llm_errors}"
+        print(
+            f"Episode {episode_data['episode']:2d} │ Reward: {episode_data['total_reward']:7.1f} │ "
+            f"Completion: {completion_rate:5.1f}% │ {tail}"
+        )
 
     # ========== POST-TRAINING ==========
     print("\n" + "="*70)
@@ -1054,73 +1244,159 @@ def train_agents(num_episodes=30):
     visualizer.generate_summary_stats("results/summary_statistics.txt")
     print("✅ Saved plots and stats to results/")
 
-    # RL learning analysis
+    # ---- Mode-aware integration analysis (LLM / RL / Hybrid) ----
     print("\n" + "="*70)
-    print("🧠 AGENT LEARNING ANALYSIS")
+    print(f"🧠 AGENT INTEGRATION ANALYSIS — MODE: {TRAINING_AGENT_MODE.upper()}")
     print("="*70)
+
     def _get_rl(agent):
         return agent.rl if hasattr(agent, "rl") else agent
+
+    def _get_llm(agent):
+        return agent.llm if hasattr(agent, "llm") else (agent if hasattr(agent, "llm_calls") else None)
+
     rl_agents = [_get_rl(a) for a in agents if hasattr(_get_rl(a), "q_table")]
-    if rl_agents:
+    llm_agents = [_get_llm(a) for a in agents if _get_llm(a) is not None]
+
+    # ---- RL section (only printed when there is a real Q-learner) ----
+    if TRAINING_AGENT_MODE in {"rl", "hybrid"} and rl_agents:
+        print("\n📊 RL LEARNING (Q-tables persist across runs):")
         for rl in rl_agents:
             r = rl.episode_rewards
             window = max(1, min(5, len(r)))
             avg_first = sum(r[:window]) / window if r else 0
             avg_last = sum(r[-window:]) / window if r else 0
-            gain      = avg_last - avg_first
-            print(f"\n👤 {rl.name.upper()}")
-            print(f"   Q-table states       : {len(rl.q_table)}")
-            print(f"   Avg reward (first {window}) : {avg_first:.1f}")
-            print(f"   Avg reward (last {window})  : {avg_last:.1f}")
-            print(f"   Learning gain        : {gain:+.1f}")
-            print(f"   {'✅ IMPROVING' if gain > 0 else '⚠️  Needs more episodes'}")
+            gain = avg_last - avg_first
+            print(f"\n  👤 {rl.name.upper()}")
+            print(f"     Q-table states       : {len(rl.q_table)}")
+            print(f"     Current epsilon      : {float(getattr(rl, 'epsilon', 0.0)):.3f}")
+            print(f"     Start-window reward : {avg_first:.1f}")
+            print(f"     End-window reward   : {avg_last:.1f}")
+            print(f"     Learning gain        : {gain:+.1f}")
+            print(f"     {'✅ IMPROVING' if gain > 0 else '⚠️  Needs more episodes'}")
 
-        print("\n💾 Saving Q-tables...")
+        print("\n  💾 Saving Q-tables...")
         os.makedirs("q_tables", exist_ok=True)
         for rl in rl_agents:
             name = rl.name.replace("rl_", "")
             rl.save_q_table(f"q_tables/{name}_q_table.json")
-            print(f"   ✅ Saved: q_tables/{name}_q_table.json")
-    else:
-        print("LLM-only mode: learning captured in conversation history.")
+            print(f"     ✅ Saved: q_tables/{name}_q_table.json")
 
-    # Final summary
+    # ---- LLM section (only printed when an LLM is wired in) ----
+    if TRAINING_AGENT_MODE in {"llm", "hybrid"} and llm_agents:
+        print("\n💬 LLM USAGE & ADAPTATION:")
+        total_calls = 0
+        total_errors = 0
+        for llm in llm_agents:
+            calls = int(getattr(llm, "llm_calls", 0))
+            errors = int(getattr(llm, "llm_errors", 0))
+            total_calls += calls
+            total_errors += errors
+            err_rate = (errors / calls * 100.0) if calls else 0.0
+            mem_n = len(getattr(llm, "episode_memory", []))
+            temp = float(getattr(llm, "temperature", 0.0))
+            print(
+                f"  👤 {llm.name.upper()}: calls={calls:4d}  errors={errors:3d}  "
+                f"({err_rate:.1f}% fail)  memory={mem_n} eps  T={temp:.2f}"
+            )
+        print(f"  → TOTAL: {total_calls} calls, {total_errors} errors "
+              f"({(total_errors/total_calls*100.0) if total_calls else 0:.1f}% failure rate)")
+
+    # ---- Action-distribution comparison: shows LLM vs RL pick differently ----
+    if llm_agents or rl_agents:
+        print("\n🎯 ACTION DISTRIBUTION (per agent — proves modes pick differently):")
+        all_agent_objs = list(agents)
+        for ag in all_agent_objs:
+            llm_obj = ag.llm if hasattr(ag, "llm") else (ag if hasattr(ag, "action_histogram") and not hasattr(ag, "q_table") else None)
+            rl_obj = ag.rl if hasattr(ag, "rl") else (ag if hasattr(ag, "q_table") else None)
+
+            llm_hist = getattr(llm_obj, "action_histogram", {}) if llm_obj else {}
+            rl_hist = getattr(rl_obj, "action_histogram", {}) if rl_obj else {}
+
+            agent_label = (rl_obj.name if rl_obj else llm_obj.name).replace("rl_", "").upper()
+            print(f"  👤 {agent_label}")
+
+            def _fmt(hist):
+                if not hist:
+                    return "—"
+                total = sum(hist.values())
+                items = sorted(hist.items(), key=lambda kv: -kv[1])
+                return "  ".join(f"{k}={v}({v/total*100:.0f}%)" for k, v in items)
+
+            if llm_hist:
+                print(f"     LLM picks: {_fmt(llm_hist)}")
+            if rl_hist:
+                print(f"     RL  picks: {_fmt(rl_hist)}")
+
+    # ---- Hybrid integration section: prove LLM hints actually shaped RL ----
+    if TRAINING_AGENT_MODE == "hybrid":
+        print("\n🔗 HYBRID INTEGRATION (LLM ➜ RL strategy bias):")
+        for ag in agents:
+            if hasattr(ag, "integration_stats"):
+                s = ag.integration_stats()
+                used = s["llm_hints_used"]
+                cached = s["llm_cache_hits"]
+                fb = s["llm_fallbacks"]
+                total = used + cached + fb
+                hint_rate = (used + cached) / total * 100.0 if total else 0.0
+                print(
+                    f"  👤 {s['name'].upper()}: "
+                    f"hints_used={used:3d}  cache_hits={cached:3d}  "
+                    f"fallbacks={fb:3d}  ε={s['epsilon']:.3f}  "
+                    f"Q-states={s['q_table_states']}  "
+                    f"({hint_rate:.0f}% RL biased by LLM)"
+                )
+
+    if TRAINING_AGENT_MODE == "llm" and not rl_agents:
+        print("\nℹ️  Pure LLM mode: no Q-table; behaviour driven entirely by prompts.")
+
+    # Final summary: keep only a single compact improvement line.
     print("\n" + "="*70)
-    print("📈 FINAL SUMMARY")
-    print("="*70)
     if all_results:
-        roll = _rolling_window_improvement(all_results, window=5)
-        print(f"Reward mean (first window) : {roll['first_window_mean']:.1f}")
-        print(f"Reward mean (last window)  : {roll['last_window_mean']:.1f}")
-        print(f"Window improvement         : {roll['improvement_percent']:+.1f}%")
-        level_scores = {}
-        for row in all_results:
-            level = int(row.get("curriculum_level", 0))
-            level_scores.setdefault(level, []).append(float(row.get("total_reward", 0.0)))
-        if level_scores:
-            print("Curriculum level rewards:")
-            for level in sorted(level_scores):
-                print(f"  L{level}: {mean(level_scores[level]):.1f}")
-        if self_improvement_enabled and TRAINING_AGENT_MODE in {"rl", "hybrid"}:
-            fixed_eval_report = locals().get("fixed_eval_report")
-            if fixed_eval_report:
-                fixed_delta = fixed_eval_report.get("delta", {})
-                holdout_delta = holdout_report.get("delta", {}) if 'holdout_report' in locals() else {}
-                print("Fixed evaluation delta (trained - fresh):")
-                print(f"  Reward         : {fixed_delta.get('avg_total_reward', 0.0):+.1f}")
-                print(f"  Completion rate: {fixed_delta.get('avg_completion_rate', 0.0):+.3f}")
-                print(f"  On-time rate   : {fixed_delta.get('avg_on_time_rate', 0.0):+.3f}")
-                print(f"  Fairness score : {fixed_delta.get('avg_fairness_score', 0.0):+.3f}")
-                print(f"  Belief accuracy : {fixed_delta.get('avg_belief_accuracy', 0.0):+.3f}")
-                print("Holdout evaluation delta (trained - fresh):")
-                print(f"  Reward         : {holdout_delta.get('avg_total_reward', 0.0):+.1f}")
-                print(f"  Completion rate: {holdout_delta.get('avg_completion_rate', 0.0):+.3f}")
-                print(f"  On-time rate   : {holdout_delta.get('avg_on_time_rate', 0.0):+.3f}")
-                print(f"  Fairness score : {holdout_delta.get('avg_fairness_score', 0.0):+.3f}")
-                print(f"  Belief accuracy : {holdout_delta.get('avg_belief_accuracy', 0.0):+.3f}")
-        print(f"Mode              : {TRAINING_AGENT_MODE.upper()}")
-        print(f"Environment       : {'REAL' if USE_REAL_ENV else 'MOCK'}")
+        start_reward = float(all_results[0].get("total_reward", 0.0))
+        end_reward = float(all_results[-1].get("total_reward", 0.0))
+        delta = end_reward - start_reward
+        delta_pct = (delta / abs(start_reward) * 100.0) if start_reward != 0 else 0.0
+        label = "HYBRID" if TRAINING_AGENT_MODE == "hybrid" else TRAINING_AGENT_MODE.upper()
+        print(f"Final {label} Improvement = {delta:+.1f} ({delta_pct:+.1f}%)")
     print("="*70)
+
+    # ---- Build returnable summary so external runners (mode-compare) can use it ----
+    rewards_only = [float(r.get("total_reward", 0.0)) for r in all_results]
+    completions_only = [
+        float(_safe_metrics_for_episode(r).get("completion_rate", 0.0)) for r in all_results
+    ]
+    llm_total_calls = sum(int(r.get("llm_calls", 0)) for r in all_results)
+    llm_total_errors = sum(int(r.get("llm_errors", 0)) for r in all_results)
+
+    # Aggregate action histograms across all agents.
+    combined_hist: Dict[str, int] = {}
+    for ag in agents:
+        for src in (
+            getattr(ag, "action_histogram", None),
+            getattr(getattr(ag, "llm", None), "action_histogram", None),
+            getattr(getattr(ag, "rl", None), "action_histogram", None),
+        ):
+            if isinstance(src, dict):
+                for k, v in src.items():
+                    combined_hist[k] = combined_hist.get(k, 0) + int(v)
+
+    return {
+        "mode": TRAINING_AGENT_MODE,
+        "episodes": len(all_results),
+        "seed": seed_values[0] if seed_values else None,
+        "mean_reward": mean(rewards_only) if rewards_only else 0.0,
+        "first_reward": rewards_only[0] if rewards_only else 0.0,
+        "last_reward": rewards_only[-1] if rewards_only else 0.0,
+        "reward_improvement_pct": (
+            (rewards_only[-1] - rewards_only[0]) / abs(rewards_only[0]) * 100.0
+            if rewards_only and rewards_only[0] != 0 else 0.0
+        ),
+        "mean_completion": mean(completions_only) if completions_only else 0.0,
+        "llm_total_calls": llm_total_calls,
+        "llm_total_errors": llm_total_errors,
+        "action_distribution": combined_hist,
+    }
 
 
 # Load existing results if present
@@ -1139,6 +1415,88 @@ else:
 # MAIN
 # ============================================================
 
+def _print_mode_comparison_table(summaries: List[Dict]):
+    """Print a clean side-by-side comparison of LLM / RL / Hybrid runs."""
+    print("\n" + "="*78)
+    print("📊 MODE COMPARISON — LLM vs RL vs HYBRID")
+    print("="*78)
+
+    header = f"{'Metric':<28}" + "".join(f"{s['mode'].upper():>14}" for s in summaries)
+    print(header)
+    print("-"*len(header))
+
+    def _row(label, getter, fmt="{:>14.1f}"):
+        line = f"{label:<28}"
+        for s in summaries:
+            try:
+                line += fmt.format(getter(s))
+            except Exception:
+                line += f"{'—':>14}"
+        print(line)
+
+    _row("Mean reward",                  lambda s: s["mean_reward"])
+    _row("First-episode reward",         lambda s: s["first_reward"])
+    _row("Last-episode reward",          lambda s: s["last_reward"])
+    _row("Reward improvement (%)",       lambda s: s["reward_improvement_pct"], fmt="{:>13.1f}%")
+    _row("Mean completion (%)",          lambda s: s["mean_completion"], fmt="{:>13.1f}%")
+    _row("LLM calls (total)",            lambda s: s["llm_total_calls"], fmt="{:>14d}")
+    _row("LLM errors (total)",           lambda s: s["llm_total_errors"], fmt="{:>14d}")
+    _row("Episodes",                     lambda s: s["episodes"], fmt="{:>14d}")
+
+    print("\nAction distribution per mode (across all agents combined):")
+    for s in summaries:
+        hist = s.get("action_distribution", {})
+        if not hist:
+            print(f"  {s['mode'].upper():<8}: —")
+            continue
+        total = sum(hist.values())
+        items = sorted(hist.items(), key=lambda kv: -kv[1])
+        line = "  ".join(f"{k}={v/total*100:.0f}%" for k, v in items)
+        print(f"  {s['mode'].upper():<8}: {line}  (n={total})")
+
+    print("="*78)
+    # Pick best mode by mean reward.
+    best = max(summaries, key=lambda s: s["mean_reward"])
+    print(f"🏆 Best mean reward: {best['mode'].upper()} @ {best['mean_reward']:.1f}")
+    print("="*78)
+
+
 if __name__ == "__main__":
     default_episodes = int(os.getenv("NUM_EPISODES", "30"))
-    train_agents(num_episodes=default_episodes)
+    run_mode_compare = os.getenv("MODE_COMPARE", "").strip().lower() in {"1", "true", "yes", "on"}
+    run_mode_sweep = os.getenv("RUN_MODE_SWEEP", "").strip().lower() in {"1", "true", "yes", "on"}
+
+    if run_mode_compare or run_mode_sweep:
+        original_mode = TRAINING_AGENT_MODE
+        sweep_episodes = int(os.getenv("MODE_COMPARE_EPISODES", os.getenv("MODE_SWEEP_EPISODES", "5")))
+
+        # Pin the seed across all 3 modes so the comparison is FAIR.
+        compare_seed = int(os.getenv("MODE_COMPARE_SEED", str(random.randint(1, 10_000_000))))
+        os.environ["MULTI_SEED"] = str(compare_seed)
+        print(f"\n🎲 Mode-compare locked seed: {compare_seed} (set MODE_COMPARE_SEED to override)")
+
+        mode_summaries: List[Dict] = []
+        for mode in ["llm", "rl", "hybrid"]:
+            TRAINING_AGENT_MODE = mode
+            print("\n" + "#"*78)
+            print(f"🔁 MODE COMPARE: {mode.upper()} ({sweep_episodes} episodes, seed={compare_seed})")
+            print("#"*78)
+            summary = train_agents(num_episodes=sweep_episodes)
+            if summary:
+                mode_summaries.append(summary)
+                marker_path = f"results/mode_compare_{mode}.json"
+                with open(marker_path, "w", encoding="utf-8") as f:
+                    json.dump(summary, f, indent=2)
+
+        TRAINING_AGENT_MODE = original_mode
+        if mode_summaries:
+            _print_mode_comparison_table(mode_summaries)
+            with open("results/mode_compare_summary.json", "w", encoding="utf-8") as f:
+                json.dump(
+                    {"seed": compare_seed, "episodes": sweep_episodes, "modes": mode_summaries},
+                    f,
+                    indent=2,
+                )
+            print("✅ Saved: results/mode_compare_summary.json")
+    else:
+        train_agents(num_episodes=default_episodes)

@@ -36,6 +36,9 @@ class RLAgent(Agent):
         self.current_state = None
         self.previous_state = None
         self.previous_action = None
+
+        # Action-type histogram (parity with LLMAgent for cross-mode comparison)
+        self.action_histogram: dict = {}
         
     def discretize_state(self, observation):
         """
@@ -308,6 +311,7 @@ class RLDataLoaderAgent(RLAgent):
 
         action_type, task_id = self.select_action(state, available_actions, strategy=strategy)
         self.previous_action = action_type
+        self.action_histogram[action_type] = self.action_histogram.get(action_type, 0) + 1
         
         # Convert action to environment format
         if action_type == "wait":
@@ -382,6 +386,7 @@ class RLDataCleanerAgent(RLAgent):
 
         action_type, task_id = self.select_action(state, available_actions, strategy=strategy)
         self.previous_action = action_type
+        self.action_histogram[action_type] = self.action_histogram.get(action_type, 0) + 1
         
         if action_type == "wait":
             return {"action": "wait"}
@@ -455,6 +460,7 @@ class RLMLTrainerAgent(RLAgent):
 
         action_type, task_id = self.select_action(state, available_actions, strategy=strategy)
         self.previous_action = action_type
+        self.action_histogram[action_type] = self.action_histogram.get(action_type, 0) + 1
         
         if action_type == "wait":
             return {"action": "wait"}

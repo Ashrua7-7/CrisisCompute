@@ -20,7 +20,7 @@ class LLMAgent(Agent):
         Args:
             name: Agent name
             resource_needs: Dict of resource requirements
-            llm_provider: "ollama", "groq", or "openrouter"
+            llm_provider: "ollama", "groq", "openrouter", or "huggingface"
             model_name: Optional model override for Ollama, Groq, or OpenRouter
             base_url: Optional Ollama base URL, e.g. http://localhost:11434 or a remote tunnel URL
             timeout_s: HTTP timeout for model calls
@@ -37,6 +37,17 @@ class LLMAgent(Agent):
         self.llm_calls = 0
         self.llm_errors = 0
         self.last_raw_response = None
+
+        # ---- Episodic memory so the LLM can adapt across episodes ----
+        # Keyed by episode index → summary dict {reward, completed, best_actions}.
+        self.episode_memory: list[dict] = []
+        # Action-type histogram (proves LLM picks different strategies than RL).
+        self.action_histogram: dict[str, int] = {}
+        # Temperature schedule: explore early, exploit late (mirrors RL ε-decay).
+        self.temperature_start = float(os.getenv("LLM_TEMPERATURE_START", "0.7"))
+        self.temperature_min = float(os.getenv("LLM_TEMPERATURE_MIN", "0.2"))
+        self.temperature_decay = float(os.getenv("LLM_TEMPERATURE_DECAY", "0.85"))
+        self.temperature = self.temperature_start
         
         # Setup LLM
         if llm_provider == "ollama":
@@ -45,6 +56,8 @@ class LLMAgent(Agent):
             self.setup_groq()
         elif llm_provider == "openrouter":
             self.setup_openrouter()
+        elif llm_provider == "huggingface":
+            self.setup_huggingface()
         else:
             print(f"❌ Unknown provider: {llm_provider}")
     
@@ -102,6 +115,29 @@ class LLMAgent(Agent):
         except Exception as e:
             print(f"❌ {self.name}: OpenRouter setup failed - {e}")
             self.openrouter_ready = False
+
+    def setup_huggingface(self):
+        """Setup Hugging Face Inference API"""
+        try:
+            api_key = os.getenv("HF_TOKEN") or os.getenv("HUGGINGFACE_API_KEY")
+            if not api_key:
+                print(f"⚠️  {self.name}: HF_TOKEN not set")
+                self.huggingface_ready = False
+                return
+
+            import requests
+            self.huggingface_api_key = api_key
+            self.huggingface_base_url = os.getenv(
+                "HUGGINGFACE_BASE_URL",
+                "https://router.huggingface.co/v1",
+            ).rstrip("/")
+            # Standard OpenAI-compatible chat-completions path used by HF router.
+            self.huggingface_chat_url = f"{self.huggingface_base_url}/chat/completions"
+            self.huggingface_ready = True
+            print(f"✅ {self.name}: HuggingFace ready (Model: {self.model_name})")
+        except Exception as e:
+            print(f"❌ {self.name}: HuggingFace setup failed - {e}")
+            self.huggingface_ready = False
     
     def build_prompt(self, observation, agent_type="loader"):
         """
@@ -174,8 +210,8 @@ Other agents' status:
 {other_agents_text}
 """
         
-        # Learning history
-        history = self.get_learning_summary()
+        # ---- Cross-episode learning: feed past episode performance ----
+        history = self._build_episode_memory_block()
 
         my_tasks = observation.get('my_tasks', {}) if isinstance(observation, dict) else {}
         pending_tasks = my_tasks.get('pending', []) if isinstance(my_tasks, dict) else []
@@ -219,6 +255,45 @@ If you choose wait, set task_id to null and all resource fields to 0.
 """
 
         return system_msg + obs_summary + tasks_msg + decision_msg
+
+    def _build_episode_memory_block(self) -> str:
+        """Compact natural-language summary of recent episodes the LLM can use."""
+        if not self.episode_memory:
+            return "No past episodes yet — first attempt."
+
+        recent = self.episode_memory[-5:]  # last 5 episodes
+        rewards = [m["reward"] for m in recent]
+        avg = sum(rewards) / len(rewards)
+        best = max(recent, key=lambda m: m["reward"])
+        worst = min(recent, key=lambda m: m["reward"])
+        trend = "improving" if rewards[-1] > rewards[0] else (
+            "declining" if rewards[-1] < rewards[0] else "flat"
+        )
+
+        # Top action that produced the best reward so the LLM can imitate it.
+        best_actions = best.get("best_actions", [])
+        best_actions_str = ", ".join(best_actions[:3]) or "n/a"
+
+        return (
+            f"Past {len(recent)} episodes — avg reward {avg:.0f}, trend {trend}. "
+            f"Best episode reward {best['reward']:.0f} used actions [{best_actions_str}]; "
+            f"worst was {worst['reward']:.0f}. "
+            f"Lean toward the best-action style and avoid waiting unnecessarily."
+        )
+
+    def record_episode_outcome(self, total_reward: float, completed_tasks: int, action_log: list[str]):
+        """Called by training loop at end of each episode so LLM has memory."""
+        # Pick the action types that appeared in this episode (deduped, frequency-ordered).
+        from collections import Counter
+        counter = Counter([a for a in action_log if a])
+        ranked = [a for a, _ in counter.most_common(5)]
+        self.episode_memory.append({
+            "reward": float(total_reward),
+            "completed": int(completed_tasks),
+            "best_actions": ranked,
+        })
+        # Decay temperature each episode (explore → exploit, like RL ε-decay).
+        self.temperature = max(self.temperature_min, self.temperature * self.temperature_decay)
 
     def _extract_json_candidate(self, response_text):
         """Extract a JSON object from raw model text."""
@@ -334,7 +409,7 @@ If you choose wait, set task_id to null and all resource fields to 0.
                 "stream": False,
                 "format": "json",
                 "options": {
-                    "temperature": 0.2,
+                    "temperature": float(self.temperature),
                     "num_predict": self.ollama_num_predict
                 }
             }
@@ -375,7 +450,7 @@ If you choose wait, set task_id to null and all resource fields to 0.
                             {"role": "user", "content": prompt}
                         ],
                         max_tokens=300,
-                        temperature=0.2
+                        temperature=float(self.temperature),
                     )
                     return response.choices[0].message.content
                 except Exception as e:
@@ -417,7 +492,7 @@ If you choose wait, set task_id to null and all resource fields to 0.
                     {"role": "system", "content": "You are a helpful assistant. Always respond with valid JSON only, no additional text."},
                     {"role": "user", "content": prompt}
                 ],
-                "temperature": 0.2,
+                "temperature": float(self.temperature),
                 "max_tokens": 256,
                 "response_format": {"type": "json_object"}
             }
@@ -436,6 +511,50 @@ If you choose wait, set task_id to null and all resource fields to 0.
             print(f"❌ {self.name}: OpenRouter error - {e}")
             self.llm_errors += 1
             return None
+
+    def call_huggingface(self, prompt):
+        """Call Hugging Face Inference API (OpenAI-compatible chat route)."""
+        try:
+            if not getattr(self, "huggingface_ready", False):
+                return None
+
+            import requests
+
+            headers = {
+                "Authorization": f"Bearer {self.huggingface_api_key}",
+                "Content-Type": "application/json",
+            }
+
+            payload = {
+                "model": self.model_name,
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "You are a helpful assistant. Always respond with valid JSON only, no additional text.",
+                    },
+                    {"role": "user", "content": prompt},
+                ],
+                "temperature": float(self.temperature),
+                "max_tokens": 256,
+                "response_format": {"type": "json_object"},
+            }
+
+            response = requests.post(
+                self.huggingface_chat_url,
+                json=payload,
+                headers=headers,
+                timeout=self.timeout_s,
+            )
+            response.raise_for_status()
+            result = response.json()
+            if "choices" in result and len(result["choices"]) > 0:
+                self.last_raw_response = result["choices"][0]["message"]["content"]
+                return self.last_raw_response
+            return None
+        except Exception as e:
+            print(f"❌ {self.name}: HuggingFace error - {e}")
+            self.llm_errors += 1
+            return None
     
     def call_llm(self, prompt):
         """Call LLM based on provider"""
@@ -447,6 +566,8 @@ If you choose wait, set task_id to null and all resource fields to 0.
             return self.call_groq(prompt)
         elif self.llm_provider == "openrouter":
             return self.call_openrouter(prompt)
+        elif self.llm_provider == "huggingface":
+            return self.call_huggingface(prompt)
         else:
             return None
     
@@ -518,7 +639,11 @@ If you choose wait, set task_id to null and all resource fields to 0.
         # Parse response
         action = self.parse_response(response_text)
         action = self._sanitize_action_for_observation(action, observation)
-        
+
+        # Track action distribution so we can compare LLM vs RL strategies later.
+        action_label = self._classify_action(action)
+        self.action_histogram[action_label] = self.action_histogram.get(action_label, 0) + 1
+
         # Store in history for learning
         self.add_to_history(
             state=observation,
@@ -528,6 +653,20 @@ If you choose wait, set task_id to null and all resource fields to 0.
         )
         
         return action
+
+    def _classify_action(self, action: dict) -> str:
+        """Bucket an action into the same vocabulary RL uses, for fair comparison."""
+        if not isinstance(action, dict) or action.get("action") == "wait":
+            return "wait"
+        cores = int(action.get("cores_needed", 0) or 0)
+        gpu = int(action.get("gpu_needed", 0) or 0)
+        if gpu > 0:
+            return "request_gpu"
+        if cores >= 6:
+            return "run_aggressive"
+        if cores >= 4:
+            return "run_standard"
+        return "run_minimal"
 
 
 # ============================================================
