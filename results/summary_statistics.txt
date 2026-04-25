@@ -1,0 +1,25 @@
+
+TRAINING SUMMARY STATISTICS (RUN-DERIVED)
+=========================================
+
+Training Configuration:
+- Total Episodes: 5
+- Training Date: 20260425_235608
+
+Reward Progression:
+- Episode 1:     633.8 points
+- Episode Last:  626.5 points
+- Average Reward: 630.62 points
+- Reward Std Dev: 3.99
+
+Performance Metrics (from run outputs):
+- Completion Rate (first -> last): 40.00% -> 40.00%
+- On-Time Rate (first -> last): 40.00% -> 40.00%
+- Avg Fairness Score: 1.000
+- Avg Belief Accuracy: 0.524
+
+Negotiation Health:
+- Mean Conflicts per Episode: 0.00
+- Mean Coalitions Formed: 0.00
+- Mean Contracts Kept: 0.00
+- Mean Contracts Broken: 0.00

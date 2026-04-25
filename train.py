@@ -8,6 +8,13 @@ from statistics import mean, pstdev
 from typing import Dict, List
 import requests as _req
 
+# Load .env file FIRST before anything else reads env vars
+try:
+    from dotenv import load_dotenv
+    load_dotenv(override=True)
+except ImportError:
+    pass
+
 _orig_request = _req.Session.request
 
 

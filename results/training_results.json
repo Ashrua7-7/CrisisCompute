@@ -1,0 +1,2782 @@
+[
+  {
+    "episode": 1,
+    "scenario": "fixed_default",
+    "track": "train",
+    "total_reward": 633.7984444444443,
+    "completed_tasks": 6,
+    "on_time_tasks": 6,
+    "conflicts": 0,
+    "agreements": 0,
+    "agent_actions": [
+      {
+        "hour": 1,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[592.08]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.26]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[177.57]"
+          }
+        }
+      },
+      {
+        "hour": 2,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[593.88]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.26]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[177.57]"
+          }
+        }
+      },
+      {
+        "hour": 3,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[593.88]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.14]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[177.57]"
+          }
+        }
+      },
+      {
+        "hour": 4,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.14]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[177.57]"
+          }
+        }
+      },
+      {
+        "hour": 5,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_advanced_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[164.69]"
+          }
+        }
+      },
+      {
+        "hour": 6,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[168.57]"
+          }
+        }
+      },
+      {
+        "hour": 7,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[168.57]"
+          }
+        }
+      },
+      {
+        "hour": 8,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[174.64]"
+          }
+        }
+      }
+    ],
+    "steps": [
+      {
+        "hour": 1,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[592.08]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.26]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[177.57]"
+          }
+        },
+        "step_rewards": [
+          15.358629629629629,
+          8.33862962962963,
+          8.33862962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.6194444444444445,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 2,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[593.88]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.26]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[177.57]"
+          }
+        },
+        "step_rewards": [
+          30.67262962962963,
+          24.552629629629628,
+          14.53262962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.7526388888888889,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 3,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[593.88]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.14]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[177.57]"
+          }
+        },
+        "step_rewards": [
+          43.474629629629625,
+          38.254629629629626,
+          18.21462962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.8392152777777778,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 4,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.14]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[177.57]"
+          }
+        },
+        "step_rewards": [
+          42.120629629629626,
+          48.020629629629624,
+          19.58062962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.5865677083333334,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 5,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_advanced_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[164.69]"
+          }
+        },
+        "step_rewards": [
+          38.60874074074074,
+          39.50874074074074,
+          11.98874074074074
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.2971362326388889,
+        "deadline_misses": 1
+      },
+      {
+        "hour": 6,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[168.57]"
+          }
+        },
+        "step_rewards": [
+          36.9692962962963,
+          37.8692962962963,
+          6.549296296296296
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.30980521788194443,
+        "deadline_misses": 2
+      },
+      {
+        "hour": 7,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[168.57]"
+          }
+        },
+        "step_rewards": [
+          35.9992962962963,
+          36.8992962962963,
+          3.7792962962962964
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.36048029318576386,
+        "deadline_misses": 3
+      },
+      {
+        "hour": 8,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[174.64]"
+          }
+        },
+        "step_rewards": [
+          35.1622962962963,
+          36.062296296296296,
+          2.942296296296296
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.505099732141927,
+        "deadline_misses": 3
+      }
+    ],
+    "conflict_count": 0,
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5337984744116211,
+    "deadline_misses": 3,
+    "emergency_charter_count": 3,
+    "deadlock_count": 0,
+    "urgent_injections": 0,
+    "urgent_task_completions": 0,
+    "renegotiation_count": 0,
+    "urgency_response_score": 1.0,
+    "metrics": {
+      "completion_rate": 40.0,
+      "on_time_rate": 40.0,
+      "resource_utilization": 100,
+      "cooperation_score": 0,
+      "total_reward": 633.7984444444443,
+      "fairness": 1.0,
+      "belief_accuracy": 0.5337984744116211,
+      "urgency_response_score": 1.0,
+      "emergency_charter_count": 3,
+      "deadlock_count": 0,
+      "renegotiation_count": 0,
+      "negotiation_health": 1.0
+    },
+    "epsilon_start": {
+      "rl_data_loader": 0.2,
+      "rl_data_cleaner": 0.2,
+      "rl_ml_trainer": 0.2
+    },
+    "epsilon_end": {
+      "rl_data_loader": 0.194,
+      "rl_data_cleaner": 0.194,
+      "rl_ml_trainer": 0.194
+    },
+    "epsilon_mean": 0.194,
+    "llm_calls": 14,
+    "llm_errors": 0,
+    "agent_mode": "hybrid",
+    "episode_binary_outcome": 1
+  },
+  {
+    "episode": 2,
+    "scenario": "fixed_default",
+    "track": "train",
+    "total_reward": 633.9988888888888,
+    "completed_tasks": 6,
+    "on_time_tasks": 6,
+    "conflicts": 0,
+    "agreements": 0,
+    "agent_actions": [
+      {
+        "hour": 1,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[593.41]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[585.60]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.02]"
+          }
+        }
+      },
+      {
+        "hour": 2,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[595.97]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[585.60]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.02]"
+          }
+        }
+      },
+      {
+        "hour": 3,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_3",
+            "cores_needed": 2,
+            "gpu_needed": 0,
+            "memory_needed": 4,
+            "estimated_duration_min": 40,
+            "reasoning": "Load (conservative) - Q[567.24]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_2",
+            "cores_needed": 6,
+            "gpu_needed": 0,
+            "memory_needed": 8,
+            "estimated_duration_min": 45,
+            "reasoning": "Clean (standard) - Q[363.96]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.02]"
+          }
+        }
+      },
+      {
+        "hour": 4,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[585.36]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.02]"
+          }
+        }
+      },
+      {
+        "hour": 5,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_advanced_model",
+            "cores_needed": 6,
+            "gpu_needed": 1,
+            "memory_needed": 20,
+            "estimated_duration_min": 55,
+            "reasoning": "Train (aggressive) - Q[129.62]"
+          }
+        }
+      },
+      {
+        "hour": 6,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[168.85]"
+          }
+        }
+      },
+      {
+        "hour": 7,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[168.85]"
+          }
+        }
+      },
+      {
+        "hour": 8,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[174.64]"
+          }
+        }
+      }
+    ],
+    "steps": [
+      {
+        "hour": 1,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[593.41]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[585.60]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.02]"
+          }
+        },
+        "step_rewards": [
+          15.358629629629629,
+          8.33862962962963,
+          8.33862962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.6194444444444445,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 2,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[595.97]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[585.60]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.02]"
+          }
+        },
+        "step_rewards": [
+          30.67262962962963,
+          24.552629629629628,
+          14.53262962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.7526388888888889,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 3,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_3",
+            "cores_needed": 2,
+            "gpu_needed": 0,
+            "memory_needed": 4,
+            "estimated_duration_min": 40,
+            "reasoning": "Load (conservative) - Q[567.24]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_2",
+            "cores_needed": 6,
+            "gpu_needed": 0,
+            "memory_needed": 8,
+            "estimated_duration_min": 45,
+            "reasoning": "Clean (standard) - Q[363.96]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.02]"
+          }
+        },
+        "step_rewards": [
+          46.1344074074074,
+          34.9144074074074,
+          17.874407407407407
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.6859745370370369,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 4,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[585.36]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.02]"
+          }
+        },
+        "step_rewards": [
+          42.20922222222222,
+          48.10922222222222,
+          19.66922222222222
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.5846741898148148,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 5,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_advanced_model",
+            "cores_needed": 6,
+            "gpu_needed": 1,
+            "memory_needed": 20,
+            "estimated_duration_min": 55,
+            "reasoning": "Train (aggressive) - Q[129.62]"
+          }
+        },
+        "step_rewards": [
+          38.65040740740741,
+          39.550407407407405,
+          12.030407407407406
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.24366189814814812,
+        "deadline_misses": 1
+      },
+      {
+        "hour": 6,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[168.85]"
+          }
+        },
+        "step_rewards": [
+          37.06188888888889,
+          37.961888888888886,
+          6.641888888888889
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.30964581684027775,
+        "deadline_misses": 2
+      },
+      {
+        "hour": 7,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[168.85]"
+          }
+        },
+        "step_rewards": [
+          36.09188888888889,
+          36.99188888888889,
+          3.871888888888889
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.403096126953125,
+        "deadline_misses": 3
+      },
+      {
+        "hour": 8,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[174.64]"
+          }
+        },
+        "step_rewards": [
+          35.25388888888889,
+          36.153888888888886,
+          3.033888888888889
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.5050323852018228,
+        "deadline_misses": 3
+      }
+    ],
+    "conflict_count": 0,
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5130210359160698,
+    "deadline_misses": 3,
+    "emergency_charter_count": 3,
+    "deadlock_count": 0,
+    "urgent_injections": 0,
+    "urgent_task_completions": 0,
+    "renegotiation_count": 0,
+    "urgency_response_score": 1.0,
+    "metrics": {
+      "completion_rate": 40.0,
+      "on_time_rate": 40.0,
+      "resource_utilization": 100,
+      "cooperation_score": 0,
+      "total_reward": 633.9988888888888,
+      "fairness": 1.0,
+      "belief_accuracy": 0.5130210359160698,
+      "urgency_response_score": 1.0,
+      "emergency_charter_count": 3,
+      "deadlock_count": 0,
+      "renegotiation_count": 0,
+      "negotiation_health": 1.0
+    },
+    "epsilon_start": {
+      "rl_data_loader": 0.194,
+      "rl_data_cleaner": 0.194,
+      "rl_ml_trainer": 0.194
+    },
+    "epsilon_end": {
+      "rl_data_loader": 0.18818000000000001,
+      "rl_data_cleaner": 0.18818000000000001,
+      "rl_ml_trainer": 0.18818000000000001
+    },
+    "epsilon_mean": 0.18818000000000001,
+    "llm_calls": 14,
+    "llm_errors": 0,
+    "agent_mode": "hybrid",
+    "episode_binary_outcome": 1
+  },
+  {
+    "episode": 3,
+    "scenario": "fixed_default",
+    "track": "train",
+    "total_reward": 625.0513333333334,
+    "completed_tasks": 6,
+    "on_time_tasks": 6,
+    "conflicts": 0,
+    "agreements": 0,
+    "agent_actions": [
+      {
+        "hour": 1,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[594.66]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.36]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[180.39]"
+          }
+        }
+      },
+      {
+        "hour": 2,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[595.97]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.36]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[180.39]"
+          }
+        }
+      },
+      {
+        "hour": 3,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[595.97]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[586.59]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 6,
+            "gpu_needed": 1,
+            "memory_needed": 20,
+            "estimated_duration_min": 55,
+            "reasoning": "Train (aggressive) - Q[171.02]"
+          }
+        }
+      },
+      {
+        "hour": 4,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_3",
+            "cores_needed": 8,
+            "gpu_needed": 0,
+            "memory_needed": 10,
+            "estimated_duration_min": 35,
+            "reasoning": "Clean (aggressive) - Q[422.90]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[180.39]"
+          }
+        }
+      },
+      {
+        "hour": 5,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_advanced_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[165.65]"
+          }
+        }
+      },
+      {
+        "hour": 6,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[169.34]"
+          }
+        }
+      },
+      {
+        "hour": 7,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[169.34]"
+          }
+        }
+      },
+      {
+        "hour": 8,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[175.34]"
+          }
+        }
+      }
+    ],
+    "steps": [
+      {
+        "hour": 1,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[594.66]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.36]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[180.39]"
+          }
+        },
+        "step_rewards": [
+          15.358629629629629,
+          8.33862962962963,
+          8.33862962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.6194444444444445,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 2,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[595.97]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[584.36]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[180.39]"
+          }
+        },
+        "step_rewards": [
+          30.67262962962963,
+          24.552629629629628,
+          14.53262962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.7526388888888889,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 3,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[595.97]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[586.59]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 6,
+            "gpu_needed": 1,
+            "memory_needed": 20,
+            "estimated_duration_min": 55,
+            "reasoning": "Train (aggressive) - Q[171.02]"
+          }
+        },
+        "step_rewards": [
+          43.31192592592592,
+          38.09192592592592,
+          15.051925925925927
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.7936481481481481,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 4,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_3",
+            "cores_needed": 8,
+            "gpu_needed": 0,
+            "memory_needed": 10,
+            "estimated_duration_min": 35,
+            "reasoning": "Clean (aggressive) - Q[422.90]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[180.39]"
+          }
+        },
+        "step_rewards": [
+          41.848629629629635,
+          44.74862962962963,
+          19.30862962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.5149878472222222,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 5,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_advanced_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[165.65]"
+          }
+        },
+        "step_rewards": [
+          38.50874074074074,
+          39.40874074074074,
+          11.88874074074074
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.3106508159722222,
+        "deadline_misses": 1
+      },
+      {
+        "hour": 6,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[169.34]"
+          }
+        },
+        "step_rewards": [
+          36.8692962962963,
+          37.7692962962963,
+          6.449296296296296
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.3185896970486111,
+        "deadline_misses": 2
+      },
+      {
+        "hour": 7,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[169.34]"
+          }
+        },
+        "step_rewards": [
+          35.8992962962963,
+          36.7992962962963,
+          3.6792962962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.3661902046440972,
+        "deadline_misses": 3
+      },
+      {
+        "hour": 8,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[175.34]"
+          }
+        },
+        "step_rewards": [
+          34.98129629629629,
+          35.8812962962963,
+          2.761296296296296
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.47135696635199653,
+        "deadline_misses": 3
+      }
+    ],
+    "conflict_count": 0,
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5184383765900789,
+    "deadline_misses": 3,
+    "emergency_charter_count": 3,
+    "deadlock_count": 0,
+    "urgent_injections": 0,
+    "urgent_task_completions": 0,
+    "renegotiation_count": 0,
+    "urgency_response_score": 1.0,
+    "metrics": {
+      "completion_rate": 40.0,
+      "on_time_rate": 40.0,
+      "resource_utilization": 100,
+      "cooperation_score": 0,
+      "total_reward": 625.0513333333334,
+      "fairness": 1.0,
+      "belief_accuracy": 0.5184383765900789,
+      "urgency_response_score": 1.0,
+      "emergency_charter_count": 3,
+      "deadlock_count": 0,
+      "renegotiation_count": 0,
+      "negotiation_health": 1.0
+    },
+    "epsilon_start": {
+      "rl_data_loader": 0.18818000000000001,
+      "rl_data_cleaner": 0.18818000000000001,
+      "rl_ml_trainer": 0.18818000000000001
+    },
+    "epsilon_end": {
+      "rl_data_loader": 0.18253460000000002,
+      "rl_data_cleaner": 0.18253460000000002,
+      "rl_ml_trainer": 0.18253460000000002
+    },
+    "epsilon_mean": 0.18253460000000002,
+    "llm_calls": 14,
+    "llm_errors": 0,
+    "agent_mode": "hybrid",
+    "episode_binary_outcome": 1
+  },
+  {
+    "episode": 4,
+    "scenario": "fixed_default",
+    "track": "train",
+    "total_reward": 633.7984444444443,
+    "completed_tasks": 6,
+    "on_time_tasks": 6,
+    "conflicts": 0,
+    "agreements": 0,
+    "agent_actions": [
+      {
+        "hour": 1,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[595.86]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[586.63]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.56]"
+          }
+        }
+      },
+      {
+        "hour": 2,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[598.00]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[586.63]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.56]"
+          }
+        }
+      },
+      {
+        "hour": 3,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[598.00]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[586.59]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.56]"
+          }
+        }
+      },
+      {
+        "hour": 4,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[586.59]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.56]"
+          }
+        }
+      },
+      {
+        "hour": 5,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_advanced_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[166.07]"
+          }
+        }
+      },
+      {
+        "hour": 6,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[169.96]"
+          }
+        }
+      },
+      {
+        "hour": 7,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[169.96]"
+          }
+        }
+      },
+      {
+        "hour": 8,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[176.43]"
+          }
+        }
+      }
+    ],
+    "steps": [
+      {
+        "hour": 1,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[595.86]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[586.63]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.56]"
+          }
+        },
+        "step_rewards": [
+          15.358629629629629,
+          8.33862962962963,
+          8.33862962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.6194444444444445,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 2,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[598.00]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[586.63]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.56]"
+          }
+        },
+        "step_rewards": [
+          30.67262962962963,
+          24.552629629629628,
+          14.53262962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.7526388888888889,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 3,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[598.00]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[586.59]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.56]"
+          }
+        },
+        "step_rewards": [
+          43.474629629629625,
+          38.254629629629626,
+          18.21462962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.8392152777777778,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 4,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[586.59]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[178.56]"
+          }
+        },
+        "step_rewards": [
+          42.120629629629626,
+          48.020629629629624,
+          19.58062962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.5865677083333334,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 5,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_advanced_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[166.07]"
+          }
+        },
+        "step_rewards": [
+          38.60874074074074,
+          39.50874074074074,
+          11.98874074074074
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.2971362326388889,
+        "deadline_misses": 1
+      },
+      {
+        "hour": 6,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[169.96]"
+          }
+        },
+        "step_rewards": [
+          36.9692962962963,
+          37.8692962962963,
+          6.549296296296296
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.30980521788194443,
+        "deadline_misses": 2
+      },
+      {
+        "hour": 7,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[169.96]"
+          }
+        },
+        "step_rewards": [
+          35.9992962962963,
+          36.8992962962963,
+          3.7792962962962964
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.36048029318576386,
+        "deadline_misses": 3
+      },
+      {
+        "hour": 8,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[176.43]"
+          }
+        },
+        "step_rewards": [
+          35.1622962962963,
+          36.062296296296296,
+          2.942296296296296
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.505099732141927,
+        "deadline_misses": 3
+      }
+    ],
+    "conflict_count": 0,
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5337984744116211,
+    "deadline_misses": 3,
+    "emergency_charter_count": 3,
+    "deadlock_count": 0,
+    "urgent_injections": 0,
+    "urgent_task_completions": 0,
+    "renegotiation_count": 0,
+    "urgency_response_score": 1.0,
+    "metrics": {
+      "completion_rate": 40.0,
+      "on_time_rate": 40.0,
+      "resource_utilization": 100,
+      "cooperation_score": 0,
+      "total_reward": 633.7984444444443,
+      "fairness": 1.0,
+      "belief_accuracy": 0.5337984744116211,
+      "urgency_response_score": 1.0,
+      "emergency_charter_count": 3,
+      "deadlock_count": 0,
+      "renegotiation_count": 0,
+      "negotiation_health": 1.0
+    },
+    "epsilon_start": {
+      "rl_data_loader": 0.18253460000000002,
+      "rl_data_cleaner": 0.18253460000000002,
+      "rl_ml_trainer": 0.18253460000000002
+    },
+    "epsilon_end": {
+      "rl_data_loader": 0.177058562,
+      "rl_data_cleaner": 0.177058562,
+      "rl_ml_trainer": 0.177058562
+    },
+    "epsilon_mean": 0.177058562,
+    "llm_calls": 14,
+    "llm_errors": 0,
+    "agent_mode": "hybrid",
+    "episode_binary_outcome": 1
+  },
+  {
+    "episode": 5,
+    "scenario": "fixed_default",
+    "track": "train",
+    "total_reward": 626.4768888888889,
+    "completed_tasks": 6,
+    "on_time_tasks": 6,
+    "conflicts": 0,
+    "agreements": 0,
+    "agent_actions": [
+      {
+        "hour": 1,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[596.99]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[587.95]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[179.14]"
+          }
+        }
+      },
+      {
+        "hour": 2,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[599.77]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[587.95]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[179.14]"
+          }
+        }
+      },
+      {
+        "hour": 3,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[599.77]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_2",
+            "cores_needed": 6,
+            "gpu_needed": 0,
+            "memory_needed": 8,
+            "estimated_duration_min": 45,
+            "reasoning": "Clean (standard) - Q[363.96]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[179.14]"
+          }
+        }
+      },
+      {
+        "hour": 4,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[588.00]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 6,
+            "gpu_needed": 1,
+            "memory_needed": 20,
+            "estimated_duration_min": 55,
+            "reasoning": "Train (aggressive) - Q[175.19]"
+          }
+        }
+      },
+      {
+        "hour": 5,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_advanced_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[166.55]"
+          }
+        }
+      },
+      {
+        "hour": 6,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[170.54]"
+          }
+        }
+      },
+      {
+        "hour": 7,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[170.54]"
+          }
+        }
+      },
+      {
+        "hour": 8,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[176.82]"
+          }
+        }
+      }
+    ],
+    "steps": [
+      {
+        "hour": 1,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[596.99]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[587.95]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[179.14]"
+          }
+        },
+        "step_rewards": [
+          15.358629629629629,
+          8.33862962962963,
+          8.33862962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.6194444444444445,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 2,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_2",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[599.77]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_1",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[587.95]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[179.14]"
+          }
+        },
+        "step_rewards": [
+          30.67262962962963,
+          24.552629629629628,
+          14.53262962962963
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.7526388888888889,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 3,
+        "actions": {
+          "data_loader": {
+            "action": "run_task",
+            "task_id": "load_raw_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 30,
+            "reasoning": "Load (standard) - Q[599.77]"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_2",
+            "cores_needed": 6,
+            "gpu_needed": 0,
+            "memory_needed": 8,
+            "estimated_duration_min": 45,
+            "reasoning": "Clean (standard) - Q[363.96]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[179.14]"
+          }
+        },
+        "step_rewards": [
+          43.272814814814815,
+          35.052814814814816,
+          18.012814814814814
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.782224537037037,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 4,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "run_task",
+            "task_id": "clean_batch_3",
+            "cores_needed": 4,
+            "gpu_needed": 0,
+            "memory_needed": 6,
+            "estimated_duration_min": 60,
+            "reasoning": "Clean (conservative) - Q[588.00]"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_baseline_model",
+            "cores_needed": 6,
+            "gpu_needed": 1,
+            "memory_needed": 20,
+            "estimated_duration_min": 55,
+            "reasoning": "Train (aggressive) - Q[175.19]"
+          }
+        },
+        "step_rewards": [
+          41.94192592592593,
+          47.84192592592592,
+          16.401925925925926
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.5343148148148148,
+        "deadline_misses": 0
+      },
+      {
+        "hour": 5,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "train_advanced_model",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[166.55]"
+          }
+        },
+        "step_rewards": [
+          38.60874074074074,
+          39.50874074074074,
+          11.98874074074074
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.30724803819444446,
+        "deadline_misses": 1
+      },
+      {
+        "hour": 6,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[170.54]"
+          }
+        },
+        "step_rewards": [
+          36.9692962962963,
+          37.8692962962963,
+          6.549296296296296
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.31637789149305556,
+        "deadline_misses": 2
+      },
+      {
+        "hour": 7,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[170.54]"
+          }
+        },
+        "step_rewards": [
+          35.9992962962963,
+          36.8992962962963,
+          3.7792962962962964
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.36475253103298605,
+        "deadline_misses": 3
+      },
+      {
+        "hour": 8,
+        "actions": {
+          "data_loader": {
+            "action": "wait"
+          },
+          "data_cleaner": {
+            "action": "wait"
+          },
+          "ml_trainer": {
+            "action": "run_task",
+            "task_id": "validate_models",
+            "cores_needed": 4,
+            "gpu_needed": 1,
+            "memory_needed": 16,
+            "estimated_duration_min": 70,
+            "reasoning": "Train (standard) - Q[176.82]"
+          }
+        },
+        "step_rewards": [
+          35.102296296296295,
+          36.0022962962963,
+          2.882296296296296
+        ],
+        "conflict_count": 0,
+        "coalitions_formed": 0,
+        "contracts_kept": 0,
+        "contracts_broken": 0,
+        "fairness_score": 1.0,
+        "belief_accuracy": 0.48010904785373265,
+        "deadline_misses": 3
+      }
+    ],
+    "conflict_count": 0,
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5196387742199254,
+    "deadline_misses": 3,
+    "emergency_charter_count": 3,
+    "deadlock_count": 0,
+    "urgent_injections": 0,
+    "urgent_task_completions": 0,
+    "renegotiation_count": 0,
+    "urgency_response_score": 1.0,
+    "metrics": {
+      "completion_rate": 40.0,
+      "on_time_rate": 40.0,
+      "resource_utilization": 100,
+      "cooperation_score": 0,
+      "total_reward": 626.4768888888889,
+      "fairness": 1.0,
+      "belief_accuracy": 0.5196387742199254,
+      "urgency_response_score": 1.0,
+      "emergency_charter_count": 3,
+      "deadlock_count": 0,
+      "renegotiation_count": 0,
+      "negotiation_health": 1.0
+    },
+    "epsilon_start": {
+      "rl_data_loader": 0.177058562,
+      "rl_data_cleaner": 0.177058562,
+      "rl_ml_trainer": 0.177058562
+    },
+    "epsilon_end": {
+      "rl_data_loader": 0.17174680514,
+      "rl_data_cleaner": 0.17174680514,
+      "rl_ml_trainer": 0.17174680514
+    },
+    "epsilon_mean": 0.17174680514,
+    "llm_calls": 14,
+    "llm_errors": 0,
+    "agent_mode": "hybrid",
+    "episode_binary_outcome": 1
+  }
+]

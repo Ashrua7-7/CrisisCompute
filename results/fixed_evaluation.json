@@ -1,0 +1,34 @@
+{
+  "episodes": 6,
+  "seed": 42,
+  "fixed_plan": [
+    {
+      "name": "fixed_eval_stable",
+      "crisis_mode_enabled": false
+    }
+  ],
+  "trained_summary": {
+    "avg_total_reward": 631.379,
+    "avg_completion_rate": 40.0,
+    "avg_on_time_rate": 40.0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5230007933273052,
+    "avg_urgency_response_score": 1.0
+  },
+  "fresh_summary": {
+    "avg_total_reward": 605.604925925926,
+    "avg_completion_rate": 40.0,
+    "avg_on_time_rate": 40.0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.45936244897590545,
+    "avg_urgency_response_score": 1.0
+  },
+  "delta": {
+    "avg_total_reward": 25.774074074074065,
+    "avg_completion_rate": 0.0,
+    "avg_on_time_rate": 0.0,
+    "avg_fairness_score": 0.0,
+    "avg_belief_accuracy": 0.06363834435139976,
+    "avg_urgency_response_score": 0.0
+  }
+}

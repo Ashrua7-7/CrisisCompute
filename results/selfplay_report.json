@@ -1,0 +1,317 @@
+{
+  "enabled": true,
+  "curriculum_history": [
+    {
+      "phase": 1,
+      "level": 0,
+      "promoted": false,
+      "completion": 0.4,
+      "on_time": 0.4,
+      "fairness": 1.0,
+      "belief_accuracy": 0.5245734921116355,
+      "urgency_response_score": 1.0,
+      "avg_total_reward": 629.7520666666667,
+      "strict_gate_hit": true,
+      "adaptive_gate_hit": false
+    }
+  ],
+  "league_recent_snapshots": [
+    {
+      "phase": 1,
+      "summary": {
+        "avg_total_reward": 629.7520666666667,
+        "avg_completion_rate": 40.0,
+        "avg_on_time_rate": 40.0,
+        "avg_fairness_score": 1.0,
+        "avg_belief_accuracy": 0.5245734921116355,
+        "avg_urgency_response_score": 1.0
+      },
+      "q_state_counts": {
+        "rl_data_loader": 5,
+        "rl_data_cleaner": 5,
+        "rl_ml_trainer": 6
+      },
+      "agent_snapshots": {
+        "rl_data_loader": {
+          "name": "rl_data_loader",
+          "q_table": {
+            "('many', 'none', 'sparse', 'low', 'relaxed', 'stuck')": {
+              "run_aggressive": 45.17913187755774,
+              "run_standard": 349.1729508216169,
+              "run_minimal": 130.59130705295036
+            },
+            "('few', 'none', 'sparse', 'low', 'relaxed', 'progressing')": {
+              "run_standard": 349.0360430880854,
+              "wait": 353.1822569864486,
+              "run_minimal": 167.22958362426633,
+              "run_aggressive": 121.36250425754103
+            },
+            "('empty', 'none', 'sparse', 'low', 'relaxed', 'advanced')": {
+              "wait": 344.7247878065941
+            },
+            "('empty', 'none', 'sparse', 'low', 'moderate', 'advanced')": {
+              "wait": 335.98444506325325
+            },
+            "('empty', 'none', 'sparse', 'low', 'urgent', 'advanced')": {
+              "run_standard": 325.06876186184206,
+              "wait": 0.0,
+              "run_aggressive": 87.9744535106338,
+              "run_minimal": 120.6966425269242
+            }
+          },
+          "epsilon": 0.17174680514
+        },
+        "rl_data_cleaner": {
+          "name": "rl_data_cleaner",
+          "q_table": {
+            "('many', 'none', 'sparse', 'low', 'relaxed', 'stuck')": {
+              "run_minimal": 353.08206034270154,
+              "run_aggressive": 96.99449645513263,
+              "run_standard": 275.2880098284308
+            },
+            "('few', 'none', 'sparse', 'low', 'relaxed', 'progressing')": {
+              "run_minimal": 347.61926639848264,
+              "wait": 334.93471179348614,
+              "run_aggressive": 116.67842115537155,
+              "run_standard": 157.83076450311376
+            },
+            "('empty', 'none', 'sparse', 'low', 'relaxed', 'advanced')": {
+              "wait": 333.3098451342187
+            },
+            "('empty', 'none', 'sparse', 'low', 'moderate', 'advanced')": {
+              "wait": 332.68637396540254
+            },
+            "('empty', 'none', 'sparse', 'low', 'urgent', 'advanced')": {
+              "run_minimal": 320.3346336456568,
+              "wait": 0.0,
+              "run_standard": 40.95347954884035
+            }
+          },
+          "epsilon": 0.17174680514
+        },
+        "rl_ml_trainer": {
+          "name": "rl_ml_trainer",
+          "q_table": {
+            "('many', 'none', 'sparse', 'low', 'relaxed', 'stuck')": {
+              "run_standard": 102.69942568139942,
+              "run_aggressive": 90.54317580468724,
+              "run_minimal": 45.04389889527309
+            },
+            "('few', 'some', 'sparse', 'low', 'relaxed', 'stuck')": {
+              "run_standard": 84.25178315943035,
+              "run_aggressive": 56.826778790569534,
+              "run_minimal": 42.0857761244769
+            },
+            "('few', 'busy', 'sparse', 'low', 'moderate', 'stuck')": {
+              "run_standard": 91.66611244506277,
+              "run_aggressive": 30.414057626531683,
+              "run_minimal": 49.7711733572293
+            },
+            "('few', 'busy', 'sparse', 'low', 'urgent', 'stuck')": {
+              "run_standard": 95.75276428927256,
+              "run_aggressive": 38.737892495360626,
+              "run_minimal": 36.387542714284635
+            },
+            "('many', 'some', 'sparse', 'low', 'relaxed', 'stuck')": {
+              "run_standard": 0.0,
+              "run_minimal": 1.367737557747669
+            },
+            "('few', 'some', 'sparse', 'low', 'moderate', 'stuck')": {
+              "run_aggressive": 29.138818154648447,
+              "run_minimal": 28.229421243883813,
+              "run_standard": 57.97720339497283
+            }
+          },
+          "epsilon": 0.17174680514
+        }
+      }
+    },
+    {
+      "phase": 2,
+      "summary": {
+        "avg_total_reward": 614.7644444444444,
+        "avg_completion_rate": 40.0,
+        "avg_on_time_rate": 40.0,
+        "avg_fairness_score": 1.0,
+        "avg_belief_accuracy": 0.5093710565405274,
+        "avg_urgency_response_score": 1.0
+      },
+      "q_state_counts": {
+        "rl_data_loader": 5,
+        "rl_data_cleaner": 5,
+        "rl_ml_trainer": 6
+      },
+      "agent_snapshots": {
+        "rl_data_loader": {
+          "name": "rl_data_loader",
+          "q_table": {
+            "('many', 'none', 'sparse', 'low', 'relaxed', 'stuck')": {
+              "run_aggressive": 45.17913187755774,
+              "run_standard": 353.37052692827194,
+              "run_minimal": 130.59130705295036
+            },
+            "('few', 'none', 'sparse', 'low', 'relaxed', 'progressing')": {
+              "run_standard": 354.50799349420424,
+              "wait": 357.29273725131,
+              "run_minimal": 167.22958362426633,
+              "run_aggressive": 121.36250425754103
+            },
+            "('empty', 'none', 'sparse', 'low', 'relaxed', 'advanced')": {
+              "wait": 350.0252836761794
+            },
+            "('empty', 'none', 'sparse', 'low', 'moderate', 'advanced')": {
+              "wait": 339.61414662653766
+            },
+            "('empty', 'none', 'sparse', 'low', 'urgent', 'advanced')": {
+              "run_standard": 325.06876186184206,
+              "wait": 0.0,
+              "run_aggressive": 87.9744535106338,
+              "run_minimal": 120.6966425269242
+            }
+          },
+          "epsilon": 0.194
+        },
+        "rl_data_cleaner": {
+          "name": "rl_data_cleaner",
+          "q_table": {
+            "('many', 'none', 'sparse', 'low', 'relaxed', 'stuck')": {
+              "run_minimal": 356.9249451007398,
+              "run_aggressive": 96.99449645513263,
+              "run_standard": 294.35561091874047
+            },
+            "('few', 'none', 'sparse', 'low', 'relaxed', 'progressing')": {
+              "run_minimal": 351.88444542564633,
+              "wait": 340.0912328470829,
+              "run_aggressive": 116.67842115537155,
+              "run_standard": 157.83076450311376
+            },
+            "('empty', 'none', 'sparse', 'low', 'relaxed', 'advanced')": {
+              "wait": 338.4553143341138
+            },
+            "('empty', 'none', 'sparse', 'low', 'moderate', 'advanced')": {
+              "wait": 336.18510959414465
+            },
+            "('empty', 'none', 'sparse', 'low', 'urgent', 'advanced')": {
+              "run_minimal": 320.3346336456568,
+              "wait": 0.0,
+              "run_standard": 40.95347954884035
+            }
+          },
+          "epsilon": 0.194
+        },
+        "rl_ml_trainer": {
+          "name": "rl_ml_trainer",
+          "q_table": {
+            "('many', 'none', 'sparse', 'low', 'relaxed', 'stuck')": {
+              "run_standard": 101.21784326750385,
+              "run_aggressive": 95.12352323062557,
+              "run_minimal": 61.46786184486125
+            },
+            "('few', 'some', 'sparse', 'low', 'relaxed', 'stuck')": {
+              "run_standard": 84.25178315943035,
+              "run_aggressive": 66.02070246529622,
+              "run_minimal": 42.0857761244769
+            },
+            "('few', 'busy', 'sparse', 'low', 'moderate', 'stuck')": {
+              "run_standard": 92.77937303770635,
+              "run_aggressive": 30.414057626531683,
+              "run_minimal": 49.7711733572293
+            },
+            "('few', 'busy', 'sparse', 'low', 'urgent', 'stuck')": {
+              "run_standard": 95.75276428927256,
+              "run_aggressive": 38.737892495360626,
+              "run_minimal": 36.387542714284635
+            },
+            "('many', 'some', 'sparse', 'low', 'relaxed', 'stuck')": {
+              "run_standard": 0.0,
+              "run_minimal": 1.367737557747669
+            },
+            "('few', 'some', 'sparse', 'low', 'moderate', 'stuck')": {
+              "run_aggressive": 29.138818154648447,
+              "run_minimal": 28.229421243883813,
+              "run_standard": 57.97720339497283
+            }
+          },
+          "epsilon": 0.194
+        }
+      }
+    }
+  ],
+  "league_duels": [
+    {
+      "phase": 2,
+      "learner_agent": "ml_trainer",
+      "opponent_phase": 1,
+      "reward": 628.3488888888887,
+      "completion_rate": 40.0,
+      "scenario": "light_gpu_outage"
+    }
+  ],
+  "phases": 2,
+  "phase_episodes": 5,
+  "challenge_templates": {
+    "0": [
+      {
+        "name": "stable_market",
+        "crisis_mode_enabled": false
+      }
+    ],
+    "1": [
+      {
+        "name": "light_gpu_outage",
+        "crisis_mode_enabled": true,
+        "crisis_gpu_outage_hour": 4
+      },
+      {
+        "name": "stable_market",
+        "crisis_mode_enabled": false
+      }
+    ],
+    "2": [
+      {
+        "name": "urgent_injection",
+        "crisis_mode_enabled": true,
+        "crisis_urgent_task_hour": 3
+      },
+      {
+        "name": "gpu_outage_plus_urgent",
+        "crisis_mode_enabled": true,
+        "crisis_gpu_outage_hour": 3,
+        "crisis_urgent_task_hour": 5
+      }
+    ],
+    "3": [
+      {
+        "name": "early_outage",
+        "crisis_mode_enabled": true,
+        "crisis_gpu_outage_hour": 2,
+        "crisis_urgent_task_hour": 4
+      },
+      {
+        "name": "late_urgent_spike",
+        "crisis_mode_enabled": true,
+        "crisis_urgent_task_hour": 2
+      }
+    ],
+    "4": [
+      {
+        "name": "compound_crisis_a",
+        "crisis_mode_enabled": true,
+        "crisis_gpu_outage_hour": 2,
+        "crisis_urgent_task_hour": 3
+      },
+      {
+        "name": "compound_crisis_b",
+        "crisis_mode_enabled": true,
+        "crisis_gpu_outage_hour": 3,
+        "crisis_urgent_task_hour": 2
+      }
+    ]
+  },
+  "level_progression_summary": {
+    "level_0": {
+      "episodes": 7,
+      "mean_reward": 627.4105238095237
+    }
+  }
+}

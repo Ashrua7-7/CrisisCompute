@@ -1,0 +1,152 @@
+{
+  "enabled": true,
+  "curriculum_history": [
+    {
+      "phase": 1,
+      "level": 0,
+      "promoted": false,
+      "completion": 0.4,
+      "on_time": 0.4,
+      "fairness": 1.0,
+      "belief_accuracy": 0.524896653130335,
+      "urgency_response_score": 1.0,
+      "avg_total_reward": 631.910111111111,
+      "strict_gate_hit": true,
+      "adaptive_gate_hit": false
+    },
+    {
+      "phase": 2,
+      "level": 1,
+      "promoted": true,
+      "completion": 0.4,
+      "on_time": 0.4,
+      "fairness": 1.0,
+      "belief_accuracy": 0.5178986475959382,
+      "urgency_response_score": 1.0,
+      "avg_total_reward": 630.5197777777779,
+      "strict_gate_hit": true,
+      "adaptive_gate_hit": false
+    }
+  ],
+  "league_duels": [
+    {
+      "phase": 2,
+      "learner_agent": "ml_trainer",
+      "opponent_phase": 1,
+      "reward": 600.3362222222222,
+      "completion_rate": 40.0,
+      "scenario": "urgent_injection"
+    }
+  ],
+  "phase_episodes": 5,
+  "total_phases": 2,
+  "challenge_templates": {
+    "0": [
+      {
+        "name": "stable_market",
+        "crisis_mode_enabled": false
+      }
+    ],
+    "1": [
+      {
+        "name": "light_gpu_outage",
+        "crisis_mode_enabled": true,
+        "crisis_gpu_outage_hour": 4
+      },
+      {
+        "name": "stable_market",
+        "crisis_mode_enabled": false
+      }
+    ],
+    "2": [
+      {
+        "name": "urgent_injection",
+        "crisis_mode_enabled": true,
+        "crisis_urgent_task_hour": 3
+      },
+      {
+        "name": "gpu_outage_plus_urgent",
+        "crisis_mode_enabled": true,
+        "crisis_gpu_outage_hour": 3,
+        "crisis_urgent_task_hour": 5
+      }
+    ],
+    "3": [
+      {
+        "name": "early_outage",
+        "crisis_mode_enabled": true,
+        "crisis_gpu_outage_hour": 2,
+        "crisis_urgent_task_hour": 4
+      },
+      {
+        "name": "late_urgent_spike",
+        "crisis_mode_enabled": true,
+        "crisis_urgent_task_hour": 2
+      }
+    ],
+    "4": [
+      {
+        "name": "compound_crisis_a",
+        "crisis_mode_enabled": true,
+        "crisis_gpu_outage_hour": 2,
+        "crisis_urgent_task_hour": 3
+      },
+      {
+        "name": "compound_crisis_b",
+        "crisis_mode_enabled": true,
+        "crisis_gpu_outage_hour": 3,
+        "crisis_urgent_task_hour": 2
+      }
+    ]
+  },
+  "level_progression_summary": {
+    "level_0": {
+      "episodes": 6,
+      "mean_reward": 631.6783888888888
+    },
+    "level_1": {
+      "episodes": 1,
+      "mean_reward": 600.3362222222222
+    }
+  },
+  "baseline_delta": {
+    "avg_total_reward": 34.688436507936444,
+    "avg_completion_rate": 0.0,
+    "avg_on_time_rate": 0.0,
+    "avg_fairness_score": 0.0,
+    "avg_belief_accuracy": 0.0605797697912383,
+    "avg_urgency_response_score": -0.1428571428571429
+  },
+  "fixed_eval_delta": {
+    "avg_total_reward": 25.774074074074065,
+    "avg_completion_rate": 0.0,
+    "avg_on_time_rate": 0.0,
+    "avg_fairness_score": 0.0,
+    "avg_belief_accuracy": 0.06363834435139976,
+    "avg_urgency_response_score": 0.0
+  },
+  "holdout_delta": {
+    "avg_total_reward": 9.083259259259307,
+    "avg_completion_rate": 0.0,
+    "avg_on_time_rate": 0.0,
+    "avg_fairness_score": 0.0,
+    "avg_belief_accuracy": 0.02892458823728966,
+    "avg_urgency_response_score": 0.0
+  },
+  "holdout_trained_summary": {
+    "avg_total_reward": 604.7112777777778,
+    "avg_completion_rate": 40.0,
+    "avg_on_time_rate": 40.0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.517492651971089,
+    "avg_urgency_response_score": 0.0
+  },
+  "holdout_fresh_summary": {
+    "avg_total_reward": 595.6280185185185,
+    "avg_completion_rate": 40.0,
+    "avg_on_time_rate": 40.0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.4885680637337993,
+    "avg_urgency_response_score": 0.0
+  }
+}

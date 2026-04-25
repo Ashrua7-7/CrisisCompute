@@ -1,0 +1,2602 @@
+[
+  {
+    "episode": 1,
+    "step": 1,
+    "hour": 1,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.5625,
+      "data_cleaner": 0.5625,
+      "ml_trainer": 0.7333333333333334
+    },
+    "avg_belief_accuracy": 0.6194444444444445,
+    "step_rewards": {
+      "data_loader": 12.479,
+      "data_cleaner": 2.459,
+      "ml_trainer": 2.459
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_cleaner blocked by dependency for clean_batch_1",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_1 to data_loader"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 1,
+    "step": 2,
+    "hour": 2,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.715625,
+      "data_cleaner": 0.715625,
+      "ml_trainer": 0.8266666666666667
+    },
+    "avg_belief_accuracy": 0.7526388888888889,
+    "step_rewards": {
+      "data_loader": 27.793,
+      "data_cleaner": 18.673,
+      "ml_trainer": 8.653
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_2 to data_loader",
+      "allocated clean_batch_1 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 1,
+    "step": 3,
+    "hour": 3,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.81515625,
+      "data_cleaner": 0.81515625,
+      "ml_trainer": 0.8873333333333333
+    },
+    "avg_belief_accuracy": 0.8392152777777778,
+    "step_rewards": {
+      "data_loader": 40.595,
+      "data_cleaner": 32.375,
+      "ml_trainer": 12.335
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_3 to data_loader",
+      "allocated clean_batch_2 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 1,
+    "step": 4,
+    "hour": 4,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "ml_trainer",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.8798515625000001,
+      "data_cleaner": 0.41646822916666665,
+      "ml_trainer": 0.46338333333333337
+    },
+    "avg_belief_accuracy": 0.5865677083333334,
+    "step_rewards": {
+      "data_loader": 41.241,
+      "data_cleaner": 42.141,
+      "ml_trainer": 13.701
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "allocated train_baseline_model to ml_trainer",
+      "allocated clean_batch_3 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 1,
+    "step": 5,
+    "hour": 5,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_advanced_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "ml_trainer",
+        "task_id": "train_advanced_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.44570434895833333,
+      "data_cleaner": 0.44570434895833333,
+      "ml_trainer": 0.0
+    },
+    "avg_belief_accuracy": 0.2971362326388889,
+    "step_rewards": {
+      "data_loader": 37.743,
+      "data_cleaner": 38.643,
+      "ml_trainer": 9.123
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "allocated train_advanced_model to ml_trainer"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 1,
+    "step": 6,
+    "hour": 6,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.46470782682291667,
+      "data_cleaner": 0.46470782682291667,
+      "ml_trainer": 0.0
+    },
+    "avg_belief_accuracy": 0.30980521788194443,
+    "step_rewards": {
+      "data_loader": 36.173,
+      "data_cleaner": 37.073,
+      "ml_trainer": 5.753
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 1,
+    "step": 7,
+    "hour": 7,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.4770600874348958,
+      "data_cleaner": 0.5407204397786458,
+      "ml_trainer": 0.06366035234374995
+    },
+    "avg_belief_accuracy": 0.36048029318576386,
+    "step_rewards": {
+      "data_loader": 35.203,
+      "data_cleaner": 36.103,
+      "ml_trainer": 2.983
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 1,
+    "step": 8,
+    "hour": 8,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.5412703691894531,
+      "data_cleaner": 0.7014682858561198,
+      "ml_trainer": 0.27256054138020835
+    },
+    "avg_belief_accuracy": 0.505099732141927,
+    "step_rewards": {
+      "data_loader": 34.366,
+      "data_cleaner": 35.266,
+      "ml_trainer": 2.146
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 2,
+    "step": 1,
+    "hour": 1,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.5625,
+      "data_cleaner": 0.5625,
+      "ml_trainer": 0.7333333333333334
+    },
+    "avg_belief_accuracy": 0.6194444444444445,
+    "step_rewards": {
+      "data_loader": 12.479,
+      "data_cleaner": 2.459,
+      "ml_trainer": 2.459
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_cleaner blocked by dependency for clean_batch_1",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_1 to data_loader"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 2,
+    "step": 2,
+    "hour": 2,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.715625,
+      "data_cleaner": 0.715625,
+      "ml_trainer": 0.8266666666666667
+    },
+    "avg_belief_accuracy": 0.7526388888888889,
+    "step_rewards": {
+      "data_loader": 27.793,
+      "data_cleaner": 18.673,
+      "ml_trainer": 8.653
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_2 to data_loader",
+      "allocated clean_batch_1 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 2,
+    "step": 3,
+    "hour": 3,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_3",
+        "cpu": 2,
+        "gpu": 0,
+        "memory": 4
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_2",
+        "cpu": 6,
+        "gpu": 0,
+        "memory": 8
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_3",
+        "cpu": 2,
+        "gpu": 0,
+        "memory": 4
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_2",
+        "cpu": 6,
+        "gpu": 0,
+        "memory": 8
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.7296701388888889,
+      "data_cleaner": 0.6707812499999999,
+      "ml_trainer": 0.6574722222222222
+    },
+    "avg_belief_accuracy": 0.6859745370370369,
+    "step_rewards": {
+      "data_loader": 40.227,
+      "data_cleaner": 32.007,
+      "ml_trainer": 11.967
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_3 to data_loader",
+      "allocated clean_batch_2 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 2,
+    "step": 4,
+    "hour": 4,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "ml_trainer",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.8770112847222222,
+      "data_cleaner": 0.41646822916666665,
+      "ml_trainer": 0.4605430555555555
+    },
+    "avg_belief_accuracy": 0.5846741898148148,
+    "step_rewards": {
+      "data_loader": 41.237,
+      "data_cleaner": 42.137,
+      "ml_trainer": 13.697
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "allocated train_baseline_model to ml_trainer",
+      "allocated clean_batch_3 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 2,
+    "step": 5,
+    "hour": 5,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_advanced_model",
+        "cpu": 6,
+        "gpu": 1,
+        "memory": 20
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "ml_trainer",
+        "task_id": "train_advanced_model",
+        "cpu": 6,
+        "gpu": 1,
+        "memory": 20
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.3654928472222222,
+      "data_cleaner": 0.3654928472222222,
+      "ml_trainer": 0.0
+    },
+    "avg_belief_accuracy": 0.24366189814814812,
+    "step_rewards": {
+      "data_loader": 37.743,
+      "data_cleaner": 38.643,
+      "ml_trainer": 9.123
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "allocated train_advanced_model to ml_trainer"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 2,
+    "step": 6,
+    "hour": 6,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.46446872526041666,
+      "data_cleaner": 0.46446872526041666,
+      "ml_trainer": 0.0
+    },
+    "avg_belief_accuracy": 0.30964581684027775,
+    "step_rewards": {
+      "data_loader": 36.173,
+      "data_cleaner": 37.073,
+      "ml_trainer": 5.753
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 2,
+    "step": 7,
+    "hour": 7,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.47690467141927084,
+      "data_cleaner": 0.6046441904296875,
+      "ml_trainer": 0.12773951901041664
+    },
+    "avg_belief_accuracy": 0.403096126953125,
+    "step_rewards": {
+      "data_loader": 35.203,
+      "data_cleaner": 36.103,
+      "ml_trainer": 2.983
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 2,
+    "step": 8,
+    "hour": 8,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.4995178904459635,
+      "data_cleaner": 0.7430187237792967,
+      "ml_trainer": 0.2725605413802082
+    },
+    "avg_belief_accuracy": 0.5050323852018228,
+    "step_rewards": {
+      "data_loader": 34.365,
+      "data_cleaner": 35.265,
+      "ml_trainer": 2.145
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 3,
+    "step": 1,
+    "hour": 1,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.5625,
+      "data_cleaner": 0.5625,
+      "ml_trainer": 0.7333333333333334
+    },
+    "avg_belief_accuracy": 0.6194444444444445,
+    "step_rewards": {
+      "data_loader": 12.479,
+      "data_cleaner": 2.459,
+      "ml_trainer": 2.459
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_cleaner blocked by dependency for clean_batch_1",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_1 to data_loader"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 3,
+    "step": 2,
+    "hour": 2,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.715625,
+      "data_cleaner": 0.715625,
+      "ml_trainer": 0.8266666666666667
+    },
+    "avg_belief_accuracy": 0.7526388888888889,
+    "step_rewards": {
+      "data_loader": 27.793,
+      "data_cleaner": 18.673,
+      "ml_trainer": 8.653
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_2 to data_loader",
+      "allocated clean_batch_1 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 3,
+    "step": 3,
+    "hour": 3,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 6,
+        "gpu": 1,
+        "memory": 20
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.7468055555555555,
+      "data_cleaner": 0.7468055555555555,
+      "ml_trainer": 0.8873333333333333
+    },
+    "avg_belief_accuracy": 0.7936481481481481,
+    "step_rewards": {
+      "data_loader": 40.486,
+      "data_cleaner": 32.266,
+      "ml_trainer": 12.226
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_3 to data_loader",
+      "allocated clean_batch_2 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 3,
+    "step": 4,
+    "hour": 4,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_3",
+        "cpu": 8,
+        "gpu": 0,
+        "memory": 10
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "ml_trainer",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_3",
+        "cpu": 8,
+        "gpu": 0,
+        "memory": 10
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.7724817708333334,
+      "data_cleaner": 0.4476557291666666,
+      "ml_trainer": 0.32482604166666673
+    },
+    "avg_belief_accuracy": 0.5149878472222222,
+    "step_rewards": {
+      "data_loader": 41.069,
+      "data_cleaner": 41.969,
+      "ml_trainer": 13.529
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "allocated train_baseline_model to ml_trainer",
+      "allocated clean_batch_3 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 3,
+    "step": 5,
+    "hour": 5,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_advanced_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "ml_trainer",
+        "task_id": "train_advanced_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.4659762239583333,
+      "data_cleaner": 0.4659762239583333,
+      "ml_trainer": 0.0
+    },
+    "avg_belief_accuracy": 0.3106508159722222,
+    "step_rewards": {
+      "data_loader": 37.743,
+      "data_cleaner": 38.643,
+      "ml_trainer": 9.123
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "allocated train_advanced_model to ml_trainer"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 3,
+    "step": 6,
+    "hour": 6,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.47788454557291665,
+      "data_cleaner": 0.47788454557291665,
+      "ml_trainer": 0.0
+    },
+    "avg_belief_accuracy": 0.3185896970486111,
+    "step_rewards": {
+      "data_loader": 36.173,
+      "data_cleaner": 37.073,
+      "ml_trainer": 5.753
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 3,
+    "step": 7,
+    "hour": 7,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.4856249546223958,
+      "data_cleaner": 0.5492853069661457,
+      "ml_trainer": 0.06366035234374995
+    },
+    "avg_belief_accuracy": 0.3661902046440972,
+    "step_rewards": {
+      "data_loader": 35.203,
+      "data_cleaner": 36.103,
+      "ml_trainer": 2.983
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 3,
+    "step": 8,
+    "hour": 8,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.4906562205045573,
+      "data_cleaner": 0.7070354495279948,
+      "ml_trainer": 0.21637922902343748
+    },
+    "avg_belief_accuracy": 0.47135696635199653,
+    "step_rewards": {
+      "data_loader": 34.285,
+      "data_cleaner": 35.185,
+      "ml_trainer": 2.065
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 4,
+    "step": 1,
+    "hour": 1,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.5625,
+      "data_cleaner": 0.5625,
+      "ml_trainer": 0.7333333333333334
+    },
+    "avg_belief_accuracy": 0.6194444444444445,
+    "step_rewards": {
+      "data_loader": 12.479,
+      "data_cleaner": 2.459,
+      "ml_trainer": 2.459
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_cleaner blocked by dependency for clean_batch_1",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_1 to data_loader"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 4,
+    "step": 2,
+    "hour": 2,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.715625,
+      "data_cleaner": 0.715625,
+      "ml_trainer": 0.8266666666666667
+    },
+    "avg_belief_accuracy": 0.7526388888888889,
+    "step_rewards": {
+      "data_loader": 27.793,
+      "data_cleaner": 18.673,
+      "ml_trainer": 8.653
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_2 to data_loader",
+      "allocated clean_batch_1 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 4,
+    "step": 3,
+    "hour": 3,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.81515625,
+      "data_cleaner": 0.81515625,
+      "ml_trainer": 0.8873333333333333
+    },
+    "avg_belief_accuracy": 0.8392152777777778,
+    "step_rewards": {
+      "data_loader": 40.595,
+      "data_cleaner": 32.375,
+      "ml_trainer": 12.335
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_3 to data_loader",
+      "allocated clean_batch_2 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 4,
+    "step": 4,
+    "hour": 4,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "ml_trainer",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.8798515625000001,
+      "data_cleaner": 0.41646822916666665,
+      "ml_trainer": 0.46338333333333337
+    },
+    "avg_belief_accuracy": 0.5865677083333334,
+    "step_rewards": {
+      "data_loader": 41.241,
+      "data_cleaner": 42.141,
+      "ml_trainer": 13.701
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "allocated train_baseline_model to ml_trainer",
+      "allocated clean_batch_3 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 4,
+    "step": 5,
+    "hour": 5,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_advanced_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "ml_trainer",
+        "task_id": "train_advanced_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.44570434895833333,
+      "data_cleaner": 0.44570434895833333,
+      "ml_trainer": 0.0
+    },
+    "avg_belief_accuracy": 0.2971362326388889,
+    "step_rewards": {
+      "data_loader": 37.743,
+      "data_cleaner": 38.643,
+      "ml_trainer": 9.123
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "allocated train_advanced_model to ml_trainer"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 4,
+    "step": 6,
+    "hour": 6,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.46470782682291667,
+      "data_cleaner": 0.46470782682291667,
+      "ml_trainer": 0.0
+    },
+    "avg_belief_accuracy": 0.30980521788194443,
+    "step_rewards": {
+      "data_loader": 36.173,
+      "data_cleaner": 37.073,
+      "ml_trainer": 5.753
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 4,
+    "step": 7,
+    "hour": 7,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.4770600874348958,
+      "data_cleaner": 0.5407204397786458,
+      "ml_trainer": 0.06366035234374995
+    },
+    "avg_belief_accuracy": 0.36048029318576386,
+    "step_rewards": {
+      "data_loader": 35.203,
+      "data_cleaner": 36.103,
+      "ml_trainer": 2.983
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 4,
+    "step": 8,
+    "hour": 8,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.5412703691894531,
+      "data_cleaner": 0.7014682858561198,
+      "ml_trainer": 0.27256054138020835
+    },
+    "avg_belief_accuracy": 0.505099732141927,
+    "step_rewards": {
+      "data_loader": 34.366,
+      "data_cleaner": 35.266,
+      "ml_trainer": 2.146
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 5,
+    "step": 1,
+    "hour": 1,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.5625,
+      "data_cleaner": 0.5625,
+      "ml_trainer": 0.7333333333333334
+    },
+    "avg_belief_accuracy": 0.6194444444444445,
+    "step_rewards": {
+      "data_loader": 12.479,
+      "data_cleaner": 2.459,
+      "ml_trainer": 2.459
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_cleaner blocked by dependency for clean_batch_1",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_1 to data_loader"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 5,
+    "step": 2,
+    "hour": 2,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_2",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_1",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.715625,
+      "data_cleaner": 0.715625,
+      "ml_trainer": 0.8266666666666667
+    },
+    "avg_belief_accuracy": 0.7526388888888889,
+    "step_rewards": {
+      "data_loader": 27.793,
+      "data_cleaner": 18.673,
+      "ml_trainer": 8.653
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_2 to data_loader",
+      "allocated clean_batch_1 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 5,
+    "step": 3,
+    "hour": 3,
+    "agent_demands": {
+      "data_loader": {
+        "action": "run_task",
+        "task_id": "load_raw_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_2",
+        "cpu": 6,
+        "gpu": 0,
+        "memory": 8
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "data_loader",
+        "task_id": "load_raw_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_2",
+        "cpu": 6,
+        "gpu": 0,
+        "memory": 8
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.7296701388888889,
+      "data_cleaner": 0.81515625,
+      "ml_trainer": 0.8018472222222222
+    },
+    "avg_belief_accuracy": 0.782224537037037,
+    "step_rewards": {
+      "data_loader": 40.458,
+      "data_cleaner": 32.238,
+      "ml_trainer": 12.198
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "ml_trainer blocked by dependency for train_baseline_model",
+      "allocated load_raw_batch_3 to data_loader",
+      "allocated clean_batch_2 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 5,
+    "step": 4,
+    "hour": 4,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "run_task",
+        "task_id": "clean_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_baseline_model",
+        "cpu": 6,
+        "gpu": 1,
+        "memory": 20
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "ml_trainer",
+        "task_id": "train_baseline_model",
+        "cpu": 6,
+        "gpu": 1,
+        "memory": 20
+      },
+      {
+        "agent_id": "data_cleaner",
+        "task_id": "clean_batch_3",
+        "cpu": 4,
+        "gpu": 0,
+        "memory": 6
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.8014722222222221,
+      "data_cleaner": 0.34092916666666667,
+      "ml_trainer": 0.4605430555555555
+    },
+    "avg_belief_accuracy": 0.5343148148148148,
+    "step_rewards": {
+      "data_loader": 41.116,
+      "data_cleaner": 42.016,
+      "ml_trainer": 13.576
+    },
+    "events": [
+      "emergency_charter_triggered",
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "allocated train_baseline_model to ml_trainer",
+      "allocated clean_batch_3 to data_cleaner"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 5,
+    "step": 5,
+    "hour": 5,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "train_advanced_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [
+      {
+        "agent_id": "ml_trainer",
+        "task_id": "train_advanced_model",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    ],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.4608720572916667,
+      "data_cleaner": 0.4608720572916667,
+      "ml_trainer": 0.0
+    },
+    "avg_belief_accuracy": 0.30724803819444446,
+    "step_rewards": {
+      "data_loader": 37.743,
+      "data_cleaner": 38.643,
+      "ml_trainer": 9.123
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "allocated train_advanced_model to ml_trainer"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 5,
+    "step": 6,
+    "hour": 6,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.4745668372395833,
+      "data_cleaner": 0.4745668372395833,
+      "ml_trainer": 0.0
+    },
+    "avg_belief_accuracy": 0.31637789149305556,
+    "step_rewards": {
+      "data_loader": 36.173,
+      "data_cleaner": 37.073,
+      "ml_trainer": 5.753
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 5,
+    "step": 7,
+    "hour": 7,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.48346844420572915,
+      "data_cleaner": 0.5471287965494791,
+      "ml_trainer": 0.06366035234374995
+    },
+    "avg_belief_accuracy": 0.36475253103298605,
+    "step_rewards": {
+      "data_loader": 35.203,
+      "data_cleaner": 36.103,
+      "ml_trainer": 2.983
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  },
+  {
+    "episode": 5,
+    "step": 8,
+    "hour": 8,
+    "agent_demands": {
+      "data_loader": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "data_cleaner": {
+        "action": "wait",
+        "task_id": null,
+        "cpu": 0,
+        "gpu": 0,
+        "memory": 0
+      },
+      "ml_trainer": {
+        "action": "run_task",
+        "task_id": "validate_models",
+        "cpu": 4,
+        "gpu": 1,
+        "memory": 16
+      }
+    },
+    "detected_conflicts": [],
+    "concessions": [],
+    "yields": [],
+    "coalitions": [],
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "final_allocation": [],
+    "fairness_score": 1.0,
+    "belief_accuracy": {
+      "data_loader": 0.5037843427571614,
+      "data_cleaner": 0.7056337177571614,
+      "ml_trainer": 0.23090908304687496
+    },
+    "avg_belief_accuracy": 0.48010904785373265,
+    "step_rewards": {
+      "data_loader": 34.306,
+      "data_cleaner": 35.206,
+      "ml_trainer": 2.086
+    },
+    "events": [
+      "contracts_kept:0",
+      "contracts_broken:0",
+      "data_loader waits",
+      "data_cleaner waits",
+      "ml_trainer blocked by dependency for validate_models"
+    ],
+    "triggered_renegotiation": false,
+    "negotiation_enabled": true
+  }
+]
