@@ -119,6 +119,7 @@ class RLAgent(Agent):
                   "run_minimal", "request_gpu", "wait")
         """
         action_types = list(set(a[0] for a in available_actions))
+        strategy = self._normalize_strategy_hint(strategy, action_types)
 
         if random.random() < self.epsilon:
             # Explore — but if LLM gave a valid hint, follow it ~60% of the time
@@ -139,6 +140,35 @@ class RLAgent(Agent):
 
         matching = [a for a in available_actions if a[0] == action_type]
         return random.choice(matching) if matching else available_actions[0]
+
+    def _normalize_strategy_hint(self, strategy, action_types):
+        """
+        Map unsupported hint types to nearest valid action.
+        Keeps hybrid mode robust when hint vocab drifts.
+        """
+        if not strategy:
+            return None
+        if strategy in action_types:
+            return strategy
+        aliases = {
+            "request_resource": "run_standard",
+            "run_task": "run_standard",
+            "run_fast": "run_aggressive",
+            "run_safe": "run_minimal",
+            "defer": "wait",
+            "idle": "wait",
+            "request_gpu": "run_aggressive",
+        }
+        mapped = aliases.get(str(strategy), None)
+        if mapped in action_types:
+            return mapped
+        if "run_standard" in action_types:
+            return "run_standard"
+        if "run_minimal" in action_types:
+            return "run_minimal"
+        if "wait" in action_types:
+            return "wait"
+        return action_types[0] if action_types else None
     def reset_for_episode(self):
         """Reset for new episode"""
         self.episode += 1

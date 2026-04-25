@@ -146,142 +146,44 @@ class ResultsVisualizer:
     
     def extract_dialogues(self, save_path="results/dialogue_samples.txt"):
         """
-        Extract sample agent dialogues showing learning
+        Extract run-derived negotiation snippets (no synthetic narration).
         """
         
         if not self.results or len(self.results) < 2:
             print("⚠️  Not enough episodes for dialogue comparison")
             return
         
-        ep1 = self.results[0]
-        ep_last = self.results[-1]
-        
-        dialogue = f"""
-╔════════════════════════════════════════════════════════════╗
-║            AGENT DIALOGUE EVOLUTION                        ║
-║     (Showing how agents learn to communicate better)      ║
-╚════════════════════════════════════════════════════════════╝
+        lines = []
+        lines.append("AGENT NEGOTIATION LOG SAMPLES (RUN-DERIVED)")
+        lines.append("=" * 60)
+        lines.append(f"Episodes captured: {len(self.results)}")
+        lines.append("")
 
-EPISODE 1 (First Attempt - Learning Phase):
-═══════════════════════════════════════════════════════════
+        sample_count = min(3, len(self.results))
+        for result in self.results[:sample_count]:
+            episode = result.get("episode", "?")
+            lines.append(f"Episode {episode}")
+            lines.append("-" * 30)
+            steps = result.get("steps", [])
+            if not steps:
+                lines.append("No step-level records captured.")
+                lines.append("")
+                continue
+            for step in steps[:2]:
+                lines.append(f"Hour {step.get('hour', '?')}:")
+                actions = step.get("actions", {})
+                for agent_id, action in actions.items():
+                    lines.append(
+                        f"  - {agent_id}: action={action.get('action')} task={action.get('task_id')} "
+                        f"cpu={action.get('cores_needed', 0)} gpu={action.get('gpu_needed', 0)} mem={action.get('memory_needed', 0)}"
+                    )
+                lines.append(
+                    f"    metrics: conflicts={step.get('conflict_count', 0)} coalitions={step.get('coalitions_formed', 0)} "
+                    f"fairness={step.get('fairness_score', 0):.3f} belief={step.get('belief_accuracy', 0):.3f}"
+                )
+            lines.append("")
 
-Time: 1:00 AM
-Resources: All available (16 CPU, 1 GPU, 32 GB RAM)
-
-Agent 1 (Data Loader):
-  "I have files to load. Gimme 2 cores!"
-  
-Agent 2 (Data Cleaner):
-  "I also need cores! Give me resources!"
-  
-Agent 3 (ML Trainer):
-  "I need GPU! Everyone needs something!"
-
-System:
-  "Conflict detected. All agents proposing simultaneously.
-   No clear priority. Re-negotiation required."
-
-Outcome:
-  ❌ Low efficiency
-  ❌ Frequent conflicts
-  ❌ Reward: {ep1.get('metrics', {}).get('total_reward', 0):.1f} points
-
-Learning Moment:
-  "Random demands don't work. Need better communication."
-
-───────────────────────────────────────────────────────────
-
-EPISODE {len(self.results)} (Expert Phase - After Learning):
-═══════════════════════════════════════════════════════════
-
-Time: {len(self.results)}:00 AM
-Resources: Same as before (16 CPU, 1 GPU, 32 GB RAM)
-
-Agent 1 (Data Loader):
-  "I'll load data. Need 2 cores for 30 minutes.
-   No deadline on me, so you all go before me if needed."
-  
-Agent 2 (Data Cleaner):
-  "Good! I'll prepare structures in parallel (2 cores).
-   Then clean after you're done. My deadline: 3 hours.
-   Should be fine if we stay on schedule."
-  
-Agent 3 (ML Trainer):
-  "Perfect plan! My deadline is tighter (4 hours).
-   I'll setup GPU environment while you both work.
-   This way, when you're done, I'm ready to train."
-
-System:
-  "All proposals compatible. No conflicts detected.
-   Timeline:
-   - Loader: 30 min
-   - Cleaner prep: 30 min (parallel)
-   - Cleaner clean: 30 min
-   - Trainer setup: 20 min (parallel)
-   - Final: Trainer runs GPU training
-   
-   All deadlines met! ✅"
-
-Outcome:
-  ✅ High efficiency
-  ✅ Rare conflicts
-  ✅ Reward: {ep_last.get('metrics', {}).get('total_reward', 0):.1f} points
-
-Learning Achievement:
-  "Through 30 episodes, agents learned:
-   1. Clear communication prevents conflicts
-   2. Conservative estimates = reliable execution
-   3. Parallel execution > sequential
-   4. Cooperation = highest rewards"
-
-───────────────────────────────────────────────────────────
-
-KEY INSIGHTS FROM LEARNING JOURNEY:
-═══════════════════════════════════════════════════════════
-
-Episode 1-5:
-  Phase: EXPLORATION
-  ├─ Agents experimenting with different strategies
-  ├─ Frequent conflicts and failed attempts
-  ├─ Average reward: ~20 points
-  └─ Learning: "What doesn't work?"
-
-Episode 6-15:
-  Phase: OPTIMIZATION  
-  ├─ Agents finding patterns that work
-  ├─ Some negotiation successes
-  ├─ Average reward: ~45 points
-  └─ Learning: "What works better?"
-
-Episode 16-30:
-  Phase: MASTERY
-  ├─ Agents operating as expert team
-  ├─ Smooth coordination, rare conflicts
-  ├─ Average reward: ~75 points
-  └─ Learning: "Optimize further!"
-
-FINAL STATISTICS:
-═════════════════
-
-Reward Improvement: {ep1.get('metrics', {}).get('total_reward', 0):.1f} → {ep_last.get('metrics', {}).get('total_reward', 0):.1f} points
-Improvement %: {((ep_last.get('metrics', {}).get('total_reward', 0) - ep1.get('metrics', {}).get('total_reward', 0)) / max(ep1.get('metrics', {}).get('total_reward', 0), 1) * 100):.1f}%
-
-Completion Rate: {ep1.get('metrics', {}).get('completion_rate', 0):.1f}% → {ep_last.get('metrics', {}).get('completion_rate', 0):.1f}%
-
-On-Time Rate: {ep1.get('metrics', {}).get('on_time_rate', 0):.1f}% → {ep_last.get('metrics', {}).get('on_time_rate', 0):.1f}%
-
-Cooperation: {ep1.get('metrics', {}).get('cooperation_score', 0):.1f}% → {ep_last.get('metrics', {}).get('cooperation_score', 0):.1f}%
-
-CONCLUSION:
-═══════════
-
-Agents learned WITHOUT explicit programming!
-Only reward signals guided them.
-They developed emergent negotiation strategies.
-This proves LLMs can learn multi-agent coordination.
-
-🎉 PROJECT SUCCESS! 🎉
-"""
+        dialogue = "\n".join(lines)
         
         with open(save_path, "w", encoding="utf-8") as f:
             f.write(dialogue)
@@ -299,86 +201,40 @@ This proves LLMs can learn multi-agent coordination.
         
         first = self.results[0]
         last = self.results[-1]
-        
-        # Calculate averages
-        all_rewards = [r.get("metrics", {}).get("total_reward", 0) for r in self.results]
-        
+
+        all_rewards = [r.get("metrics", {}).get("total_reward", r.get("total_reward", 0)) for r in self.results]
+        fairness_values = [r.get("avg_fairness_score", 0.0) for r in self.results]
+        belief_values = [r.get("avg_belief_accuracy", 0.0) for r in self.results]
+        conflict_values = [r.get("conflict_count", 0) for r in self.results]
+        coalition_values = [r.get("coalitions_formed", 0) for r in self.results]
+        contracts_kept = [r.get("contracts_kept", 0) for r in self.results]
+        contracts_broken = [r.get("contracts_broken", 0) for r in self.results]
+
         summary = f"""
-╔════════════════════════════════════════════════════════════╗
-║              TRAINING SUMMARY STATISTICS                  ║
-╚════════════════════════════════════════════════════════════╝
+TRAINING SUMMARY STATISTICS (RUN-DERIVED)
+=========================================
 
 Training Configuration:
-═════════════════════════
 - Total Episodes: {len(self.results)}
-- Episodes Run: {len(self.results)}
-- Difficulty Level: Easy
-- LLM Provider: Ollama (Mistral 7B)
 - Training Date: {self.timestamp}
 
 Reward Progression:
-═══════════════════
-Episode 1:    {first.get('metrics', {}).get('total_reward', 0):6.1f} points
-Episode Last: {last.get('metrics', {}).get('total_reward', 0):6.1f} points
+- Episode 1:    {first.get('metrics', {}).get('total_reward', first.get('total_reward', 0)):6.1f} points
+- Episode Last: {last.get('metrics', {}).get('total_reward', last.get('total_reward', 0)):6.1f} points
+- Average Reward: {np.mean(all_rewards):.2f} points
+- Reward Std Dev: {np.std(all_rewards):.2f}
 
-Improvement:  {((last.get('metrics', {}).get('total_reward', 0) - first.get('metrics', {}).get('total_reward', 0)) / max(first.get('metrics', {}).get('total_reward', 0), 1) * 100):6.1f}%
+Performance Metrics (from run outputs):
+- Completion Rate (first -> last): {first.get('metrics', {}).get('completion_rate', 0):.2f}% -> {last.get('metrics', {}).get('completion_rate', 0):.2f}%
+- On-Time Rate (first -> last): {first.get('metrics', {}).get('on_time_rate', 0):.2f}% -> {last.get('metrics', {}).get('on_time_rate', 0):.2f}%
+- Avg Fairness Score: {np.mean(fairness_values):.3f}
+- Avg Belief Accuracy: {np.mean(belief_values):.3f}
 
-Average Reward: {np.mean(all_rewards):.1f} points
-Min Reward:     {np.min(all_rewards):.1f} points
-Max Reward:     {np.max(all_rewards):.1f} points
-
-Performance Metrics:
-═════════════════════
-
-COMPLETION RATE:
-  Episode 1:    {first.get('metrics', {}).get('completion_rate', 0):5.1f}%
-  Episode Last: {last.get('metrics', {}).get('completion_rate', 0):5.1f}%
-  Change:       {(last.get('metrics', {}).get('completion_rate', 0) - first.get('metrics', {}).get('completion_rate', 0)):+5.1f}%
-
-ON-TIME DELIVERY:
-  Episode 1:    {first.get('metrics', {}).get('on_time_rate', 0):5.1f}%
-  Episode Last: {last.get('metrics', {}).get('on_time_rate', 0):5.1f}%
-  Change:       {(last.get('metrics', {}).get('on_time_rate', 0) - first.get('metrics', {}).get('on_time_rate', 0)):+5.1f}%
-
-RESOURCE UTILIZATION:
-  Episode 1:    {first.get('metrics', {}).get('resource_utilization', 0):5.1f}%
-  Episode Last: {last.get('metrics', {}).get('resource_utilization', 0):5.1f}%
-  Change:       {(last.get('metrics', {}).get('resource_utilization', 0) - first.get('metrics', {}).get('resource_utilization', 0)):+5.1f}%
-
-COOPERATION SCORE:
-  Episode 1:    {first.get('metrics', {}).get('cooperation_score', 0):5.1f}%
-  Episode Last: {last.get('metrics', {}).get('cooperation_score', 0):5.1f}%
-  Change:       {(last.get('metrics', {}).get('cooperation_score', 0) - first.get('metrics', {}).get('cooperation_score', 0)):+5.1f}%
-
-Key Insights:
-═════════════
-
-✅ Agents showed consistent improvement over time
-✅ Learning curve smooth with gradual optimization
-✅ By episode 30, agents became expert coordinators
-✅ Emergent behavior developed without explicit rules
-✅ Cooperation rewards encouraged team play
-✅ Multi-agent coordination proven effective
-
-Success Criteria Met:
-════════════════════
-
-✅ Reward improvement > 50%
-✅ Completion rate > 90%
-✅ On-time delivery > 80%
-✅ Resource utilization > 70%
-✅ Cooperation > 80%
-
-Conclusion:
-═══════════
-
-This project demonstrates that:
-1. LLMs can learn multi-agent coordination
-2. Agents develop negotiation strategies without programming
-3. Reward signals effectively guide emergent behavior
-4. Multi-agent systems can achieve high efficiency
-
-🎉 PROJECT SUCCESSFUL! 🎉
+Negotiation Health:
+- Mean Conflicts per Episode: {np.mean(conflict_values):.2f}
+- Mean Coalitions Formed: {np.mean(coalition_values):.2f}
+- Mean Contracts Kept: {np.mean(contracts_kept):.2f}
+- Mean Contracts Broken: {np.mean(contracts_broken):.2f}
 """
         
         with open(save_path, "w", encoding="utf-8") as f:
@@ -395,47 +251,38 @@ if __name__ == "__main__":
     print("\n" + "="*60)
     print("TESTING VISUALIZER")
     print("="*60)
-    
-    # Create sample results
-    sample_results = []
-    # Load real results from train.py
-import json
 
-# Try to load real results
-try:
-    with open("results/training_results.json", "r") as f:
-        sample_results = json.load(f)
-    print("✅ Loaded real training results!")
-except FileNotFoundError:
-    print("⚠️ No training results found. Using sample data...")
-    # Fallback to sample
     sample_results = []
-    for ep in range(1, 31):
-        reward = 15 + (ep * 2) + (ep % 3)
-        result = {
-            "episode": ep,
-            "metrics": {
-                "total_reward": reward,
-                "completion_rate": 40 + (ep * 1.8),
-                "on_time_rate": 30 + (ep * 2),
-                "resource_utilization": 25 + (ep * 2),
-                "cooperation_score": 10 + (ep * 2.5)
+    try:
+        with open("results/training_results.json", "r", encoding="utf-8") as f:
+            sample_results = json.load(f)
+        print("Loaded real training results.")
+    except FileNotFoundError:
+        print("No training results found. Using sample data.")
+        for ep in range(1, 31):
+            reward = 15 + (ep * 2) + (ep % 3)
+            result = {
+                "episode": ep,
+                "metrics": {
+                    "total_reward": reward,
+                    "completion_rate": 40 + (ep * 1.8),
+                    "on_time_rate": 30 + (ep * 2),
+                    "resource_utilization": 25 + (ep * 2),
+                    "cooperation_score": 10 + (ep * 2.5),
+                },
             }
-        }
-        sample_results.append(result)
-    
-    # Create visualizer
+            sample_results.append(result)
+
     viz = ResultsVisualizer(sample_results)
-    
-    # Generate outputs
+
     print("\n[TEST 1] Creating visualizations...")
     viz.plot_reward_curve()
     viz.plot_metrics_dashboard()
     viz.extract_dialogues()
     viz.generate_summary_stats()
-    
+
     print("\n" + "="*60)
-    print("✅ ALL VISUALIZATIONS CREATED!")
+    print("ALL VISUALIZATIONS CREATED")
     print("="*60 + "\n")
     print("Check results/ folder for:")
     print("  - reward_curve.png")

@@ -1,0 +1,27 @@
+{
+  "config": {
+    "seed": 42,
+    "negotiation_enabled": true
+  },
+  "negotiation_enabled_run": {
+    "avg_total_reward": 582.813888888889,
+    "avg_completion_rate": 40.0,
+    "avg_on_time_rate": 40.0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5124664175289352
+  },
+  "baseline_run_negotiation_disabled": {
+    "avg_total_reward": 567.323888888889,
+    "avg_completion_rate": 40.0,
+    "avg_on_time_rate": 40.0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5123251156227394
+  },
+  "delta": {
+    "avg_total_reward": 15.490000000000009,
+    "avg_completion_rate": 0.0,
+    "avg_on_time_rate": 0.0,
+    "avg_fairness_score": 0.0,
+    "avg_belief_accuracy": 0.00014130190619576766
+  }
+}

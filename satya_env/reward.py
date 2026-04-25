@@ -116,7 +116,19 @@ def calculate_team_reward(
         fairness = float(negotiation_snapshot.get("fairness_score", 1.0))
         emergency_bonus = 4.0 if negotiation_snapshot.get("emergency_charter") else 0.0
         contract_penalty = float(negotiation_snapshot.get("contracts_broken", 0)) * 1.5
-        diplomacy_bonus += (fairness * 4.0) + emergency_bonus - contract_penalty
+        contracts_kept = float(negotiation_snapshot.get("contracts_kept", 0))
+        yields_count = len(negotiation_snapshot.get("yields", []))
+        deadlock_penalty = 2.0 if negotiation_snapshot.get("deadlock") else 0.0
+        fairness_bonus = max(0.0, fairness - 0.8) * 5.0
+        diplomacy_bonus += (
+            (fairness * 4.0)
+            + emergency_bonus
+            + (contracts_kept * 0.6)
+            + (yields_count * 0.3)
+            + fairness_bonus
+            - contract_penalty
+            - deadlock_penalty
+        )
 
     return completion_bonus + on_time_bonus + negotiation_bonus + time_efficiency + finish_bonus + diplomacy_bonus - incomplete_penalty
 

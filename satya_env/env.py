@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import json
+import random
 from pathlib import Path
 from typing import Dict, List, Tuple
 
 from .models import AgentRuntimeState, EpisodeState, ResourcePool, Task
-from .negotiation import belief_accuracy_from_demands, build_intents, run_negotiation
+from .negotiation import NegotiationSnapshot, belief_accuracy_from_demands, build_intents, run_negotiation
 from .observation import build_observation
 from .reward import calculate_final_rewards, calculate_individual_rewards, calculate_team_reward
 from .scheduler import resolve_and_allocate
@@ -42,6 +43,15 @@ class RealEnvironment:
         self.beliefs: Dict[str, Dict[str, Dict[str, float]]] = {}
         self.open_contracts: List[Dict] = []
         self.latest_negotiation = None
+        self.negotiation_enabled = bool(env_cfg.get("negotiation_enabled", True))
+        crisis_cfg = env_cfg.get("crisis_mode", {})
+        self.crisis_mode_enabled = bool(crisis_cfg.get("enabled", False))
+        self.crisis_gpu_outage_hour = crisis_cfg.get("gpu_outage_hour")
+        self.crisis_urgent_task_hour = crisis_cfg.get("urgent_task_hour")
+        self._rng = random.Random(int(env_cfg.get("seed", 42)))
+        self.negotiation_trace: List[Dict] = []
+        self._urgent_task_injected = False
+        self._crisis_events: List[str] = []
 
     def _load_env_config(self, path: Path) -> Dict:
         with path.open("r", encoding="utf-8") as file:
@@ -137,10 +147,42 @@ class RealEnvironment:
         self.open_contracts = []
         self._initialize_beliefs()
         self.latest_negotiation = None
+        self.negotiation_trace = []
+        self._urgent_task_injected = False
+        self._crisis_events = []
         self._refresh_running_markers()
 
         self.episode.recent_events.append("episode_reset")
         return self._build_joint_observation()
+
+    def _crisis_events_for_hour(self) -> Tuple[int, List[str]]:
+        events: List[str] = []
+        available_gpu = self.pool.total_gpu
+        if not self.crisis_mode_enabled:
+            return available_gpu, events
+
+        if self.crisis_gpu_outage_hour is not None and self.episode.hour == int(self.crisis_gpu_outage_hour):
+            available_gpu = max(0, self.pool.total_gpu - 1)
+            events.append("crisis:gpu_outage")
+
+        if self.crisis_urgent_task_hour is not None and self.episode.hour == int(self.crisis_urgent_task_hour):
+            if not self._urgent_task_injected and "urgent_incident_model_rebuild" not in self.tasks:
+                self.tasks["urgent_incident_model_rebuild"] = Task(
+                    task_id="urgent_incident_model_rebuild",
+                    owner_agent="ml_trainer",
+                    title="Urgent incident retraining",
+                    cores_needed=4,
+                    gpu_needed=1,
+                    memory_needed=16,
+                    estimated_duration_min=60,
+                    deadline_hour=min(self.max_hours, self.episode.hour + 2),
+                    dependencies=[],
+                )
+                self._urgent_task_injected = True
+                events.append("crisis:urgent_task_injected")
+
+        self._crisis_events = events
+        return available_gpu, events
 
     def _apply_allocations(self, allocations) -> None:
         for allocation in allocations:
@@ -178,6 +220,7 @@ class RealEnvironment:
     def step(self, actions: Dict[str, Dict] | None) -> Tuple[Dict[str, Dict], List[float], bool, Dict]:
         self.pool.reset()
         prepared_actions = self._default_actions(actions)
+        step_index = self.episode.hour + 1
 
         validation_events: List[str] = []
         for agent_id, action in prepared_actions.items():
@@ -193,27 +236,55 @@ class RealEnvironment:
             beliefs=self.beliefs,
             current_hour=self.episode.hour,
         )
-        negotiated_actions, negotiation_snapshot = run_negotiation(
-            intents=intents,
-            tasks=self.tasks,
-            done_tasks=self.episode.done_tasks,
-            current_hour=self.episode.hour,
-            total_cpu=self.pool.total_cpu,
-            total_gpu=self.pool.total_gpu,
-            total_memory=self.pool.total_memory,
-            reputation=self.reputation,
-            open_contracts=self.open_contracts,
-        )
+        available_gpu, crisis_events = self._crisis_events_for_hour()
+
+        if self.negotiation_enabled:
+            negotiated_actions, negotiation_snapshot = run_negotiation(
+                intents=intents,
+                tasks=self.tasks,
+                done_tasks=self.episode.done_tasks,
+                current_hour=self.episode.hour,
+                total_cpu=self.pool.total_cpu,
+                total_gpu=available_gpu,
+                total_memory=self.pool.total_memory,
+                reputation=self.reputation,
+                open_contracts=self.open_contracts,
+            )
+        else:
+            negotiated_actions = {
+                agent_id: {
+                    "action": intent.action,
+                    "task_id": intent.task_id,
+                    "cores_needed": intent.cpu,
+                    "gpu_needed": intent.gpu,
+                    "memory_needed": intent.memory,
+                    "estimated_duration_min": 60,
+                }
+                for agent_id, intent in intents.items()
+            }
+            negotiation_snapshot = NegotiationSnapshot(emergency_charter=False)
+            total_req_cpu = sum(intents[a].cpu for a in intents if intents[a].action == "run_task")
+            total_req_gpu = sum(intents[a].gpu for a in intents if intents[a].action == "run_task")
+            total_req_mem = sum(intents[a].memory for a in intents if intents[a].action == "run_task")
+            if total_req_cpu > self.pool.total_cpu:
+                negotiation_snapshot.conflicts.append("cpu")
+            if total_req_gpu > available_gpu:
+                negotiation_snapshot.conflicts.append("gpu")
+            if total_req_mem > self.pool.total_memory:
+                negotiation_snapshot.conflicts.append("memory")
         negotiation_snapshot.belief_accuracy = belief_accuracy_from_demands(self.beliefs, intents)
         self.latest_negotiation = {
             "emergency_charter": negotiation_snapshot.emergency_charter,
             "crisis_agents": negotiation_snapshot.crisis_agents,
             "conflicts": negotiation_snapshot.conflicts,
+            "concessions": negotiation_snapshot.concessions,
+            "yields": negotiation_snapshot.yields,
             "coalitions": negotiation_snapshot.coalitions,
             "belief_accuracy": negotiation_snapshot.belief_accuracy,
             "fairness_score": negotiation_snapshot.fairness_score,
             "contracts_kept": negotiation_snapshot.contracts_kept,
             "contracts_broken": negotiation_snapshot.contracts_broken,
+            "negotiation_enabled": self.negotiation_enabled,
         }
 
         allocations, schedule_events = resolve_and_allocate(
@@ -233,6 +304,7 @@ class RealEnvironment:
         self._update_social_state(negotiated_actions, negotiation_snapshot)
 
         self.episode.recent_events.extend(validation_events)
+        self.episode.recent_events.extend(crisis_events)
         if negotiation_snapshot.emergency_charter:
             self.episode.recent_events.append("emergency_charter_triggered")
         if negotiation_snapshot.deadlock:
@@ -252,6 +324,47 @@ class RealEnvironment:
             negotiation_snapshot=self.latest_negotiation,
         )
         final_rewards = calculate_final_rewards(individual, team)
+        avg_belief = (
+            sum(negotiation_snapshot.belief_accuracy.values()) / len(negotiation_snapshot.belief_accuracy)
+            if negotiation_snapshot.belief_accuracy
+            else 1.0
+        )
+        step_trace = {
+            "step": step_index,
+            "hour": self.episode.hour,
+            "agent_demands": {
+                agent_id: {
+                    "action": intent.action,
+                    "task_id": intent.task_id,
+                    "cpu": intent.cpu,
+                    "gpu": intent.gpu,
+                    "memory": intent.memory,
+                }
+                for agent_id, intent in intents.items()
+            },
+            "detected_conflicts": list(negotiation_snapshot.conflicts),
+            "concessions": list(negotiation_snapshot.concessions),
+            "yields": list(negotiation_snapshot.yields),
+            "coalitions": list(negotiation_snapshot.coalitions),
+            "contracts_kept": int(negotiation_snapshot.contracts_kept),
+            "contracts_broken": int(negotiation_snapshot.contracts_broken),
+            "final_allocation": [
+                {
+                    "agent_id": allocation.agent_id,
+                    "task_id": allocation.task_id,
+                    "cpu": allocation.cpu,
+                    "gpu": allocation.gpu,
+                    "memory": allocation.memory,
+                }
+                for allocation in allocations
+            ],
+            "fairness_score": float(negotiation_snapshot.fairness_score),
+            "belief_accuracy": dict(negotiation_snapshot.belief_accuracy),
+            "avg_belief_accuracy": float(avg_belief),
+            "step_rewards": {agent_id: float(round(final_rewards[agent_id], 3)) for agent_id in self.agent_order},
+            "events": list(crisis_events),
+        }
+        self.negotiation_trace.append(step_trace)
 
         observations = self._build_joint_observation()
         reward_list = [round(final_rewards[agent_id], 3) for agent_id in self.agent_order]
@@ -271,6 +384,13 @@ class RealEnvironment:
                 "on_time_rate": (on_time / total) if total else 0.0,
                 "avg_reputation": sum(self.reputation.values()) / len(self.reputation),
                 "fairness_score": negotiation_snapshot.fairness_score,
+                "belief_accuracy": avg_belief,
+                "conflict_count": len(negotiation_snapshot.conflicts),
+                "coalitions_formed": len(negotiation_snapshot.coalitions),
+                "contracts_kept": negotiation_snapshot.contracts_kept,
+                "contracts_broken": negotiation_snapshot.contracts_broken,
+                "deadline_misses": sum(state.missed_deadlines for state in self.agent_states.values()),
             },
+            "negotiation_trace_step": step_trace,
         }
         return observations, reward_list, done, info

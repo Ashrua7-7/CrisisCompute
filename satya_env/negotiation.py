@@ -27,6 +27,8 @@ class NegotiationSnapshot:
     emergency_charter: bool
     crisis_agents: List[str] = field(default_factory=list)
     conflicts: List[str] = field(default_factory=list)
+    concessions: List[str] = field(default_factory=list)
+    yields: List[str] = field(default_factory=list)
     coalitions: List[str] = field(default_factory=list)
     contracts_kept: int = 0
     contracts_broken: int = 0
@@ -150,6 +152,8 @@ def run_negotiation(
             negotiated[debtor]["action"] = "wait"
             contract["status"] = "kept"
             kept += 1
+            snapshot.concessions.append(f"{debtor}:contract_yield:{contract['resource']}")
+            snapshot.yields.append(f"{debtor}:{contract['resource']}")
         else:
             contract["status"] = "broken"
             broken += 1
@@ -186,6 +190,16 @@ def run_negotiation(
         else:
             negotiated[agent_id]["action"] = "wait"
             losers.append(agent_id)
+            blocked_resources: List[str] = []
+            if cpu > cpu_left:
+                blocked_resources.append("cpu")
+            if gpu > gpu_left:
+                blocked_resources.append("gpu")
+            if mem > mem_left:
+                blocked_resources.append("memory")
+            if blocked_resources:
+                snapshot.concessions.append(f"{agent_id}:capacity_yield:{'+'.join(blocked_resources)}")
+                snapshot.yields.extend(f"{agent_id}:{res}" for res in blocked_resources)
 
     if winners and losers:
         top_winner = winners[0]

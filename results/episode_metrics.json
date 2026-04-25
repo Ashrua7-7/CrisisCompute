@@ -1,0 +1,67 @@
+[
+  {
+    "episode": 1,
+    "completion_rate": 40.0,
+    "on_time_rate": 40.0,
+    "fairness": 1.0,
+    "belief_accuracy": 0.5148258082074653,
+    "conflict_count": 0,
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "deadline_misses": 9,
+    "negotiation_health": 1.0
+  },
+  {
+    "episode": 2,
+    "completion_rate": 40.0,
+    "on_time_rate": 40.0,
+    "fairness": 1.0,
+    "belief_accuracy": 0.5063107751779514,
+    "conflict_count": 0,
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "deadline_misses": 9,
+    "negotiation_health": 1.0
+  },
+  {
+    "episode": 3,
+    "completion_rate": 40.0,
+    "on_time_rate": 40.0,
+    "fairness": 1.0,
+    "belief_accuracy": 0.4989259813917824,
+    "conflict_count": 0,
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "deadline_misses": 9,
+    "negotiation_health": 1.0
+  },
+  {
+    "episode": 4,
+    "completion_rate": 40.0,
+    "on_time_rate": 40.0,
+    "fairness": 1.0,
+    "belief_accuracy": 0.5039943209389468,
+    "conflict_count": 0,
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "deadline_misses": 9,
+    "negotiation_health": 1.0
+  },
+  {
+    "episode": 5,
+    "completion_rate": 40.0,
+    "on_time_rate": 40.0,
+    "fairness": 1.0,
+    "belief_accuracy": 0.49251274969401043,
+    "conflict_count": 0,
+    "coalitions_formed": 0,
+    "contracts_kept": 0,
+    "contracts_broken": 0,
+    "deadline_misses": 9,
+    "negotiation_health": 1.0
+  }
+]

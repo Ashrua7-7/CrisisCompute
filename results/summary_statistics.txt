@@ -1,76 +1,25 @@
 
-╔════════════════════════════════════════════════════════════╗
-║              TRAINING SUMMARY STATISTICS                  ║
-╚════════════════════════════════════════════════════════════╝
+TRAINING SUMMARY STATISTICS (RUN-DERIVED)
+=========================================
 
 Training Configuration:
-═════════════════════════
-- Total Episodes: 1
-- Episodes Run: 1
-- Difficulty Level: Easy
-- LLM Provider: Ollama (Mistral 7B)
-- Training Date: 20260425_140522
+- Total Episodes: 5
+- Training Date: 20260425_151459
 
 Reward Progression:
-═══════════════════
-Episode 1:       0.0 points
-Episode Last:    0.0 points
+- Episode 1:     584.7 points
+- Episode Last:  579.4 points
+- Average Reward: 582.81 points
+- Reward Std Dev: 1.94
 
-Improvement:     0.0%
+Performance Metrics (from run outputs):
+- Completion Rate (first -> last): 40.00% -> 40.00%
+- On-Time Rate (first -> last): 40.00% -> 40.00%
+- Avg Fairness Score: 1.000
+- Avg Belief Accuracy: 0.512
 
-Average Reward: 0.0 points
-Min Reward:     0.0 points
-Max Reward:     0.0 points
-
-Performance Metrics:
-═════════════════════
-
-COMPLETION RATE:
-  Episode 1:      0.0%
-  Episode Last:   0.0%
-  Change:        +0.0%
-
-ON-TIME DELIVERY:
-  Episode 1:      0.0%
-  Episode Last:   0.0%
-  Change:        +0.0%
-
-RESOURCE UTILIZATION:
-  Episode 1:      0.0%
-  Episode Last:   0.0%
-  Change:        +0.0%
-
-COOPERATION SCORE:
-  Episode 1:      0.0%
-  Episode Last:   0.0%
-  Change:        +0.0%
-
-Key Insights:
-═════════════
-
-✅ Agents showed consistent improvement over time
-✅ Learning curve smooth with gradual optimization
-✅ By episode 30, agents became expert coordinators
-✅ Emergent behavior developed without explicit rules
-✅ Cooperation rewards encouraged team play
-✅ Multi-agent coordination proven effective
-
-Success Criteria Met:
-════════════════════
-
-✅ Reward improvement > 50%
-✅ Completion rate > 90%
-✅ On-time delivery > 80%
-✅ Resource utilization > 70%
-✅ Cooperation > 80%
-
-Conclusion:
-═══════════
-
-This project demonstrates that:
-1. LLMs can learn multi-agent coordination
-2. Agents develop negotiation strategies without programming
-3. Reward signals effectively guide emergent behavior
-4. Multi-agent systems can achieve high efficiency
-
-🎉 PROJECT SUCCESSFUL! 🎉
+Negotiation Health:
+- Mean Conflicts per Episode: 0.00
+- Mean Coalitions Formed: 0.00
+- Mean Contracts Kept: 0.00
+- Mean Contracts Broken: 0.00
