@@ -1,6 +1,6 @@
 ---
 title: "CrisisCompute: Teaching AI Agents to Negotiate Under Pressure"
-thumbnail: https://huggingface.co/spaces/Gautam0898/crisiscompute/resolve/main/results/reward_curve.png
+thumbnail: https://huggingface.co/spaces/Gautam0898/crisiscompute/resolve/main/results/rl_reward_curve.png
 ---
 
 # CrisisCompute: Teaching AI Agents to Negotiate Under Pressure
@@ -92,7 +92,7 @@ We implemented and compared three distinct agent architectures:
 Each agent maintains a Q-table mapping discretized states to expected rewards. Learning via standard Bellman updates with epsilon-greedy exploration (ε decays from 0.35 → 0.19). Q-tables persist and accumulate knowledge across episodes.
 
 ### Mode 2: Pure LLM (Language Model Agents)
-Each agent is backed by **Llama-3.3-70B-Instruct** via HuggingFace Inference. The agent receives the full environment state as a structured prompt and returns a JSON action. Learning happens through episodic memory and temperature adaptation (0.7 → 0.2).
+Each agent is backed by **Llama-3.1-8B-Instruct** via HuggingFace Inference. The agent receives the full environment state as a structured prompt and returns a JSON action. Learning happens through episodic memory and temperature adaptation (0.7 → 0.2).
 
 ### Mode 3: Hybrid (LLM + RL)
 Best of both worlds:
@@ -135,15 +135,6 @@ Trained agents were tested on **compound crisis scenarios** (GPU outage + urgent
 | Fairness Score | 1.0 | 1.0 | Maintained |
 
 The key insight: trained agents **generalize to unseen crisis combinations**. The +63.8 reward improvement and +7.5% on-time rate gain on holdout scenarios is the core signal of genuine learning — not memorization.
-
-### Fixed Evaluation (Controlled Comparison)
-On stable (non-crisis) evaluation with seed=42:
-
-| Metric | Trained | Fresh | Delta |
-|--------|:-------:|:-----:|:-----:|
-| Avg Total Reward | **707.6** | 672.2 | **+35.4** |
-| Completion Rate | **83.3%** | 79.6% | **+3.7%** |
-| On-Time Rate | **56.5%** | 51.9% | **+4.6%** |
 
 ### Negotiation Builds Better World Models (Theme #1)
 Agents with the negotiation protocol active develop significantly better Theory of Mind:
@@ -246,9 +237,9 @@ Visit the HuggingFace Space to interact with the environment directly:
 ## Training Plots
 
 ### Reward Curve
-![Reward Curve](results/reward_curve.png)
+![Reward Curve](results/rl_reward_curve.png)
 
-*Episodic reward over the training run. The upward trend confirms agents improve through the adaptive curriculum.*
+*RL Training: 30 episodes. EP1 reward: 639 → Peak EP30: 839. Clear upward trend confirms agents improve through the adaptive curriculum.*
 
 ### Metrics Dashboard
 ![Metrics Dashboard](results/metrics_dashboard.png)
