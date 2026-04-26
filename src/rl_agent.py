@@ -52,9 +52,11 @@ class RLAgent(Agent):
         done = len(my_tasks.get("done", []))
         
         available_resources = observation.get("available_resources", {})
-        cpu_available = available_resources.get("cpu_cores", {}).get("available", 0)
+        cpu_res = available_resources.get("cpu_cores") or available_resources.get("cpu", {})
+        mem_res = available_resources.get("memory_gb") or available_resources.get("memory", {})
+        cpu_available = cpu_res.get("available", 0) if isinstance(cpu_res, dict) else 0
         gpu_available = available_resources.get("gpu", {}).get("available", 0)
-        memory_available = available_resources.get("memory_gb", {}).get("available", 0)
+        memory_available = mem_res.get("available", 0) if isinstance(mem_res, dict) else 0
         
         time_left = observation.get("time_left_hours", 8)
         
@@ -283,9 +285,9 @@ class RLDataLoaderAgent(RLAgent):
         super().__init__(
             name="rl_data_loader",
             resource_needs={"cpu": 2, "memory": 4, "gpu": 0},
-            learning_rate=0.25,  # Aggressive learning
-            discount_factor=0.95,  # Long-term value
-            epsilon_start=0.7  # Lots of exploration
+            learning_rate=0.25,
+            discount_factor=0.95,
+            epsilon_start=0.7
         )
     
     def propose_action(self, observation, strategy=None):
@@ -295,16 +297,23 @@ class RLDataLoaderAgent(RLAgent):
         self.current_state  = state
 
         my_tasks = observation.get("my_tasks", {})
+        running_tasks = my_tasks.get("running", [])
         pending_tasks = my_tasks.get("pending", [])
 
+        # Running tasks get highest priority — finish what you started
+        target_task = None
+        if running_tasks:
+            target_task = running_tasks[0]
+        elif pending_tasks:
+            target_task = pending_tasks[0]
+
         available_actions = []
-        if pending_tasks:
-            for task_id in pending_tasks[:1]:
-                available_actions.extend([
-                    ("run_minimal",    task_id),
-                    ("run_standard",   task_id),
-                    ("run_aggressive", task_id),
-                ])
+        if target_task:
+            available_actions.extend([
+                ("run_minimal",    target_task),
+                ("run_standard",   target_task),
+                ("run_aggressive", target_task),
+            ])
 
         if not available_actions:
             available_actions = [("wait", None)]
@@ -313,7 +322,6 @@ class RLDataLoaderAgent(RLAgent):
         self.previous_action = action_type
         self.action_histogram[action_type] = self.action_histogram.get(action_type, 0) + 1
         
-        # Convert action to environment format
         if action_type == "wait":
             return {"action": "wait"}
         
@@ -358,9 +366,9 @@ class RLDataCleanerAgent(RLAgent):
         super().__init__(
             name="rl_data_cleaner",
             resource_needs={"cpu": 4, "memory": 8, "gpu": 0},
-            learning_rate=0.25,  # Aggressive learning
-            discount_factor=0.95,  # Long-term value
-            epsilon_start=0.7  # Lots of exploration
+            learning_rate=0.25,
+            discount_factor=0.95,
+            epsilon_start=0.7
         )
     
     def propose_action(self, observation, strategy=None):
@@ -370,16 +378,22 @@ class RLDataCleanerAgent(RLAgent):
         self.current_state  = state
 
         my_tasks = observation.get("my_tasks", {})
+        running_tasks = my_tasks.get("running", [])
         pending_tasks = my_tasks.get("pending", [])
 
+        target_task = None
+        if running_tasks:
+            target_task = running_tasks[0]
+        elif pending_tasks:
+            target_task = pending_tasks[0]
+
         available_actions = []
-        if pending_tasks:
-            for task_id in pending_tasks[:1]:
-                available_actions.extend([
-                    ("run_minimal",    task_id),
-                    ("run_standard",   task_id),
-                    ("run_aggressive", task_id),
-                ])
+        if target_task:
+            available_actions.extend([
+                ("run_minimal",    target_task),
+                ("run_standard",   target_task),
+                ("run_aggressive", target_task),
+            ])
 
         if not available_actions:
             available_actions = [("wait", None)]
@@ -432,9 +446,9 @@ class RLMLTrainerAgent(RLAgent):
         super().__init__(
             name="rl_ml_trainer",
             resource_needs={"cpu": 2, "memory": 16, "gpu": 1},
-            learning_rate=0.25,  # Aggressive learning
-            discount_factor=0.95,  # Long-term value
-            epsilon_start=0.7  # Lots of exploration
+            learning_rate=0.25,
+            discount_factor=0.95,
+            epsilon_start=0.7
         )
     
     def propose_action(self, observation, strategy=None):
@@ -444,16 +458,22 @@ class RLMLTrainerAgent(RLAgent):
         self.current_state  = state
 
         my_tasks = observation.get("my_tasks", {})
+        running_tasks = my_tasks.get("running", [])
         pending_tasks = my_tasks.get("pending", [])
 
+        target_task = None
+        if running_tasks:
+            target_task = running_tasks[0]
+        elif pending_tasks:
+            target_task = pending_tasks[0]
+
         available_actions = []
-        if pending_tasks:
-            for task_id in pending_tasks[:1]:
-                available_actions.extend([
-                    ("run_minimal",    task_id),
-                    ("run_standard",   task_id),
-                    ("run_aggressive", task_id),
-                ])
+        if target_task:
+            available_actions.extend([
+                ("run_minimal",    target_task),
+                ("run_standard",   target_task),
+                ("run_aggressive", target_task),
+            ])
 
         if not available_actions:
             available_actions = [("wait", None)]

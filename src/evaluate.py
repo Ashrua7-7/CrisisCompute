@@ -13,21 +13,31 @@ class MetricsCalculator:
         """
         What % of tasks got completed?
         """
-        total_tasks = int(episode_data.get("total_tasks") or episode_data.get("metrics", {}).get("total_tasks") or 9)
-        completed = episode_data.get("completed_tasks", 0)
+        total_tasks = (
+            episode_data.get("total_tasks")
+            or episode_data.get("metrics", {}).get("total_tasks")
+            or 9
+        )
+        total_tasks = max(1, int(total_tasks))
+        completed = int(episode_data.get("completed_tasks", 0))
         
-        rate = (completed / total_tasks) * 100 if total_tasks > 0 else 0
-        return min(rate, 100)  # Cap at 100%
+        rate = (completed / total_tasks) * 100
+        return min(rate, 100)
     
     @staticmethod
     def calculate_on_time_rate(episode_data):
         """
         What % of deadlines were met?
         """
-        total_tasks = int(episode_data.get("total_tasks") or episode_data.get("metrics", {}).get("total_tasks") or 9)
-        on_time = episode_data.get("on_time_tasks", 0)
+        total_tasks = (
+            episode_data.get("total_tasks")
+            or episode_data.get("metrics", {}).get("total_tasks")
+            or 9
+        )
+        total_tasks = max(1, int(total_tasks))
+        on_time = int(episode_data.get("on_time_tasks", 0))
         
-        rate = (on_time / total_tasks) * 100 if total_tasks > 0 else 0
+        rate = (on_time / total_tasks) * 100
         return min(rate, 100)
     
     @staticmethod
