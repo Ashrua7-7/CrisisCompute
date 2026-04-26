@@ -11,26 +11,29 @@ class RLAgent(Agent):
     Base RL Agent - uses Q-learning to improve policy over episodes
     """
     
-    def __init__(self, name, resource_needs, learning_rate=0.2, discount_factor=0.95, epsilon_start=0.7):
+    def __init__(self, name, resource_needs, learning_rate=0.2, discount_factor=0.95, epsilon_start=0.5):
         super().__init__(name, resource_needs)
         
         # Initialize episode counter
         self.episode = 0
         
-        # RL hyperparameters - AGGRESSIVE LEARNING for faster convergence
-        self.learning_rate = learning_rate  # Higher: 0.2 for faster updates
-        self.discount_factor = discount_factor  # Higher: 0.95 for long-term value
-        self.epsilon_start = epsilon_start  # Higher: 0.7 for more exploration
+        # RL hyperparameters
+        self.learning_rate = learning_rate
+        self.discount_factor = discount_factor
+        self.epsilon_start = epsilon_start  # Lowered: 0.5 so exploitation starts earlier
         self.epsilon = epsilon_start
-        self.epsilon_decay = 0.93  # Slower decay: 0.93 to maintain exploration longer
+        self.epsilon_decay = 0.97  # Faster decay: 0.97 so agent exploits good Q-values sooner
+        self.epsilon_min = 0.05   # Hard floor — always keep tiny exploration
         
         # Q-table: state -> {action -> Q-value}
         self.q_table = {}
         
         # Experience tracking
-        self.episode_history = []  # Experiences from current episode
-        self.past_episodes = []  # History of all past episodes
-        self.episode_rewards = []  # Reward per episode
+        self.episode_history = []   # Experiences from current episode
+        self.replay_buffer = []     # All past experiences for replay
+        self.replay_buffer_max = 2000  # Keep last 2000 experiences
+        self.past_episodes = []     # History of all past episodes
+        self.episode_rewards = []   # Reward per episode
         
         # State tracking
         self.current_state = None
@@ -60,24 +63,24 @@ class RLAgent(Agent):
         
         time_left = observation.get("time_left_hours", 8)
         
-        # GRANULAR STATE DISCRETIZATION for better learning
-        # Task load: 0-1, 2-3, 4+
-        pending_bucket = "empty" if pending == 0 else "few" if pending <= 2 else "many"
+        # GRANULAR STATE DISCRETIZATION
+        # Task load: 4 buckets instead of 3
+        pending_bucket = "empty" if pending == 0 else "one" if pending == 1 else "few" if pending <= 3 else "many"
         running_bucket = "none" if running == 0 else "some" if running <= 1 else "busy"
         
-        # CPU availability: sparse (0-4), limited (4-8), abundant (8+)
-        cpu_bucket = "sparse" if cpu_available < 4 else "limited" if cpu_available < 8 else "abundant"
+        # CPU: 4 buckets — agents need to distinguish near-full from truly full
+        cpu_bucket = "empty" if cpu_available < 2 else "sparse" if cpu_available < 6 else "limited" if cpu_available < 10 else "abundant"
         
-        # Memory: low (<8), medium (8-16), high (16+)
-        memory_bucket = "low" if memory_available < 8 else "medium" if memory_available < 16 else "high"
+        # Memory: 4 buckets
+        memory_bucket = "critical" if memory_available < 4 else "low" if memory_available < 10 else "medium" if memory_available < 18 else "high"
         
-        # Time pressure: urgent (<2h), moderate (2-4h), relaxed (4h+)
-        time_bucket = "urgent" if time_left < 2 else "moderate" if time_left < 4 else "relaxed"
+        # Time pressure: 4 buckets — distinguish near-deadline from moderate
+        time_bucket = "crisis" if time_left < 1 else "urgent" if time_left < 3 else "moderate" if time_left < 5 else "relaxed"
         
-        # Progress: stuck (few done), progressing (some done), advanced (many done)
+        # Progress: 4 buckets
         total_tasks = pending + running + done
         progress = 0 if total_tasks == 0 else done / total_tasks
-        progress_bucket = "stuck" if progress < 0.3 else "progressing" if progress < 0.7 else "advanced"
+        progress_bucket = "stuck" if progress < 0.2 else "early" if progress < 0.5 else "progressing" if progress < 0.8 else "advanced"
         
         state = (pending_bucket, running_bucket, cpu_bucket, memory_bucket, time_bucket, progress_bucket)
         return state
@@ -181,7 +184,7 @@ class RLAgent(Agent):
         self.total_reward = 0
         
         # Decay exploration rate
-        self.epsilon = max(0.05, self.epsilon * self.epsilon_decay)
+        self.epsilon = max(self.epsilon_min, self.epsilon * self.epsilon_decay)
     
     def take_action(self, state, action, observation):
         """
@@ -209,17 +212,22 @@ class RLAgent(Agent):
         
         # Store in episode history for batch learning
         if self.previous_state is not None and self.previous_action is not None:
-            self.episode_history.append({
+            experience = {
                 "state": self.previous_state,
                 "action": self.previous_action,
                 "reward": reward,
                 "next_state": next_state,
                 "done": False
-            })
+            }
+            self.episode_history.append(experience)
+            # Also push into global replay buffer
+            self.replay_buffer.append(experience)
+            if len(self.replay_buffer) > self.replay_buffer_max:
+                self.replay_buffer.pop(0)
     
     def learn_from_episode(self):
-        """Learn from collected experiences at end of episode"""
-        # Update Q-values from collected experiences
+        """Learn from current episode + random sample from replay buffer."""
+        # 1. Learn from current episode (fresh experiences)
         for exp in self.episode_history:
             self.update_q_value(
                 exp["state"],
@@ -228,6 +236,20 @@ class RLAgent(Agent):
                 exp["next_state"],
                 done=False
             )
+        
+        # 2. Replay: sample up to 32 random past experiences so old good
+        #    episodes don't get overwritten by recent bad ones
+        replay_batch_size = min(32, len(self.replay_buffer))
+        if replay_batch_size > 0:
+            batch = random.sample(self.replay_buffer, replay_batch_size)
+            for exp in batch:
+                self.update_q_value(
+                    exp["state"],
+                    exp["action"],
+                    exp["reward"],
+                    exp["next_state"],
+                    done=False
+                )
         
         self.past_episodes.append({
             "episode": self.episode,
@@ -287,7 +309,7 @@ class RLDataLoaderAgent(RLAgent):
             resource_needs={"cpu": 2, "memory": 4, "gpu": 0},
             learning_rate=0.25,
             discount_factor=0.95,
-            epsilon_start=0.7
+            epsilon_start=0.5
         )
     
     def propose_action(self, observation, strategy=None):
@@ -368,7 +390,7 @@ class RLDataCleanerAgent(RLAgent):
             resource_needs={"cpu": 4, "memory": 8, "gpu": 0},
             learning_rate=0.25,
             discount_factor=0.95,
-            epsilon_start=0.7
+            epsilon_start=0.5
         )
     
     def propose_action(self, observation, strategy=None):
@@ -448,7 +470,7 @@ class RLMLTrainerAgent(RLAgent):
             resource_needs={"cpu": 2, "memory": 16, "gpu": 1},
             learning_rate=0.25,
             discount_factor=0.95,
-            epsilon_start=0.7
+            epsilon_start=0.5
         )
     
     def propose_action(self, observation, strategy=None):
