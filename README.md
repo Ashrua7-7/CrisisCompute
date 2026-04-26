@@ -21,7 +21,7 @@ pinned: false
 |--|--|
 | 🤗 HuggingFace Space (live environment) | [gautam0898-crisiscompute.hf.space](https://gautam0898-crisiscompute.hf.space) |
 | 📓 Colab Training Notebook | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ashrua7-7/CrisisCompute/blob/main/notebooks/training_colab.ipynb) |
-| 📝 Mini-Blog on HuggingFace | *[Add link after publishing your HF post]* |
+| 📝 Mini-Blog on HuggingFace | [CrisisCompute: Teaching AI Agents to Negotiate Under Pressure](https://huggingface.co/Gautam0898/crisiscompute-blog) |
 
 ---
 
