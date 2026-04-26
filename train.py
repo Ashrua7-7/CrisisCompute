@@ -499,24 +499,13 @@ def train_agents(num_episodes=30):
                     name = rl.name.replace("rl_", "")
                     rl.load_q_table(f"q_tables/{name}_q_table.json")
         if session_episodes <= 10:
-            # Phase-aware exploration floor: when Q-tables are loaded between
-            # phases the saved epsilon is already decayed, so raw exploitation
-            # of partially-trained Q-values can degrade reward in saturated
-            # regimes. Keep the floor a touch higher (configurable) so each
-            # phase still does meaningful exploration without re-introducing
-            # randomness that wipes out learning. Default 0.25 (was 0.20).
-            try:
-                eps_floor = float(os.getenv("RL_EXPLORATION_FLOOR", "0.25"))
-            except ValueError:
-                eps_floor = 0.25
-            eps_floor = max(0.05, min(0.35, eps_floor))
+            # Only slow down decay between phases — don't force epsilon UP.
+            # Forcing epsilon up resets learned exploitation and causes reward drop.
             for agent in agents:
                 rl = _get_rl(agent)
-                if hasattr(rl, "epsilon"):
-                    current_eps = float(getattr(rl, "epsilon", 0.35))
-                    rl.epsilon = min(0.35, max(current_eps, eps_floor))
                 if hasattr(rl, "epsilon_decay"):
-                    rl.epsilon_decay = max(float(getattr(rl, "epsilon_decay", 0.95)), 0.97)
+                    # Slightly slower decay in short phases so agent still explores
+                    rl.epsilon_decay = max(float(getattr(rl, "epsilon_decay", 0.97)), 0.98)
 
         def _policy_action_from_snapshot(agent_obj, observation, snapshot_state: Dict):
             rl_obj = _get_rl(agent_obj)
