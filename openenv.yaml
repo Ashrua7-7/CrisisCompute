@@ -1,0 +1,58 @@
+name: satya-env
+version: "1.0.0"
+description: >
+  Multi-agent compute allocation environment where three LLM agents
+  (data_loader, data_cleaner, ml_trainer) negotiate over shared CPU/GPU/memory
+  to complete ML pipeline tasks under deadline pressure.
+  OpenEnv compliant — Theme #1: Multi-Agent Interactions and Theme #4: Self-Improvement
+  via adaptive curriculum, scenario generation, and self-play evaluation hooks.
+
+author: Gautam
+theme: self-improvement
+
+server:
+  entry: server/app.py
+  port: 7860
+
+environment:
+  class: SatyaEnvironment
+  module: server.environment
+  supports_concurrent_sessions: true
+
+action:
+  type: MultiAgentAction
+  description: >
+    Joint action from all 3 agents. Each agent submits one of:
+    request_resource | release_resource | wait
+    along with an optional task_id and reasoning string.
+
+observation:
+  type: MultiAgentObservation
+  description: >
+    Joint observation containing per-agent views of the resource pool,
+    task queues, recent events, per-agent step rewards, and team reward.
+
+agents:
+  - data_loader
+  - data_cleaner
+  - ml_trainer
+
+resources:
+  cpu: 16
+  gpu: 1
+  memory: 32
+
+episode:
+  max_hours: 8
+  difficulty: easy
+
+reward:
+  individual_weight: 0.6
+  team_weight: 0.4
+  signals:
+    - on_time_task_completion
+    - early_completion_bonus
+    - deadline_miss_penalty
+    - waiting_penalty
+    - team_completion_rate
+    - team_on_time_rate

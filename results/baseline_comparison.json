@@ -1,0 +1,30 @@
+{
+  "config": {
+    "seed": 42,
+    "negotiation_enabled": true
+  },
+  "negotiation_enabled_run": {
+    "avg_total_reward": 628.8507066666666,
+    "avg_completion_rate": 79.77777777777779,
+    "avg_on_time_rate": 44.0,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5656216005586209,
+    "avg_urgency_response_score": 1.0
+  },
+  "baseline_run_negotiation_disabled": {
+    "avg_total_reward": 686.2918962962963,
+    "avg_completion_rate": 83.70370370370371,
+    "avg_on_time_rate": 57.77777777777778,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5377702831317576,
+    "avg_urgency_response_score": 1.0
+  },
+  "delta": {
+    "avg_total_reward": -57.44118962962966,
+    "avg_completion_rate": -3.925925925925924,
+    "avg_on_time_rate": -13.777777777777779,
+    "avg_fairness_score": 0.0,
+    "avg_belief_accuracy": 0.02785131742686331,
+    "avg_urgency_response_score": 0.0
+  }
+}

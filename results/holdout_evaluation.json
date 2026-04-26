@@ -1,0 +1,42 @@
+{
+  "episodes": 12,
+  "seed": 42,
+  "holdout_plan": [
+    {
+      "name": "holdout_compound_1",
+      "crisis_mode_enabled": true,
+      "crisis_gpu_outage_hour": 2,
+      "crisis_urgent_task_hour": 3
+    },
+    {
+      "name": "holdout_compound_2",
+      "crisis_mode_enabled": true,
+      "crisis_gpu_outage_hour": 3,
+      "crisis_urgent_task_hour": 2
+    }
+  ],
+  "trained_summary": {
+    "avg_total_reward": 684.5530277777777,
+    "avg_completion_rate": 75.0,
+    "avg_on_time_rate": 51.666666666666664,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5200556735955358,
+    "avg_urgency_response_score": 0.0
+  },
+  "fresh_summary": {
+    "avg_total_reward": 620.8016759259259,
+    "avg_completion_rate": 71.66666666666667,
+    "avg_on_time_rate": 44.166666666666664,
+    "avg_fairness_score": 1.0,
+    "avg_belief_accuracy": 0.5494535112680543,
+    "avg_urgency_response_score": 0.0
+  },
+  "delta": {
+    "avg_total_reward": 63.75135185185184,
+    "avg_completion_rate": 3.3333333333333286,
+    "avg_on_time_rate": 7.5,
+    "avg_fairness_score": 0.0,
+    "avg_belief_accuracy": -0.029397837672518468,
+    "avg_urgency_response_score": 0.0
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "llm": "results/mode_sweep_llm_marker.json",
+  "rl": "results/mode_sweep_rl_marker.json",
+  "hybrid": "results/mode_sweep_hybrid_marker.json"
+}

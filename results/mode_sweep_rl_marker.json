@@ -1,0 +1,6 @@
+{
+  "mode": "rl",
+  "episodes": 1,
+  "llm_provider": "groq",
+  "timestamp": "2026-04-25T22:09:00.415773"
+}
