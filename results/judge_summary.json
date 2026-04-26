@@ -1,22 +1,22 @@
 {
   "config": {
     "seeds": [
-      7595526
+      42
     ],
     "negotiation_enabled": true,
     "crisis_mode_enabled": false,
-    "episodes_per_seed": 5
+    "episodes_per_seed": 2
   },
   "per_seed": [
     {
-      "seed": 7595526,
-      "mean_reward": 629.7329777777777,
+      "seed": 42,
+      "mean_reward": 603.5561666666667,
       "mean_completion_rate": 40.0,
       "mean_on_time_rate": 40.0
     }
   ],
   "aggregate": {
-    "reward_mean": 629.7329777777777,
+    "reward_mean": 603.5561666666667,
     "reward_std": 0.0,
     "completion_mean": 40.0,
     "completion_std": 0.0,
