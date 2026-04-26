@@ -5,22 +5,22 @@
     ],
     "negotiation_enabled": true,
     "crisis_mode_enabled": false,
-    "episodes_per_seed": 2
+    "episodes_per_seed": 50
   },
   "per_seed": [
     {
       "seed": 42,
-      "mean_reward": 603.5561666666667,
-      "mean_completion_rate": 40.0,
-      "mean_on_time_rate": 40.0
+      "mean_reward": 694.4434444444444,
+      "mean_completion_rate": 83.70370370370371,
+      "mean_on_time_rate": 52.592592592592595
     }
   ],
   "aggregate": {
-    "reward_mean": 603.5561666666667,
+    "reward_mean": 694.4434444444444,
     "reward_std": 0.0,
-    "completion_mean": 40.0,
+    "completion_mean": 83.70370370370371,
     "completion_std": 0.0,
-    "on_time_mean": 40.0,
+    "on_time_mean": 52.592592592592595,
     "on_time_std": 0.0
   }
 }

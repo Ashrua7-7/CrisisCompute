@@ -60,20 +60,21 @@ class RLFriendlyEnvironment(RealEnvironment):
                         requested_mem
                     )
                     
-                    # Adjust reward based on efficiency
-                    # Good match: bonus +5 points
-                    # Wasteful (way too much): -3 points
-                    # Insufficient (too little): -8 points + penalty
+                    # Adjust reward based on efficiency.
+                    # Bonuses amplified 3× vs original — with constrained CPU
+                    # (cpu=8), over-requesting blocks other agents causing
+                    # deadline misses. The amplified signal ensures Q-learning
+                    # reliably discovers the "use minimal resources" policy.
                     if efficiency > 0.9:  # Great match (90-100%)
-                        adjusted_rewards[i] += 5.0
+                        adjusted_rewards[i] += 15.0
                     elif efficiency > 0.7:  # Good match (70-90%)
-                        adjusted_rewards[i] += 2.0
+                        adjusted_rewards[i] += 6.0
                     elif efficiency > 0.5:  # Okay (50-70%)
                         adjusted_rewards[i] += 0.0  # Neutral
                     elif efficiency > 0.3:  # Wasteful (30-50%)
-                        adjusted_rewards[i] -= 2.0
+                        adjusted_rewards[i] -= 6.0
                     else:  # Very wasteful (< 30%)
-                        adjusted_rewards[i] -= 5.0
+                        adjusted_rewards[i] -= 15.0
                     
                     self.resource_efficiency[agent_id] = efficiency
         

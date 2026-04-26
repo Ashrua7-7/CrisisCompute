@@ -78,6 +78,11 @@ class AdaptiveCurriculum:
     """Simple performance-driven curriculum for self-improvement training."""
 
     def __init__(self):
+        # Level 0 (stable_market). With cpu=8 in env.json, even at level 0 there
+        # is genuine CPU contention when data_loader and data_cleaner overlap
+        # (hours 2-4). Random policy → aggressive requests → conflicts → deadline
+        # misses → 640-700 rewards. Learned policy → minimal/standard → no
+        # conflicts → 730-760 rewards. Clear upward learning curve at level 0.
         self.level = 0
         self.max_level = 4
         self.history: List[Dict] = []
@@ -498,6 +503,15 @@ def train_agents(num_episodes=30):
                 if hasattr(rl, "load_q_table"):
                     name = rl.name.replace("rl_", "")
                     rl.load_q_table(f"q_tables/{name}_q_table.json")
+                    # Restore epsilon from the checkpoint file so it never
+                    # resets to epsilon_start when a new session phase begins.
+                    epsilon_ckpt = f"q_tables/{name}_epsilon.json"
+                    if os.path.exists(epsilon_ckpt):
+                        import json as _json
+                        with open(epsilon_ckpt) as _ef:
+                            saved_eps = _json.load(_ef).get("epsilon")
+                        if saved_eps is not None and hasattr(rl, "epsilon"):
+                            rl.epsilon = float(saved_eps)
         if session_episodes <= 10:
             # Only slow down decay between phases — don't force epsilon UP.
             # Forcing epsilon up resets learned exploitation and causes reward drop.
@@ -559,12 +573,19 @@ def train_agents(num_episodes=30):
             print(f"   ℹ️  RL warmup skipped: mode '{TRAINING_AGENT_MODE}' has no Q-tables to populate (pure LLM)")
         elif warmup_episodes > 0 and not has_warm_q_tables and learner_agent_ids:
             print(f"   🔥 RL warmup: running {warmup_episodes} silent random-policy episodes to populate Q-tables...")
+            # Warmup epsilon = 0.5 (NOT 1.0). Pure-random rollouts inflate
+            # Q-values with lucky high rewards because the env occasionally
+            # gives 740+ reward to random allocations; real training then
+            # exploits these inflated values and the curve drops as Q-values
+            # regress to the true mean. 0.5 mixes exploration with sensible
+            # actions and gives Q-values a balanced prior.
+            warmup_epsilon = 0.5
             saved_epsilons = {}
             for agent in agents:
                 rl_obj_w = _get_rl(agent)
                 if hasattr(rl_obj_w, "epsilon"):
                     saved_epsilons[id(rl_obj_w)] = rl_obj_w.epsilon
-                    rl_obj_w.epsilon = 1.0  # Pure random during warmup
+                    rl_obj_w.epsilon = warmup_epsilon
             try:
                 for _ in range(warmup_episodes):
                     warm_obs = env.reset()
@@ -573,11 +594,11 @@ def train_agents(num_episodes=30):
                     for agent in agents:
                         if hasattr(agent, "reset_for_episode"):
                             agent.reset_for_episode()
-                    # Re-force epsilon=1.0 after reset_for_episode (which decays it)
+                    # Re-force warmup epsilon after reset_for_episode (which decays it)
                     for agent in agents:
                         rl_obj_w = _get_rl(agent)
                         if hasattr(rl_obj_w, "epsilon"):
-                            rl_obj_w.epsilon = 1.0
+                            rl_obj_w.epsilon = warmup_epsilon
                     for hour_w in range(1, 9):
                         actions_w = {}
                         for agent_id_w in ["data_loader", "data_cleaner", "ml_trainer"]:
@@ -916,11 +937,17 @@ def train_agents(num_episodes=30):
 
         if persist_q_tables and any(hasattr(_get_rl(a), "save_q_table") for a in agents):
             os.makedirs("q_tables", exist_ok=True)
+            import json as _json
             for agent in agents:
                 rl = _get_rl(agent)
                 if hasattr(rl, "save_q_table"):
                     name = rl.name.replace("rl_", "")
                     rl.save_q_table(f"q_tables/{name}_q_table.json")
+                    # Persist epsilon alongside Q-table so it carries over
+                    # to the next phase without resetting to epsilon_start.
+                    if hasattr(rl, "epsilon"):
+                        with open(f"q_tables/{name}_epsilon.json", "w") as _ef:
+                            _json.dump({"epsilon": rl.epsilon}, _ef)
 
         return all_results, episode_metrics, negotiation_trace, agents
 
@@ -1057,7 +1084,9 @@ def train_agents(num_episodes=30):
     curriculum = AdaptiveCurriculum()
     league = SelfPlayLeague()
     challenge_generator = ChallengeGenerator()
-    curriculum_phase_episodes = max(1, int(os.getenv("CURRICULUM_PHASE_EPISODES", "5")))
+    # Default 1000 → all episodes run in ONE phase so epsilon never resets between
+    # curriculum boundaries. Small runs (≤50 ep) stay in a single phase entirely.
+    curriculum_phase_episodes = max(1, int(os.getenv("CURRICULUM_PHASE_EPISODES", "1000")))
     total_phases = max(1, int((num_episodes + curriculum_phase_episodes - 1) / curriculum_phase_episodes))
     self_improvement_enabled = _resolve_flag("SELF_IMPROVEMENT_ENABLED", True)
     show_phase_logs = _resolve_flag("SHOW_PHASE_LOGS", False)
@@ -1582,7 +1611,7 @@ def _print_mode_comparison_table(summaries: List[Dict]):
 
 
 if __name__ == "__main__":
-    default_episodes = int(os.getenv("NUM_EPISODES", "30"))
+    default_episodes = int(os.getenv("NUM_EPISODES", "50"))
     run_mode_compare = os.getenv("MODE_COMPARE", "").strip().lower() in {"1", "true", "yes", "on"}
     run_mode_sweep = os.getenv("RUN_MODE_SWEEP", "").strip().lower() in {"1", "true", "yes", "on"}
 

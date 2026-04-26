@@ -1,29 +1,42 @@
 AGENT NEGOTIATION LOG SAMPLES (RUN-DERIVED)
 ============================================================
-Episodes captured: 2
+Episodes captured: 50
 
 Episode 1
 ------------------------------
 Hour 1:
   - data_loader: action=run_task task=load_raw_batch_1 cpu=4 gpu=0 mem=6
-  - data_cleaner: action=run_task task=clean_batch_1 cpu=6 gpu=0 mem=8
-  - ml_trainer: action=run_task task=train_baseline_model cpu=4 gpu=1 mem=16
-    metrics: conflicts=0 coalitions=0 fairness=1.000 belief=0.573
-Hour 2:
-  - data_loader: action=run_task task=load_raw_batch_2 cpu=4 gpu=0 mem=6
   - data_cleaner: action=run_task task=clean_batch_1 cpu=4 gpu=0 mem=6
   - ml_trainer: action=run_task task=train_baseline_model cpu=4 gpu=1 mem=16
-    metrics: conflicts=0 coalitions=0 fairness=1.000 belief=0.759
+    metrics: conflicts=0 coalitions=0 fairness=1.000 belief=0.619
+Hour 2:
+  - data_loader: action=run_task task=load_raw_batch_2 cpu=2 gpu=0 mem=4
+  - data_cleaner: action=run_task task=clean_batch_1 cpu=4 gpu=0 mem=6
+  - ml_trainer: action=run_task task=train_baseline_model cpu=6 gpu=1 mem=20
+    metrics: conflicts=0 coalitions=0 fairness=1.000 belief=0.656
 
 Episode 2
 ------------------------------
 Hour 1:
   - data_loader: action=run_task task=load_raw_batch_1 cpu=4 gpu=0 mem=6
+  - data_cleaner: action=run_task task=clean_batch_1 cpu=4 gpu=0 mem=6
+  - ml_trainer: action=run_task task=train_baseline_model cpu=4 gpu=1 mem=16
+    metrics: conflicts=0 coalitions=0 fairness=1.000 belief=0.619
+Hour 2:
+  - data_loader: action=run_task task=load_raw_batch_2 cpu=6 gpu=0 mem=8
   - data_cleaner: action=run_task task=clean_batch_1 cpu=6 gpu=0 mem=8
+  - ml_trainer: action=run_task task=train_baseline_model cpu=4 gpu=1 mem=16
+    metrics: conflicts=1 coalitions=0 fairness=1.000 belief=0.647
+
+Episode 3
+------------------------------
+Hour 1:
+  - data_loader: action=run_task task=load_raw_batch_1 cpu=6 gpu=0 mem=8
+  - data_cleaner: action=run_task task=clean_batch_1 cpu=4 gpu=0 mem=6
   - ml_trainer: action=run_task task=train_baseline_model cpu=4 gpu=1 mem=16
     metrics: conflicts=0 coalitions=0 fairness=1.000 belief=0.573
 Hour 2:
-  - data_loader: action=run_task task=load_raw_batch_2 cpu=4 gpu=0 mem=6
-  - data_cleaner: action=run_task task=clean_batch_1 cpu=4 gpu=0 mem=6
+  - data_loader: action=run_task task=load_raw_batch_2 cpu=6 gpu=0 mem=8
+  - data_cleaner: action=run_task task=clean_batch_1 cpu=6 gpu=0 mem=8
   - ml_trainer: action=run_task task=train_baseline_model cpu=4 gpu=1 mem=16
-    metrics: conflicts=0 coalitions=0 fairness=1.000 belief=0.759
+    metrics: conflicts=1 coalitions=0 fairness=1.000 belief=0.670
