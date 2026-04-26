@@ -472,32 +472,6 @@ def train_agents(num_episodes=30):
             parsed = parsed / 100.0
         return max(0.0, min(1.0, parsed))
 
-    def _compute_episode_binary_outcome(episode_data: Dict) -> int:
-        """
-        Deterministic binary outcome from finalized episode metrics.
-        This is diagnostics-only and does not affect rewards/learning.
-        Uses the same task-based completion/on_time rates that the display uses
-        (completed_tasks / total_tasks) so binary actually discriminates 0 vs 1.
-        """
-        completion_gate = float(os.getenv("UNSLOTH_BINARY_COMPLETION_GATE", "0.65"))
-        on_time_gate = float(os.getenv("UNSLOTH_BINARY_ON_TIME_GATE", "0.55"))
-        fairness_gate = float(os.getenv("UNSLOTH_BINARY_FAIRNESS_GATE", "0.70"))
-        require_no_deadline_miss = _resolve_flag("UNSLOTH_BINARY_REQUIRE_NO_DEADLINE_MISS", False)
-
-        completion_rate = MetricsCalculator.calculate_completion_rate(episode_data) / 100.0
-        on_time_rate = MetricsCalculator.calculate_on_time_rate(episode_data) / 100.0
-        fairness_score = float(episode_data.get("avg_fairness_score", 0.0))
-        deadline_misses = int(episode_data.get("deadline_misses", 0))
-
-        passed = (
-            completion_rate >= completion_gate
-            and on_time_rate >= on_time_gate
-            and fairness_score >= fairness_gate
-        )
-        if require_no_deadline_miss:
-            passed = passed and deadline_misses == 0
-        return 1 if passed else 0
-
     def _run_single_session(
         session_episodes: int,
         seed: int,
@@ -779,7 +753,6 @@ def train_agents(num_episodes=30):
             episode_data["llm_errors"] = int(llm_errors_this_ep)
             episode_data["agent_mode"] = TRAINING_AGENT_MODE
 
-            episode_data["episode_binary_outcome"] = _compute_episode_binary_outcome(episode_data)
             all_results.append(episode_data)
 
             episode_metrics.append(
@@ -799,7 +772,6 @@ def train_agents(num_episodes=30):
                     "emergency_charter_count": episode_data["emergency_charter_count"],
                     "deadlock_count": episode_data["deadlock_count"],
                     "renegotiation_count": episode_data["renegotiation_count"],
-                    "episode_binary_outcome": episode_data["episode_binary_outcome"],
                 }
             )
 
@@ -1122,13 +1094,12 @@ def train_agents(num_episodes=30):
         eps_mean = float(episode_data.get("epsilon_mean", 0.0))
         llm_calls = int(episode_data.get("llm_calls", 0))
         llm_errors = int(episode_data.get("llm_errors", 0))
-        binary_outcome = int(episode_data.get("episode_binary_outcome", 0))
         if ep_mode == "llm":
-            tail = f"Binary: {binary_outcome} │ LLM calls: {llm_calls:3d} │ errors: {llm_errors}"
+            tail = f"LLM calls: {llm_calls:3d} │ errors: {llm_errors}"
         elif ep_mode == "rl":
-            tail = f"Binary: {binary_outcome} │ ε: {eps_mean:.3f}"
+            tail = f"ε: {eps_mean:.3f}"
         else:  # hybrid
-            tail = f"Binary: {binary_outcome} │ ε: {eps_mean:.3f} │ LLM calls: {llm_calls:3d} │ errors: {llm_errors}"
+            tail = f"ε: {eps_mean:.3f} │ LLM calls: {llm_calls:3d} │ errors: {llm_errors}"
         print(
             f"Episode {episode_data['episode']:2d} │ Reward: {episode_data['total_reward']:7.1f} │ "
             f"Completion: {completion_rate:5.1f}% │ {tail}"
