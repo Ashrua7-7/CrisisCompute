@@ -13,7 +13,7 @@ class MetricsCalculator:
         """
         What % of tasks got completed?
         """
-        total_tasks = 15  # 5 loader + 8 cleaner + 1 trainer + 1 extra
+        total_tasks = int(episode_data.get("total_tasks") or episode_data.get("metrics", {}).get("total_tasks") or 9)
         completed = episode_data.get("completed_tasks", 0)
         
         rate = (completed / total_tasks) * 100 if total_tasks > 0 else 0
@@ -24,7 +24,7 @@ class MetricsCalculator:
         """
         What % of deadlines were met?
         """
-        total_tasks = 15
+        total_tasks = int(episode_data.get("total_tasks") or episode_data.get("metrics", {}).get("total_tasks") or 9)
         on_time = episode_data.get("on_time_tasks", 0)
         
         rate = (on_time / total_tasks) * 100 if total_tasks > 0 else 0
