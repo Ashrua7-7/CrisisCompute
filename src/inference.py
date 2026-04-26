@@ -220,12 +220,11 @@ Other agents' status:
 
         tasks_msg = f"""
     Your tasks (strict allow-list):
-    - Pending task_ids you can run now: {pending_tasks}
-    - Running task_ids: {running_tasks}
+    - Running task_ids (FINISH THESE FIRST!): {running_tasks}
+    - Pending task_ids you can start: {pending_tasks}
     - Done task_ids: {done_tasks}
     """
         
-        # Decision prompt
         decision_msg = f"""
 Based on above information and what you learned: {history}
 
@@ -247,7 +246,9 @@ Return ONLY this JSON (no other text):
 }}
 
 Rules:
-- If action is "run_task", task_id must exactly match one value from pending task_ids.
+- PRIORITY: If you have running tasks, ALWAYS continue them (pick from running task_ids).
+- Otherwise pick from pending task_ids.
+- task_id must exactly match a value from running or pending task_ids.
 - Never invent task_id values like "1", "...", or placeholders.
 - Use conservative resources close to your role's normal needs.
 
@@ -342,9 +343,12 @@ If you choose wait, set task_id to null and all resource fields to 0.
             return action
 
         my_tasks = observation.get("my_tasks", {}) or {}
+        running_tasks = my_tasks.get("running", []) if isinstance(my_tasks, dict) else []
         pending_tasks = my_tasks.get("pending", []) if isinstance(my_tasks, dict) else []
+        # Running tasks first (finish what you started), then pending
+        actionable_tasks = running_tasks + pending_tasks
 
-        if not pending_tasks:
+        if not actionable_tasks:
             return {
                 "action": "wait",
                 "task_id": None,
@@ -352,7 +356,7 @@ If you choose wait, set task_id to null and all resource fields to 0.
                 "gpu_needed": 0,
                 "memory_needed": 0,
                 "estimated_duration_min": 0,
-                "reasoning": "No pending tasks available for this agent.",
+                "reasoning": "No actionable tasks available for this agent.",
             }
 
         available_resources = observation.get("available_resources", {})
@@ -373,20 +377,20 @@ If you choose wait, set task_id to null and all resource fields to 0.
             if has_capacity:
                 action = {
                     "action": "run_task",
-                    "task_id": pending_tasks[0],
+                    "task_id": actionable_tasks[0],
                     "cores_needed": default_cpu,
                     "gpu_needed": default_gpu,
                     "memory_needed": default_mem,
                     "estimated_duration_min": 60,
-                    "reasoning": "Auto-switched from wait to run_task to avoid idle stall with available resources.",
+                    "reasoning": "Auto-switched from wait to run_task — continuing active/pending work.",
                 }
             else:
                 return action
 
-        if action.get("task_id") not in pending_tasks:
-            action["task_id"] = pending_tasks[0]
+        if action.get("task_id") not in actionable_tasks:
+            action["task_id"] = actionable_tasks[0]
             existing_reasoning = action.get("reasoning", "")
-            action["reasoning"] = f"{existing_reasoning} Auto-corrected to valid pending task_id.".strip()
+            action["reasoning"] = f"{existing_reasoning} Auto-corrected to valid task_id.".strip()
 
         action["cores_needed"] = max(1, min(cpu_cap, int(action.get("cores_needed", default_cpu) or default_cpu)))
         action["gpu_needed"] = max(0, min(gpu_cap, int(action.get("gpu_needed", default_gpu) or default_gpu)))

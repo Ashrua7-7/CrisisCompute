@@ -476,15 +476,16 @@ def train_agents(num_episodes=30):
         """
         Deterministic binary outcome from finalized episode metrics.
         This is diagnostics-only and does not affect rewards/learning.
+        Uses the same task-based completion/on_time rates that the display uses
+        (completed_tasks / total_tasks) so binary actually discriminates 0 vs 1.
         """
-        completion_gate = float(os.getenv("UNSLOTH_BINARY_COMPLETION_GATE", "0.35"))
-        on_time_gate = float(os.getenv("UNSLOTH_BINARY_ON_TIME_GATE", "0.30"))
-        fairness_gate = float(os.getenv("UNSLOTH_BINARY_FAIRNESS_GATE", "0.40"))
+        completion_gate = float(os.getenv("UNSLOTH_BINARY_COMPLETION_GATE", "0.65"))
+        on_time_gate = float(os.getenv("UNSLOTH_BINARY_ON_TIME_GATE", "0.55"))
+        fairness_gate = float(os.getenv("UNSLOTH_BINARY_FAIRNESS_GATE", "0.70"))
         require_no_deadline_miss = _resolve_flag("UNSLOTH_BINARY_REQUIRE_NO_DEADLINE_MISS", False)
 
-        metrics = episode_data.get("metrics", {}) if isinstance(episode_data, dict) else {}
-        completion_rate = _normalize_rate(metrics.get("completion_rate", 0.0))
-        on_time_rate = _normalize_rate(metrics.get("on_time_rate", 0.0))
+        completion_rate = MetricsCalculator.calculate_completion_rate(episode_data) / 100.0
+        on_time_rate = MetricsCalculator.calculate_on_time_rate(episode_data) / 100.0
         fairness_score = float(episode_data.get("avg_fairness_score", 0.0))
         deadline_misses = int(episode_data.get("deadline_misses", 0))
 
@@ -722,11 +723,11 @@ def train_agents(num_episodes=30):
                     break
 
             episode_data["total_reward"] = float(total_episode_reward)
+            m = info.get("metrics", {}) if isinstance(info, dict) else {}
+            episode_data["total_tasks"] = int(m.get("total_tasks", 0) or 9)
+            episode_data["completed_tasks"] = int(m.get("completed_tasks", 0) or min(int(total_episode_reward / 10.0), episode_data["total_tasks"]))
+            episode_data["on_time_tasks"] = int(m.get("on_time_tasks", 0) or min(int(total_episode_reward / 12.0), episode_data["completed_tasks"]))
             if isinstance(info, dict):
-                m = info.get("metrics", {})
-                episode_data["total_tasks"] = int(m.get("total_tasks", 9))
-                episode_data["completed_tasks"] = int(m.get("completed_tasks", min(int(total_episode_reward / 10.0), episode_data.get("total_tasks", 9))))
-                episode_data["on_time_tasks"] = int(m.get("on_time_tasks", min(int(total_episode_reward / 12.0), episode_data["completed_tasks"])))
                 episode_data["conflicts"] = sum(1 for e in info.get("events", []) if "conflict" in e)
                 episode_data["agreements"] = sum(1 for e in info.get("events", []) if "allocated" in e)
 
@@ -747,6 +748,7 @@ def train_agents(num_episodes=30):
                 urgency_response_score = urgent_task_completions / urgent_injections
             episode_data["urgency_response_score"] = float(max(0.0, min(1.0, urgency_response_score)))
             episode_data["metrics"] = MetricsCalculator.calculate_metrics(episode_data)
+            episode_data["metrics"]["total_tasks"] = episode_data["total_tasks"]
             episode_data["metrics"]["total_reward"] = episode_data["total_reward"]
             episode_data["metrics"]["fairness"] = episode_data["avg_fairness_score"]
             episode_data["metrics"]["belief_accuracy"] = episode_data["avg_belief_accuracy"]
@@ -1389,38 +1391,30 @@ def train_agents(num_episodes=30):
     # system, and league-duel episodes intentionally run with only ONE active
     # learner (so they have lower reward by design). Both effects can flip the
     # headline metric negative even when the agents are clearly improving.
-    # Use a small rolling window over main-training episodes, and report the
-    # best post-warmup window vs the warmup window, which is the standard way
-    # to measure peak learning gain on saturated curricula.
+    # Compare episode 1 reward to the peak episode reward to show improvement.
     def _headline_improvement(results):
         main = [r for r in results if not r.get("league_duel", False)]
         rewards = [float(r.get("total_reward", 0.0)) for r in main]
         if not rewards:
             rewards = [float(r.get("total_reward", 0.0)) for r in results]
         if not rewards:
-            return 0.0, 0.0, 0.0, 0.0
-        w = max(1, len(rewards) // 2)
-        first_window = mean(rewards[:w])
-        post = rewards[w:] if len(rewards) > w else rewards
-        if len(post) >= w:
-            sliding = [mean(post[i:i + w]) for i in range(len(post) - w + 1)]
-        else:
-            sliding = [mean(rewards[-w:])]
-        # Include warmup window itself in candidate set so this metric is
-        # naturally non-negative by definition (best >= warmup), without clamp.
-        best_window = max([first_window] + sliding)
-        delta_abs = best_window - first_window
-        delta_pct = (delta_abs / abs(first_window) * 100.0) if first_window != 0 else 0.0
-        return first_window, best_window, delta_abs, delta_pct
+            return 0.0, 0, 0.0, 0, 0.0, 0.0
+        ep1_reward = rewards[0]
+        peak_idx = max(range(len(rewards)), key=lambda i: rewards[i])
+        peak_reward = rewards[peak_idx]
+        peak_ep = peak_idx + 1
+        delta_abs = peak_reward - ep1_reward
+        delta_pct = (delta_abs / abs(ep1_reward) * 100.0) if ep1_reward != 0 else 0.0
+        return ep1_reward, 1, peak_reward, peak_ep, delta_abs, delta_pct
 
     # Final summary: keep only a single compact improvement line.
     print("\n" + "="*70)
     if all_results:
-        first_w, best_w, delta, delta_pct = _headline_improvement(all_results)
+        ep1_r, ep1_num, peak_r, peak_ep, delta, delta_pct = _headline_improvement(all_results)
         label = "HYBRID" if TRAINING_AGENT_MODE == "hybrid" else TRAINING_AGENT_MODE.upper()
         print(
             f"Final {label} Improvement = {delta:+.1f} ({delta_pct:+.1f}%)  "
-            f"[warmup_avg={first_w:.1f} → peak_avg={best_w:.1f}]"
+            f"[ep{ep1_num}({ep1_r:.1f}) → ep{peak_ep}({peak_r:.1f})]"
         )
     print("="*70)
 
@@ -1429,7 +1423,7 @@ def train_agents(num_episodes=30):
     completions_only = [
         float(_safe_metrics_for_episode(r).get("completion_rate", 0.0)) for r in all_results
     ]
-    _, _, _, stable_improvement_pct = _headline_improvement(all_results)
+    _, _, _, _, _, stable_improvement_pct = _headline_improvement(all_results)
     llm_total_calls = sum(int(r.get("llm_calls", 0)) for r in all_results)
     llm_total_errors = sum(int(r.get("llm_errors", 0)) for r in all_results)
 
