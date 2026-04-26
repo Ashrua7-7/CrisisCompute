@@ -16,27 +16,27 @@
     }
   ],
   "trained_summary": {
-    "avg_total_reward": 604.8194074074074,
+    "avg_total_reward": 602.4461666666667,
     "avg_completion_rate": 40.0,
     "avg_on_time_rate": 40.0,
     "avg_fairness_score": 1.0,
-    "avg_belief_accuracy": 0.5211235411548454,
+    "avg_belief_accuracy": 0.5216710137223156,
     "avg_urgency_response_score": 0.0
   },
   "fresh_summary": {
-    "avg_total_reward": 599.5106111111111,
+    "avg_total_reward": 605.5930740740741,
     "avg_completion_rate": 40.0,
     "avg_on_time_rate": 40.0,
     "avg_fairness_score": 1.0,
-    "avg_belief_accuracy": 0.5106060599469522,
+    "avg_belief_accuracy": 0.49117183529881603,
     "avg_urgency_response_score": 0.0
   },
   "delta": {
-    "avg_total_reward": 5.30879629629635,
+    "avg_total_reward": -3.1469074074074115,
     "avg_completion_rate": 0.0,
     "avg_on_time_rate": 0.0,
     "avg_fairness_score": 0.0,
-    "avg_belief_accuracy": 0.010517481207893198,
+    "avg_belief_accuracy": 0.030499178423499584,
     "avg_urgency_response_score": 0.0
   }
 }
