@@ -8,38 +8,16 @@
       "completion": 0.4,
       "on_time": 0.4,
       "fairness": 1.0,
-      "belief_accuracy": 0.524896653130335,
+      "belief_accuracy": 0.5283929550033456,
       "urgency_response_score": 1.0,
-      "avg_total_reward": 631.910111111111,
-      "strict_gate_hit": true,
-      "adaptive_gate_hit": false
-    },
-    {
-      "phase": 2,
-      "level": 1,
-      "promoted": true,
-      "completion": 0.4,
-      "on_time": 0.4,
-      "fairness": 1.0,
-      "belief_accuracy": 0.5178986475959382,
-      "urgency_response_score": 1.0,
-      "avg_total_reward": 630.5197777777779,
+      "avg_total_reward": 627.7149999999999,
       "strict_gate_hit": true,
       "adaptive_gate_hit": false
     }
   ],
-  "league_duels": [
-    {
-      "phase": 2,
-      "learner_agent": "ml_trainer",
-      "opponent_phase": 1,
-      "reward": 600.3362222222222,
-      "completion_rate": 40.0,
-      "scenario": "urgent_injection"
-    }
-  ],
+  "league_duels": [],
   "phase_episodes": 5,
-  "total_phases": 2,
+  "total_phases": 1,
   "challenge_templates": {
     "0": [
       {
@@ -101,52 +79,48 @@
   },
   "level_progression_summary": {
     "level_0": {
-      "episodes": 6,
-      "mean_reward": 631.6783888888888
-    },
-    "level_1": {
-      "episodes": 1,
-      "mean_reward": 600.3362222222222
+      "episodes": 2,
+      "mean_reward": 627.7149999999999
     }
   },
   "baseline_delta": {
-    "avg_total_reward": 34.688436507936444,
+    "avg_total_reward": 34.627333333333354,
     "avg_completion_rate": 0.0,
     "avg_on_time_rate": 0.0,
     "avg_fairness_score": 0.0,
-    "avg_belief_accuracy": 0.0605797697912383,
-    "avg_urgency_response_score": -0.1428571428571429
+    "avg_belief_accuracy": 0.09518659620569292,
+    "avg_urgency_response_score": 0.0
   },
   "fixed_eval_delta": {
-    "avg_total_reward": 25.774074074074065,
+    "avg_total_reward": 19.84692592592569,
     "avg_completion_rate": 0.0,
     "avg_on_time_rate": 0.0,
     "avg_fairness_score": 0.0,
-    "avg_belief_accuracy": 0.06363834435139976,
+    "avg_belief_accuracy": 0.04751508072143551,
     "avg_urgency_response_score": 0.0
   },
   "holdout_delta": {
-    "avg_total_reward": 9.083259259259307,
+    "avg_total_reward": 5.30879629629635,
     "avg_completion_rate": 0.0,
     "avg_on_time_rate": 0.0,
     "avg_fairness_score": 0.0,
-    "avg_belief_accuracy": 0.02892458823728966,
+    "avg_belief_accuracy": 0.010517481207893198,
     "avg_urgency_response_score": 0.0
   },
   "holdout_trained_summary": {
-    "avg_total_reward": 604.7112777777778,
+    "avg_total_reward": 604.8194074074074,
     "avg_completion_rate": 40.0,
     "avg_on_time_rate": 40.0,
     "avg_fairness_score": 1.0,
-    "avg_belief_accuracy": 0.517492651971089,
+    "avg_belief_accuracy": 0.5211235411548454,
     "avg_urgency_response_score": 0.0
   },
   "holdout_fresh_summary": {
-    "avg_total_reward": 595.6280185185185,
+    "avg_total_reward": 599.5106111111111,
     "avg_completion_rate": 40.0,
     "avg_on_time_rate": 40.0,
     "avg_fairness_score": 1.0,
-    "avg_belief_accuracy": 0.4885680637337993,
+    "avg_belief_accuracy": 0.5106060599469522,
     "avg_urgency_response_score": 0.0
   }
 }
