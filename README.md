@@ -6,11 +6,7 @@ colorTo: blue
 sdk: docker
 app_port: 7860
 pinned: false
-<<<<<<< HEAD
 short_description: OpenEnv multi-agent compute negotiation + adaptive curriculum / self-play for LLM & RL training.
-=======
-short_description: Multi-agent compute negotiation env (OpenEnv hackathon).
->>>>>>> 73431b2035c813535363be499ac519650a141afb
 ---
 
 # CrisisCompute
@@ -29,10 +25,6 @@ short_description: Multi-agent compute negotiation env (OpenEnv hackathon).
 | **Source code (this repo)** | [github.com/Ashrua7-7/CrisisCompute](https://github.com/Ashrua7-7/CrisisCompute) |
 | **Training: Colab notebook (Unsloth + HF TRL)** | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/13Z6-3Fm-H3Js9LiAC9jkCPAhzJQiFm4C?usp=sharing) · [Notebook on GitHub](https://github.com/Ashrua7-7/CrisisCompute/blob/main/notebooks/training_colab.ipynb) |
 | **Mini-blog (HF Discussions / article)** | [CrisisCompute: Teaching AI Agents to Negotiate Under Pressure](https://huggingface.co/Gautam0898/crisiscompute-blog) |
-<<<<<<< HEAD
-=======
-| **Demo video (<2 min, optional)** | *Add your YouTube URL when published* — hackathon allows **blog OR video**; we lead with the HF blog above. |
->>>>>>> 73431b2035c813535363be499ac519650a141afb
 | **Negotiation protocol (design doc)** | [docs/crisiscompute_negotiation_protocol.md](https://github.com/Ashrua7-7/CrisisCompute/blob/main/docs/crisiscompute_negotiation_protocol.md) |
 | **LLM prompts & agent setup** | [docs/llm_prompts.md](https://github.com/Ashrua7-7/CrisisCompute/blob/main/docs/llm_prompts.md) · [docs/agent_personalities.md](https://github.com/Ashrua7-7/CrisisCompute/blob/main/docs/agent_personalities.md) |
 
@@ -232,8 +224,4 @@ CrisisCompute/
 
 ---
 
-<<<<<<< HEAD
 *Structured for Hugging Face Spaces (`README.md` card) and hackathon judges: quick links, requirements checklist, story, results, and rubric/training mapping.*
-=======
-*Structured for Hugging Face Spaces (`README.md` card) and hackathon judges: quick links, requirements checklist, story, results, and rubric/training mapping.*
->>>>>>> 73431b2035c813535363be499ac519650a141afb
