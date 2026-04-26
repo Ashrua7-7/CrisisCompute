@@ -6,7 +6,7 @@ colorTo: blue
 sdk: docker
 app_port: 7860
 pinned: false
-short_description: OpenEnv multi-agent compute negotiation + adaptive curriculum / self-play for LLM & RL training.
+short_description: Multi-agent compute negotiation env (OpenEnv hackathon).
 ---
 
 # CrisisCompute
