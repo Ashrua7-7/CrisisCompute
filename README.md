@@ -20,7 +20,7 @@ pinned: false
 | | |
 |--|--|
 | 🤗 HuggingFace Space (live environment) | [gautam0898-crisiscompute.hf.space](https://gautam0898-crisiscompute.hf.space) |
-| 📓 Colab Training Notebook | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ejUg6iEh2_QXhB0eSG93uzfDYG2SrJsn?usp=sharing) · [GitHub](https://github.com/Ashrua7-7/CrisisCompute/blob/main/notebooks/training_colab.ipynb) |
+| 📓 Colab Training Notebook | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/13Z6-3Fm-H3Js9LiAC9jkCPAhzJQiFm4C?usp=sharing) · [GitHub](https://github.com/Ashrua7-7/CrisisCompute/blob/main/notebooks/training_colab.ipynb) |
 | 📝 Mini-Blog on HuggingFace | [CrisisCompute: Teaching AI Agents to Negotiate Under Pressure](https://huggingface.co/Gautam0898/crisiscompute-blog) |
 
 ---
@@ -168,7 +168,7 @@ TRAINING_AGENT_MODE=hybrid
 Open the notebook on a free **T4 GPU** — it runs the complete pipeline:  
 RL training → Hybrid training → Unsloth SFT fine-tuning → GRPO training → all plots saved.
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ejUg6iEh2_QXhB0eSG93uzfDYG2SrJsn?usp=sharing) · [GitHub copy](https://github.com/Ashrua7-7/CrisisCompute/blob/main/notebooks/training_colab.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/13Z6-3Fm-H3Js9LiAC9jkCPAhzJQiFm4C?usp=sharing) · [GitHub copy](https://github.com/Ashrua7-7/CrisisCompute/blob/main/notebooks/training_colab.ipynb)
 
 ---
 

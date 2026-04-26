@@ -15,7 +15,7 @@ thumbnail: https://huggingface.co/spaces/Gautam0898/crisiscompute/resolve/main/r
 |---|---|
 | Live Environment | [gautam0898-crisiscompute.hf.space](https://gautam0898-crisiscompute.hf.space) |
 | GitHub Repository | [github.com/Ashrua7-7/CrisisCompute](https://github.com/Ashrua7-7/CrisisCompute) |
-| Training Notebook (Colab) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ejUg6iEh2_QXhB0eSG93uzfDYG2SrJsn?usp=sharing) · [source on GitHub](https://github.com/Ashrua7-7/CrisisCompute/blob/main/notebooks/training_colab.ipynb) |
+| Training Notebook (Colab) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/13Z6-3Fm-H3Js9LiAC9jkCPAhzJQiFm4C?usp=sharing) · [source on GitHub](https://github.com/Ashrua7-7/CrisisCompute/blob/main/notebooks/training_colab.ipynb) |
 
 ---
 
@@ -257,7 +257,7 @@ python train.py
 Open the notebook on a free T4 GPU — runs the complete pipeline:
 RL training → Hybrid training → Unsloth SFT → GRPO → all plots saved.
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ejUg6iEh2_QXhB0eSG93uzfDYG2SrJsn?usp=sharing) · [Same notebook in repo](https://github.com/Ashrua7-7/CrisisCompute/blob/main/notebooks/training_colab.ipynb)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/13Z6-3Fm-H3Js9LiAC9jkCPAhzJQiFm4C?usp=sharing) · [Same notebook in repo](https://github.com/Ashrua7-7/CrisisCompute/blob/main/notebooks/training_colab.ipynb)
 
 ### Live Environment
 Visit the HuggingFace Space to interact with the environment directly:
