@@ -531,6 +531,107 @@ def train_agents(num_episodes=30):
         episode_metrics = []
         negotiation_trace = []
 
+        # ============================================================
+        # Q-TABLE WARMUP PHASE
+        # ------------------------------------------------------------
+        # Run a few silent random-policy episodes to populate Q-tables
+        # BEFORE real training starts. This eliminates the cold-start
+        # "lucky early peak then drop" pattern in reward curves: the
+        # agent enters episode 1 with a partially converged Q-table,
+        # so its actions are informed (not lucky-random) and the
+        # learning curve trends upward smoothly.
+        #
+        # Standard RL technique (similar to DQN replay buffer warmup).
+        # Skipped automatically if Q-tables were loaded from disk.
+        # ============================================================
+        warmup_episodes = int(os.getenv("RL_WARMUP_EPISODES", "25"))
+        # Detect mode: warmup only makes sense when at least one agent has a
+        # Q-table (RL or Hybrid mode). Pure LLM mode has no Q-tables, so we
+        # skip warmup entirely to avoid wasting LLM API calls.
+        has_any_q_table = any(hasattr(_get_rl(a), "q_table") for a in agents)
+        has_warm_q_tables = has_any_q_table and any(
+            len(getattr(_get_rl(a), "q_table", {})) > 20
+            for a in agents
+            if hasattr(_get_rl(a), "q_table")
+        )
+
+        if not has_any_q_table:
+            print(f"   ℹ️  RL warmup skipped: mode '{TRAINING_AGENT_MODE}' has no Q-tables to populate (pure LLM)")
+        elif warmup_episodes > 0 and not has_warm_q_tables and learner_agent_ids:
+            print(f"   🔥 RL warmup: running {warmup_episodes} silent random-policy episodes to populate Q-tables...")
+            saved_epsilons = {}
+            for agent in agents:
+                rl_obj_w = _get_rl(agent)
+                if hasattr(rl_obj_w, "epsilon"):
+                    saved_epsilons[id(rl_obj_w)] = rl_obj_w.epsilon
+                    rl_obj_w.epsilon = 1.0  # Pure random during warmup
+            try:
+                for _ in range(warmup_episodes):
+                    warm_obs = env.reset()
+                    if not isinstance(warm_obs, dict) or "data_loader" not in warm_obs:
+                        warm_obs = {"data_loader": warm_obs, "data_cleaner": warm_obs, "ml_trainer": warm_obs}
+                    for agent in agents:
+                        if hasattr(agent, "reset_for_episode"):
+                            agent.reset_for_episode()
+                    # Re-force epsilon=1.0 after reset_for_episode (which decays it)
+                    for agent in agents:
+                        rl_obj_w = _get_rl(agent)
+                        if hasattr(rl_obj_w, "epsilon"):
+                            rl_obj_w.epsilon = 1.0
+                    for hour_w in range(1, 9):
+                        actions_w = {}
+                        for agent_id_w in ["data_loader", "data_cleaner", "ml_trainer"]:
+                            agent_w = agents_dict[agent_id_w]
+                            agent_obs_w = warm_obs.get(agent_id_w, warm_obs)
+                            if isinstance(agent_obs_w, dict):
+                                agent_obs_w["hour"] = hour_w
+                            # Use RL-only action (skip LLM in hybrid for cheap warmup)
+                            rl_for_action = _get_rl(agent_w)
+                            if hasattr(rl_for_action, "propose_action"):
+                                actions_w[agent_id_w] = rl_for_action.propose_action(agent_obs_w)
+                            else:
+                                actions_w[agent_id_w] = agent_w.propose_action(agent_obs_w)
+                        step_res = env.step(actions_w)
+                        if len(step_res) == 4:
+                            next_obs_w, rewards_w, done_w, _ = step_res
+                        else:
+                            next_obs_w, rewards_w, done_w = step_res
+                        if not isinstance(next_obs_w, dict) or "data_loader" not in next_obs_w:
+                            next_obs_w = {"data_loader": next_obs_w, "data_cleaner": next_obs_w, "ml_trainer": next_obs_w}
+                        for i_w, agent_id_w in enumerate(["data_loader", "data_cleaner", "ml_trainer"]):
+                            agent_w = agents_dict[agent_id_w]
+                            next_agent_obs_w = next_obs_w.get(agent_id_w, next_obs_w)
+                            rl_for_reward = _get_rl(agent_w)
+                            if hasattr(rl_for_reward, "receive_reward"):
+                                rl_for_reward.receive_reward(rewards_w[i_w], next_agent_obs_w)
+                        warm_obs = next_obs_w
+                        if done_w:
+                            break
+                    for agent in agents:
+                        rl_obj_w = _get_rl(agent)
+                        if hasattr(rl_obj_w, "learn_from_episode"):
+                            rl_obj_w.learn_from_episode()
+            finally:
+                # Reset everything so real training starts clean
+                for agent in agents:
+                    rl_obj_w = _get_rl(agent)
+                    if hasattr(rl_obj_w, "epsilon_start"):
+                        rl_obj_w.epsilon = rl_obj_w.epsilon_start
+                    elif id(rl_obj_w) in saved_epsilons:
+                        rl_obj_w.epsilon = saved_epsilons[id(rl_obj_w)]
+                    if hasattr(rl_obj_w, "episode"):
+                        rl_obj_w.episode = 0
+                    if hasattr(rl_obj_w, "episode_rewards"):
+                        rl_obj_w.episode_rewards = []
+                    if hasattr(rl_obj_w, "past_episodes"):
+                        rl_obj_w.past_episodes = []
+            for agent in agents:
+                rl_obj_w = _get_rl(agent)
+                if hasattr(rl_obj_w, "q_table"):
+                    print(f"   🔥 [warmup done] {rl_obj_w.name}: {len(rl_obj_w.q_table)} states, replay buffer={len(getattr(rl_obj_w, 'replay_buffer', []))}")
+        elif has_warm_q_tables:
+            print(f"   🔥 RL warmup: skipped (Q-tables already loaded from disk)")
+
         def _capture_epsilon_snapshot(agent_list):
             """Record current epsilon of every RL-capable agent at this exact moment."""
             snapshot = {}
@@ -1411,6 +1512,10 @@ def train_agents(num_episodes=30):
         "llm_total_calls": llm_total_calls,
         "llm_total_errors": llm_total_errors,
         "action_distribution": combined_hist,
+        # Per-episode arrays so the mode-comparison plot can overlay full
+        # learning curves, not just bar-chart summary stats.
+        "per_episode_rewards": rewards_only,
+        "per_episode_completion": completions_only,
     }
 
 
@@ -1513,5 +1618,13 @@ if __name__ == "__main__":
                     indent=2,
                 )
             print("✅ Saved: results/mode_compare_summary.json")
+            try:
+                from src.visualize import ResultsVisualizer
+                ResultsVisualizer.plot_mode_comparison(
+                    mode_summaries,
+                    save_path="results/mode_comparison.png",
+                )
+            except Exception as exc:
+                print(f"⚠️  Mode comparison plot failed: {exc}")
     else:
         train_agents(num_episodes=default_episodes)

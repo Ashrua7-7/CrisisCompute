@@ -11,7 +11,7 @@ class RLAgent(Agent):
     Base RL Agent - uses Q-learning to improve policy over episodes
     """
     
-    def __init__(self, name, resource_needs, learning_rate=0.2, discount_factor=0.95, epsilon_start=0.5):
+    def __init__(self, name, resource_needs, learning_rate=0.2, discount_factor=0.95, epsilon_start=0.3):
         super().__init__(name, resource_needs)
         
         # Initialize episode counter
@@ -20,9 +20,12 @@ class RLAgent(Agent):
         # RL hyperparameters
         self.learning_rate = learning_rate
         self.discount_factor = discount_factor
-        self.epsilon_start = epsilon_start  # Lowered: 0.5 so exploitation starts earlier
+        # epsilon_start lowered to 0.3 — paired with Q-table warmup in train.py,
+        # so agent starts with a populated Q-table and explores only ~30% of the
+        # time. This eliminates the early lucky-peak pattern in reward curves.
+        self.epsilon_start = epsilon_start
         self.epsilon = epsilon_start
-        self.epsilon_decay = 0.97  # Faster decay: 0.97 so agent exploits good Q-values sooner
+        self.epsilon_decay = 0.97  # Faster decay so agent exploits good Q-values sooner
         self.epsilon_min = 0.05   # Hard floor — always keep tiny exploration
         
         # Q-table: state -> {action -> Q-value}
@@ -307,9 +310,9 @@ class RLDataLoaderAgent(RLAgent):
         super().__init__(
             name="rl_data_loader",
             resource_needs={"cpu": 2, "memory": 4, "gpu": 0},
-            learning_rate=0.25,
+            learning_rate=0.3,
             discount_factor=0.95,
-            epsilon_start=0.5
+            epsilon_start=0.3
         )
     
     def propose_action(self, observation, strategy=None):
@@ -388,9 +391,9 @@ class RLDataCleanerAgent(RLAgent):
         super().__init__(
             name="rl_data_cleaner",
             resource_needs={"cpu": 4, "memory": 8, "gpu": 0},
-            learning_rate=0.25,
+            learning_rate=0.3,
             discount_factor=0.95,
-            epsilon_start=0.5
+            epsilon_start=0.3
         )
     
     def propose_action(self, observation, strategy=None):
@@ -468,9 +471,9 @@ class RLMLTrainerAgent(RLAgent):
         super().__init__(
             name="rl_ml_trainer",
             resource_needs={"cpu": 2, "memory": 16, "gpu": 1},
-            learning_rate=0.25,
+            learning_rate=0.3,
             discount_factor=0.95,
-            epsilon_start=0.5
+            epsilon_start=0.3
         )
     
     def propose_action(self, observation, strategy=None):
