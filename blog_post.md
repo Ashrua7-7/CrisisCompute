@@ -1,6 +1,6 @@
 ---
 title: "CrisisCompute: Teaching AI Agents to Negotiate Under Pressure"
-thumbnail: https://huggingface.co/spaces/Gautam0898/crisiscompute/resolve/main/results/rl_reward_curve.png
+thumbnail: https://huggingface.co/spaces/Gautam0898/crisiscompute/resolve/main/results/reward_curve.png
 ---
 
 # CrisisCompute: Teaching AI Agents to Negotiate Under Pressure
@@ -16,6 +16,16 @@ thumbnail: https://huggingface.co/spaces/Gautam0898/crisiscompute/resolve/main/r
 | Live Environment | [gautam0898-crisiscompute.hf.space](https://gautam0898-crisiscompute.hf.space) |
 | GitHub Repository | [github.com/Ashrua7-7/CrisisCompute](https://github.com/Ashrua7-7/CrisisCompute) |
 | Training Notebook | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Ashrua7-7/CrisisCompute/blob/main/notebooks/training_colab.ipynb) |
+
+---
+
+## Live Frontend: Watch Agents Negotiate in Real-Time
+
+We built a custom dark-themed chat UI where you can watch all three agents negotiate, claim resources, and resolve conflicts step-by-step — connected live to the HuggingFace Space backend.
+
+![CrisisCompute Frontend UI](results/frontend_ui.png)
+
+The UI shows real-time agent cards with status (WORKING / QUEUED / IDLE), resource pool bars (CPU, GPU, Memory utilization), task progress, and a chat-style negotiation log where each agent explains its reasoning with HYBRID mode badges and reward feedback.
 
 ---
 
@@ -92,7 +102,7 @@ We implemented and compared three distinct agent architectures:
 Each agent maintains a Q-table mapping discretized states to expected rewards. Learning via standard Bellman updates with epsilon-greedy exploration (ε decays from 0.35 → 0.19). Q-tables persist and accumulate knowledge across episodes.
 
 ### Mode 2: Pure LLM (Language Model Agents)
-Each agent is backed by **Llama-3.1-8B-Instruct** via HuggingFace Inference. The agent receives the full environment state as a structured prompt and returns a JSON action. Learning happens through episodic memory and temperature adaptation (0.7 → 0.2).
+Each agent is backed by **Llama-3.3-70B-Instruct** via HuggingFace Inference. The agent receives the full environment state as a structured prompt and returns a JSON action. Learning happens through episodic memory and temperature adaptation (0.7 → 0.2).
 
 ### Mode 3: Hybrid (LLM + RL)
 Best of both worlds:
@@ -124,6 +134,18 @@ At each curriculum phase, we snapshot the current policy and compare it against 
 
 ## Results: Evidence of Learning
 
+### RL Training: Reward Curve (30 Episodes)
+
+![RL Training Reward Curve](results/rl_reward_curve_colab.png)
+
+*RL training over 30 episodes showing steady improvement. Post-warmup mean: 771.6, last 6 episodes mean: 778.9 (Δ = +7.3, +0.9%). Peak reward: 867.5 at episode 18. Variance reduced by 74% — agents become more consistent as they learn. The red dashed trend line (slope = +1.61/ep) confirms sustained upward learning.*
+
+### Hybrid Training: Reward Curve (30 Episodes)
+
+![Hybrid Training Reward Curve](results/hybrid_reward_curve_colab.png)
+
+*Hybrid mode (LLM + RL) training over 30 episodes. EP1 starts at 797, peaks at 867 (EP18). The smoothed curve shows that LLM-guided exploration helps the RL agent find better strategies, especially in later episodes where the curve stabilizes at higher rewards.*
+
 ### Holdout Evaluation (Trained vs Fresh Agents)
 Trained agents were tested on **compound crisis scenarios** (GPU outage + urgent task injection simultaneously) that were **never seen during training**:
 
@@ -135,6 +157,15 @@ Trained agents were tested on **compound crisis scenarios** (GPU outage + urgent
 | Fairness Score | 1.0 | 1.0 | Maintained |
 
 The key insight: trained agents **generalize to unseen crisis combinations**. The +63.8 reward improvement and +7.5% on-time rate gain on holdout scenarios is the core signal of genuine learning — not memorization.
+
+### Fixed Evaluation (Controlled Comparison)
+On stable (non-crisis) evaluation with seed=42:
+
+| Metric | Trained | Fresh | Delta |
+|--------|:-------:|:-----:|:-----:|
+| Avg Total Reward | **707.6** | 672.2 | **+35.4** |
+| Completion Rate | **83.3%** | 79.6% | **+3.7%** |
+| On-Time Rate | **56.5%** | 51.9% | **+4.6%** |
 
 ### Negotiation Builds Better World Models (Theme #1)
 Agents with the negotiation protocol active develop significantly better Theory of Mind:
@@ -231,20 +262,6 @@ RL training → Hybrid training → Unsloth SFT → GRPO → all plots saved.
 ### Live Environment
 Visit the HuggingFace Space to interact with the environment directly:
 [gautam0898-crisiscompute.hf.space](https://gautam0898-crisiscompute.hf.space)
-
----
-
-## Training Plots
-
-### Reward Curve
-![Reward Curve](results/rl_reward_curve.png)
-
-*RL Training: 30 episodes. EP1 reward: 639 → Peak EP30: 839. Clear upward trend confirms agents improve through the adaptive curriculum.*
-
-### Metrics Dashboard
-![Metrics Dashboard](results/metrics_dashboard.png)
-
-*Per-episode breakdown: completion rate, on-time rate, fairness score, and belief accuracy across the full training run.*
 
 ---
 
