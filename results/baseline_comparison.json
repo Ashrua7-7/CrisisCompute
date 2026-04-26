@@ -1,30 +1,30 @@
 {
   "config": {
-    "seed": 7595526,
+    "seed": 42,
     "negotiation_enabled": true
   },
   "negotiation_enabled_run": {
-    "avg_total_reward": 630.6247999999999,
-    "avg_completion_rate": 40.0,
-    "avg_on_time_rate": 40.0,
+    "avg_total_reward": 628.8507066666666,
+    "avg_completion_rate": 79.77777777777779,
+    "avg_on_time_rate": 44.0,
     "avg_fairness_score": 1.0,
-    "avg_belief_accuracy": 0.5237390271098633,
+    "avg_belief_accuracy": 0.5656216005586209,
     "avg_urgency_response_score": 1.0
   },
   "baseline_run_negotiation_disabled": {
-    "avg_total_reward": 610.2085777777777,
-    "avg_completion_rate": 40.0,
-    "avg_on_time_rate": 40.0,
+    "avg_total_reward": 686.2918962962963,
+    "avg_completion_rate": 83.70370370370371,
+    "avg_on_time_rate": 57.77777777777778,
     "avg_fairness_score": 1.0,
-    "avg_belief_accuracy": 0.516040813384639,
+    "avg_belief_accuracy": 0.5377702831317576,
     "avg_urgency_response_score": 1.0
   },
   "delta": {
-    "avg_total_reward": 20.416222222222245,
-    "avg_completion_rate": 0.0,
-    "avg_on_time_rate": 0.0,
+    "avg_total_reward": -57.44118962962966,
+    "avg_completion_rate": -3.925925925925924,
+    "avg_on_time_rate": -13.777777777777779,
     "avg_fairness_score": 0.0,
-    "avg_belief_accuracy": 0.007698213725224279,
+    "avg_belief_accuracy": 0.02785131742686331,
     "avg_urgency_response_score": 0.0
   }
 }
